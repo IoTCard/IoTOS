@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper">
+
+    <sql id="selWhere">
+        <where>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    and offering_name LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==1">
+                    and offering_id LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==2">
+                    and group_id LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==3">
+                    and group_name LIKE CONCAT('%',#{value},'%')
+                </if>
+
+            </if>
+            <if test="channel_id!=null">
+                and channel_id =#{channel_id}
+            </if>
+            <if test="group_id!=null">
+                and group_id =#{group_id}
+            </if>
+
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            group_id,
+            group_name,
+            offering_id,
+            offering_name,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time',
+            channel_id,
+            up_total_count
+        from
+        os_onelink_ecv5_group
+        <include refid="selWhere"/>
+        ORDER BY
+        create_time desc,last_upd_time desc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        from
+            os_onelink_ecv5_group
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            os_onelink_ecv5_group
+            <set>
+                <if test="group_id!=null">
+                    group_id =#{group_id} ,
+                </if>
+                <if test="offering_id!=null">
+                    offering_id =#{offering_id} ,
+                </if>
+                <if test="offering_name!=null">
+                    offering_name =#{offering_name} ,
+                </if>
+                <if test="up_total_count!=null">
+                    up_total_count =#{up_total_count} ,
+                </if>
+
+                last_upd_time = now()
+            </set>
+            <where>
+                id = #{id}
+                and channel_id = #{channel_id}
+            </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into os_onelink_ecv5_group(
+            group_id,
+            group_name,
+            offering_id,
+            offering_name,
+            create_time,
+            last_upd_time,
+            channel_id
+        )values (
+            #{group_id},
+            #{group_name},
+            #{offering_id},
+            #{offering_name},
+            now(),
+            now(),
+            #{channel_id}
+          )
+    </insert>
+
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            group_id,
+            group_name,
+            offering_id,
+            offering_name,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time',
+            channel_id,
+            up_total_count
+        from
+            os_onelink_ecv5_group
+        <where>
+            group_id = #{group_id}
+            and channel_id = #{channel_id}
+        </where>
+    </select>
+
+
+
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_onelink_ecv5_group <where> channel_id = #{channel_id}</where>
+    </delete>
+
+
+    
+    
+
+</mapper>

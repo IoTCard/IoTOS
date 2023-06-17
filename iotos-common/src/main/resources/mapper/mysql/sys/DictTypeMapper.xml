@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.sys.DictTypeMapper">
+
+
+	<sql id="selectDictDataVo">
+		select dict_code, dict_sort, dict_label as 'dictLabel', dict_value as 'dictValue', dict_type as 'dictType', css_class, list_class, is_default, status, create_by, create_time, remark
+		from sys_dict_data
+	</sql>
+
+	<select id="selectDictDataList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="selectDictDataVo"/>
+		<where>
+			<if test="dictType != null and dictType != ''">
+				AND dict_type = #{dictType}
+			</if>
+			<if test="dictLabel != null and dictLabel != ''">
+				AND dict_label like concat('%', #{dictLabel}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+		</where>
+		order by dict_sort asc
+	</select>
+
+
+
+
+</mapper> 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.sys.ConfigMapper">
+
+
+
+	<select id="selectConfig" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+		    config_id, config_name, config_key, config_value, config_type, create_by, create_time, update_by, update_time, remark
+		from
+		    sys_config
+		<where>
+			<if test="config_id !=null">
+				and config_id = #{config_id}
+			</if>
+			<if test="config_key !=null and config_key != ''">
+				and config_key = #{config_key}
+			</if>
+		</where>
+	</select>
+
+
+
+
+</mapper> 

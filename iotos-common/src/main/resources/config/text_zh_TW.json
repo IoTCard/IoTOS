@@ -1,0 +1,109 @@
+{
+  "common": {
+    "success":"操作成功!",
+    "failed": "操作失敗!!!",
+    "encryErr": "返回加密失敗……",
+    "cmdSuccess":"指令發送成功!",
+    "cmdFailed": "指令發送失敗!!!",
+    "notConfigChannel": "未配置通道!!!",
+    "disabledChannel": "通道已停用!!!"
+  },
+  "no": {
+    "view": {
+      "permission": "您沒有查看數據的權限，請聯繫管理員添加權限 [{0}]"
+    },
+    "create": {
+      "permission": "您沒有創建數據的權限，請聯繫管理員添加權限 [{0}]"
+    },
+    "update": {
+      "permission": "您沒有修改數據的權限，請聯繫管理員添加權限 [{0}]"
+    },
+    "permission": "您沒有數據的權限，請聯繫管理員添加權限 [{0}]",
+    "delete": {
+      "permission": "您沒有刪除數據的權限，請聯繫管理員添加權限 [{0}]"
+    },
+    "export": {
+      "permission": "您沒有導出數據的權限，請聯繫管理員添加權限 [{0}]"
+    }
+  },
+  "not": {
+    "null": "* 必須填寫"
+  },
+  "role": {
+    "blocked": "角色已封禁，請聯繫管理員"
+  },
+  "upload": {
+    "filename": {
+      "exceed": {
+        "length": "上傳的文件名最長{0}個字符"
+      }
+    },
+    "exceed": {
+      "maxSize": "上傳的文件大小超出限制的文件大小！<br/>允許的文件最大大小是：{0}MB！"
+    }
+  },
+  "length": {
+    "not": {
+      "valid": "長度必須在{min}到{max}個字符之間"
+    }
+  },
+  "login": {
+    "blocked": "很遺憾，訪問IP已被列入系統黑名單"
+  },
+  "user": {
+    "forcelogout": "管理員強制退出，請重新登錄",
+    "mobile": {
+      "phone": {
+        "number": {
+          "not": {
+            "valid": "手機號格式錯誤"
+          }
+        }
+      }
+    },
+    "login": {
+      "success": "登錄成功"
+    },
+    "unknown": {
+      "error": "未知錯誤，請重新登錄"
+    },
+    "password": {
+      "not": {
+        "valid": "* 5-50個字符",
+        "match": "用戶不存在/密碼錯誤"
+      },
+      "delete": "對不起，您的賬號已被刪除",
+      "retry": {
+        "limit": {
+          "exceed": "密碼輸入錯誤{0}次，帳戶鎖定{1}分鐘",
+          "count": "密碼輸入錯誤{0}次"
+        }
+      }
+    },
+    "not": {
+      "exists": "用戶不存在/密碼錯誤"
+    },
+    "logout": {
+      "success": "退出成功"
+    },
+    "blocked": "用戶已封禁，請聯繫管理員",
+    "notfound": "請重新登錄",
+    "jcaptcha": {
+      "expire": "驗證碼已失效",
+      "error": "驗證碼錯誤"
+    },
+    "email": {
+      "not": {
+        "valid": "郵箱格式錯誤"
+      }
+    },
+    "username": {
+      "not": {
+        "valid": "* 2到20個漢字、字母、數字或下劃線組成，且必須以非數字開頭"
+      }
+    },
+    "register": {
+      "success": "註冊成功"
+    }
+  }
+}

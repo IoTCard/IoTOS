@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.card.CardApiBusinessMapper">
+
+    <sql id="selWhere">
+        <where>
+            iccid = #{iccid}
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
+            <if test="source_type != null and source_type != ''">
+                and source_type = #{source_type}
+            </if>
+            <if test="dateType != null  and dateType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="dateType == 'create_time'">
+                    DATE_FORMAT( create_time, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            iccid,
+            type,
+            source_data,
+            change_value,
+            remark,
+            state,
+            source_type,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time'
+        FROM
+            os_card_api_business
+        <include refid="selWhere"/>
+        ORDER BY
+        create_time desc
+        LIMIT #{starRow},#{pageSize}
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            os_card_api_business
+        <include refid="selWhere"/>
+    </select>
+
+
+
+
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into
+        os_card_api_business
+        (
+            iccid,
+            type,
+            source_data,
+            change_value,
+            remark,
+            state,
+            source_type,
+            create_time
+        )
+        value(
+            #{iccid},
+            #{type},
+            #{source_data},
+            #{change_value},
+            #{remark},
+            #{state},
+            #{source_type},
+            now()
+        )
+    </insert>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from
+            os_card_api_business
+        <where>
+            DATE_FORMAT( create_time, '%Y-%m-%d' )
+            BETWEEN #{startDate} AND #{endDate}
+        </where>
+    </delete>
+
+
+
+
+
+</mapper>

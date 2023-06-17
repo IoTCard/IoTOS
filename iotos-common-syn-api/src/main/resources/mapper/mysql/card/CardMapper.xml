@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.card.CardMapper">
+
+    <sql id="batchType">
+        <if test="batchType == 0">
+            c_no
+        </if>
+        <if test="batchType == 1">
+            iccid
+        </if>
+        <if test="batchType == 2">
+            msisdn
+        </if>
+        <if test="batchType == 3">
+            imsi
+        </if>
+        <if test="batchType == 4">
+            imei
+        </if>
+    </sql>
+
+
+
+    <sql id="batchWhere">
+        and
+        <include refid="batchType"/>
+        <choose>
+            <when test="batchIn==null or batchIn = 'in' ">
+                in
+            </when>
+            <otherwise>
+                not in
+            </otherwise>
+        </choose>
+        <if test="batchList != null and batchList != '' and batchList.size>0">
+            <foreach item="batchList" collection="batchList" index="batchList" open="(" separator="," close=")">
+                #{batchList}
+            </foreach>
+        </if>
+        <if test="batchListMap != null and batchListMap != '' and batchListMap.size>0">
+            <foreach item="batchListMap" collection="batchListMap" index="batchListMap" open="(" separator="," close=")">
+                <if test="batchType == 0">
+                    #{batchListMap.c_no}
+                </if>
+                <if test="batchType == 1">
+                    #{batchListMap.iccid}
+                </if>
+                <if test="batchType == 2">
+                    #{batchListMap.msisdn}
+                </if>
+                <if test="batchType == 3">
+                    #{batchListMap.imsi}
+                </if>
+                <if test="batchType == 4">
+                    #{batchListMap.imei}
+                </if>
+            </foreach>
+        </if>
+    </sql>
+
+
+
+    <!--查询最大自定义号码-->
+    <select id="findMaxCNO" resultType="java.lang.String">
+        SELECT
+            MAX(c_no)
+        FROM
+            os_card
+    </select>
+
+    <sql id="selWhere">
+        <where>
+            <choose>
+                <when test="deleted!=null">
+                    deleted =  #{deleted}
+                </when>
+                <otherwise>
+                    deleted =  '0'
+                </otherwise>
+            </choose>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    and ( c_no = #{value} or
+                    msisdn = #{value} or
+                    iccid = #{value} )
+                </if>
+                <if test="type==1">
+                    and c_no LIKE CONCAT('%',#{value})
+                </if>
+                <if test="type==2">
+                    and iccid LIKE CONCAT('%',#{value})
+                </if>
+                <if test="type==3">
+                    and msisdn LIKE CONCAT('%',#{value})
+                </if>
+            </if>
+
+            <if test="batchType != null   and batchType != ''   ">
+                <include refid="batchWhere"/>
+            </if>
+            <if test="status_show_id != null and status_show_id != '' ">
+                and status_show_id =#{status_show_id}
+            </if>
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
+            </if>
+            <if test="dateType != null  and dateType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="dateType == 'activate_date'">
+                    DATE_FORMAT( activate_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'create_time'">
+                    DATE_FORMAT( create_time, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="activateDateIsNull==1">
+                and (LENGTH(trim( activate_date )) <![CDATA[ < ]]> 1 or activate_date is null)
+            </if>
+            <if test="activateDateIsNull==0">
+                and LENGTH(trim( activate_date )) <![CDATA[ > ]]> 1
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        c_no,
+        msisdn,
+        iccid,
+        imsi,
+        imei,
+        DATE_FORMAT(activate_date,'%Y-%m-%d') AS 'activate_date',
+        dept_id,
+        channel_id,
+        status_show_id,
+        c_total,
+        c_used,
+        c_left,
+        <if test="headquarters!=null and headquarters=true">
+            status_id,
+            deleted,
+        </if>
+        DATE_FORMAT(create_time,'%Y-%m-%d') AS 'create_time'
+
+        FROM
+        os_card
+        <include refid="selWhere"/>
+        ORDER BY
+        c_no  ASC
+        LIMIT #{starRow},#{pageSize}
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        os_card
+        <include refid="selWhere"/>
+    </select>
+
+
+    <sql id="setCommon">
+        <set>
+            <if test="c_no!=null">
+                c_no = #{c_no},
+            </if>
+            <if test="msisdn!=null">
+                msisdn = #{msisdn},
+            </if>
+            <if test="iccid!=null">
+                iccid = #{iccid},
+            </if>
+            <if test="imsi!=null">
+                imsi = #{imsi},
+            </if>
+            <if test="imei!=null">
+                imei = #{imei},
+            </if>
+            <if test="activate_date!=null">
+                activate_date = #{activate_date},
+            </if>
+            <if test="dept_id!=null">
+                dept_id = #{dept_id},
+            </if>
+            <if test="channel_id!=null">
+                channel_id = #{channel_id},
+            </if>
+            <if test="status_show_id!=null">
+                status_show_id = #{status_show_id},
+            </if>
+            <if test="status_id!=null">
+                status_id = #{status_id},
+            </if>
+            <if test="c_total!=null">
+                c_total = #{c_total},
+            </if>
+            <if test="c_used!=null">
+                c_used = #{c_used},
+            </if>
+            <if test="c_left!=null">
+                c_left = #{c_left},
+            </if>
+            <if test="deleted!=null">
+                deleted = #{deleted},
+            </if>
+        </set>
+    </sql>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+        os_card
+        <include refid="setCommon"/>
+        <where>
+            <include refid="batchType"/>
+            = #{bValue}
+        </where>
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.HashMap">
+        update
+        os_card
+        <include refid="setCommon"/>
+        <where>
+            <include refid="batchWhere"/>
+            <if test="set_dept_id!=null and set_dept_id != '' ">
+                and dept_id = #{set_dept_id}
+            </if>
+            <if test="status_show_id!=null and status_show_id != '' ">
+                and status_show_id =  #{status_show_id}
+            </if>
+        </where>
+    </update>
+
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into
+        os_card
+        (
+        c_no,
+        msisdn,
+        iccid,
+        imsi,
+        imei,
+        activate_date,
+        dept_id,
+        channel_id,
+        status_show_id,
+        status_id,
+        create_time
+        )
+        value
+        <foreach item="lists" collection="lists" index="index"  separator="," >
+            (
+            #{lists.c_no},#{lists.msisdn},#{lists.iccid},#{lists.imsi},#{lists.imei},#{lists.activate_date},
+            <choose>
+                <when test="lists.dept_id!=null">
+                    #{lists.dept_id},
+                </when>
+                <otherwise>
+                    '100',
+                </otherwise>
+            </choose>
+            #{lists.channel_id},'0','0',now()
+            )
+        </foreach>
+    </insert>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from
+        os_card
+        <include refid="selWhere"/>
+    </delete>
+
+
+    <!--查询卡号是否存在-->
+    <select id="wExist" parameterType="java.util.HashMap"  resultType="java.lang.String">
+        SELECT
+        <include refid="batchType"/>
+        FROM
+        os_card
+        <where>
+            <include refid="batchType"/>
+            IN
+            <foreach item="lists" collection="lists" index="index"  separator="," open="(" close=")" >
+                <if test="batchType==0">
+                    #{lists.c_no}
+                </if>
+                <if test="batchType==1">
+                    #{lists.iccid}
+                </if>
+                <if test="batchType==2">
+                    #{lists.msisdn}
+                </if>
+                <if test="batchType==3">
+                    #{lists.imsi}
+                </if>
+            </foreach>
+            <if test="channel_idType=='notNull'">
+                and channel_id != ''
+            </if>
+            <if test="channel_idArr != null and channel_idArr != '' and channel_idArr.size>0">
+                and  channel_id IN
+                <foreach item="channel_idArr" collection="channel_idArr" index="channel_idArr" open="(" separator="," close=")">
+                    #{channel_idArr}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--查询激活时间分组-->
+    <select id="findDateGroup" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+        select
+            <if test="groupType=='activateDateyyyyMM'">
+                DATE_FORMAT( activate_date, '%Y-%m' )
+            </if>
+            <if test="groupType=='status_show_id'">
+                status_show_id
+            </if>
+            <if test="groupType=='status_id'">
+                status_id
+            </if>
+            <if test="groupType=='dept_id'">
+                dept_id
+            </if>
+            <if test="groupType=='activate_date'">
+                activate_date
+            </if>
+            <if test="groupType=='c_used'">
+                dept_id
+            </if>
+            <if test="groupType=='channel_id'">
+                channel_id
+            </if>
+
+                as `groupType`,
+            <choose>
+                <when test="groupType=='c_used'">
+                    <![CDATA[  convert(sum(c_used)/1024,decimal(10,2))  ]]> as 'sum'
+                </when>
+                <otherwise>
+                    count(1) as 'count'
+                </otherwise>
+            </choose>
+        from
+            os_card
+        <include refid="selWhere"/>
+        group by groupType
+    </select>
+
+
+
+
+</mapper>

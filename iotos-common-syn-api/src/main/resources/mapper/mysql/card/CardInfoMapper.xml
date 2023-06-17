@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.card.CardInfoMapper">
+
+    <!--查询下级代 理商 返回 格式 1,2-->
+    <select id="queryChildrenAreaInfo" parameterType="java.util.HashMap" resultType="java.lang.String">
+        <![CDATA[
+        SELECT queryChildrenAreaInfo(#{deptId})
+        ]]>
+    </select>
+
+    <!--查询 代理下 卡号-->
+    <select id="findDeptIccid" parameterType="java.util.HashMap"  resultType="java.lang.String">
+        SELECT
+        iccid
+        FROM
+        os_card_info
+        <where>
+            iccid in
+            <foreach item="lists" collection="lists" index="index" open="(" separator="," close=")">
+                #{lists.iccid}
+            </foreach>
+            and FIND_IN_SET(dept_id,#{findDeptId})
+        </where>
+    </select>
+
+
+    <sql id="batchType">
+        <if test="batchType == 0">
+            c_no
+        </if>
+        <if test="batchType == 1">
+            iccid
+        </if>
+        <if test="batchType == 2">
+            msisdn
+        </if>
+        <if test="batchType == 3">
+            imsi
+        </if>
+        <if test="batchType == 4">
+            imei
+        </if>
+    </sql>
+
+
+
+    <sql id="batchWhere">
+        and
+        <include refid="batchType"/>
+        <choose>
+            <when test="batchIn==null or batchIn = 'in' ">
+                in
+            </when>
+            <otherwise>
+                not in
+            </otherwise>
+        </choose>
+        <if test="batchList != null and batchList != '' and batchList.size>0">
+            <foreach item="batchList" collection="batchList" index="batchList" open="(" separator="," close=")">
+                #{batchList}
+            </foreach>
+        </if>
+        <if test="batchListMap != null and batchListMap != '' and batchListMap.size>0">
+            <foreach item="batchListMap" collection="batchListMap" index="batchListMap" open="(" separator="," close=")">
+                <if test="batchType == 0">
+                    #{batchListMap.c_no}
+                </if>
+                <if test="batchType == 1">
+                    #{batchListMap.iccid}
+                </if>
+                <if test="batchType == 2">
+                    #{batchListMap.msisdn}
+                </if>
+                <if test="batchType == 3">
+                    #{batchListMap.imsi}
+                </if>
+                <if test="batchType == 4">
+                    #{batchListMap.imei}
+                </if>
+            </foreach>
+        </if>
+    </sql>
+
+
+
+
+
+    <sql id="selWhere">
+        <where>
+            <choose>
+                <when test="deleted!=null">
+                    deleted =  #{deleted}
+                </when>
+                <otherwise>
+                    deleted =  '0'
+                </otherwise>
+            </choose>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    and ( c_no = #{value} or
+                    msisdn = #{value} or
+                    iccid = #{value} )
+                </if>
+                <if test="type==1">
+                    and c_no LIKE CONCAT('%',#{value})
+                </if>
+                <if test="type==2">
+                    and iccid LIKE CONCAT('%',#{value})
+                </if>
+                <if test="type==3">
+                    and msisdn LIKE CONCAT('%',#{value})
+                </if>
+                <if test="type=='remarks'">
+                    and remarks LIKE CONCAT('%',#{value},'%')
+                </if>
+            </if>
+
+            <if test="batchType != null   and batchType != ''   ">
+                <include refid="batchWhere"/>
+            </if>
+
+            <if test="betweenType != null  and betweenType != '' and startValue!=null and startValue != '' and endValue!=null and endValue != ''">
+                and
+                <if test="betweenType == 'c_no'">
+                    c_no
+                </if>
+                <if test="betweenType == 'msisdn'">
+                    msisdn
+                </if>
+                <if test="betweenType == 'imsi'">
+                    imsi
+                </if>
+                <if test="betweenType == 'imei'">
+                    imei
+                </if>
+                <if test="betweenType == 'iccid'">
+                    iccid
+                </if>
+                between #{startValue} and #{endValue}
+            </if>
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
+            </if>
+
+
+            <if test="status_id!=null and status_id != ''">
+                and status_id = #{status_id}
+            </if>
+            <if test="status_show_id != null and status_show_id != '' ">
+                and status_show_id =#{status_show_id}
+            </if>
+            <if test="statusShowIdList != null and statusShowIdList != '' and statusShowIdList.size>0">
+                and status_show_id in
+                <foreach item="statusShowIdList" collection="statusShowIdList" index="index" open="(" separator="," close=")">
+                    #{statusShowIdList}
+                </foreach>
+            </if>
+
+            <if test="customize_grouping!=null and customize_grouping != ''">
+                and customize_grouping = #{customize_grouping}
+            </if>
+
+            <if test="package_id!=null and package_id != '' and package_id.size>0">
+                <choose>
+                    <when test="package_id.get(0)=='IsNull'">
+                        and  ISNULL( package_id ) = 1
+                    </when>
+                    <otherwise>
+                        and package_id in
+                        <foreach item="package_id" collection="package_id" index="package_id" open="(" separator="," close=")">
+                            #{package_id}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="dateType != null  and dateType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="dateType == 'delivery_date'">
+                    DATE_FORMAT( delivery_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'activate_date'">
+                    DATE_FORMAT( activate_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'deliver_date'">
+                    DATE_FORMAT( deliver_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'first_time_using'">
+                    DATE_FORMAT( first_time_using, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'create_time'">
+                    DATE_FORMAT( create_time, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'traffic_sync_time'">
+                    DATE_FORMAT( traffic_sync_time, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'storage_date'">
+                    DATE_FORMAT( storage_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'prodinsteff_time'">
+                    DATE_FORMAT( prodinsteff_time, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'prodinstexp_time'">
+                    DATE_FORMAT( prodinstexp_time, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'update_date'">
+                    DATE_FORMAT( update_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'open_date'">
+                    DATE_FORMAT( open_date, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="channel_id != null and channel_id != '' and channel_id.size>0">
+                <choose>
+                    <when test=" ''+ channel_id.get(0)=='IsNull'">
+                        and  ISNULL( channel_id ) = 1
+                    </when>
+                    <otherwise>
+                        and  channel_id IN
+                        <foreach item="channel_id" collection="channel_id" index="channel_id" open="(" separator="," close=")">
+                            #{channel_id}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+
+
+            <if test="operator!=null and operator != '' and operator.size>0">
+                <choose>
+                    <when test="operator.get(0)=='IsNull'">
+                        and  ISNULL( operator ) = 1
+                    </when>
+                    <otherwise>
+                        and operator in
+                        <foreach item="operator" collection="operator" index="operator" open="(" separator="," close=")">
+                            #{operator}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="roaming_country!=null and roaming_country != '' and roaming_country.size>0">
+                <choose>
+                    <when test="roaming_country.get(0)=='IsNull'">
+                        and  ISNULL( roaming_country ) = 1
+                    </when>
+                    <otherwise>
+                        and roaming_country in
+                        <foreach item="roaming_country" collection="roaming_country" index="roaming_country" open="(" separator="," close=")">
+                            #{roaming_country}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="internet_signal!=null and internet_signal != '' and internet_signal.size>0">
+                <choose>
+                    <when test="internet_signal.get(0)=='IsNull'">
+                        and  ISNULL( internet_signal ) = 1
+                    </when>
+                    <otherwise>
+                        and internet_signal in
+                        <foreach item="internet_signal" collection="internet_signal" index="internet_signal" open="(" separator="," close=")">
+                            #{internet_signal}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="ip_attribution!=null and ip_attribution != '' and ip_attribution.size>0">
+                <choose>
+                    <when test="ip_attribution.get(0)=='IsNull'">
+                        and  ISNULL( ip_attribution ) = 1
+                    </when>
+                    <otherwise>
+                        and ip_attribution in
+                        <foreach item="ip_attribution" collection="ip_attribution" index="ip_attribution" open="(" separator="," close=")">
+                            #{ip_attribution}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+
+
+            <if test="wList != null and wList != '' and   wList.size>0 ">
+
+                <foreach item="wList" collection="wList" index="wList"   >
+                    and
+                    <if test="wList.type=='deleted'">deleted</if>
+                    <if test="wList.type=='w_real_name'">w_real_name</if>
+                    <if test="wList.type=='nedd_real_name'">nedd_real_name</if>
+                    <if test="wList.type=='w_sms'">w_sms</if>
+                    <if test="wList.type=='w_voice'">w_voice</if>
+                    <if test="wList.type=='w_polling'">w_polling</if>
+                    <if test="wList.type=='w_network_break'">w_network_break</if>
+                    <if test="wList.type=='w_pool'">w_pool</if>
+                    <if test="wList.type=='automatic_renewal'">automatic_renewal</if>
+                    = #{wList.value}
+                </foreach>
+            </if>
+
+
+            <if test="decimalType != null   and decimalType != ''  and decimalValue != null   and decimalValue != ''  ">
+                and
+                <if test="decimalType == 1">
+                    c_used
+                </if>
+                <if test="decimalType == 2">
+                    c_left
+                </if>
+                <if test="decimalType == 3">
+                    c_total
+                </if>
+
+                <if test="decimalType == 1">
+                    <![CDATA[ >= ]]>
+                </if>
+                <if test="decimalType == 2">
+                    <![CDATA[ > ]]>
+                </if>
+                <if test="decimalType == 3">
+                    <![CDATA[ = ]]>
+                </if>
+                <if test="decimalType == 4">
+                    <![CDATA[ < ]]>
+                </if>
+                <if test="decimalType == 5">
+                    <![CDATA[ <= ]]>
+                </if>
+                <if test="decimalType == 6">
+                    <![CDATA[ != ]]>
+                </if>
+                #{decimalValue}
+            </if>
+
+            <if test="dimensionField != null   and dimensionField != ''  and compareType != null   and compareType != ''  and dimensionValue != null   and dimensionValue != ''  ">
+                and
+                <if test="dimensionField == 'c_used'">
+                    c_used
+                </if>
+                <if test="dimensionField == 'c_left'">
+                    c_left
+                </if>
+                <if test="dimensionField == 'c_total'">
+                    c_total
+                </if>
+                <if test="dimensionField == 'balance'">
+                    balance
+                </if>
+                <if test="compareType == 0">
+                    <![CDATA[ >= ]]>
+                </if>
+                <if test="compareType == 1">
+                    <![CDATA[ > ]]>
+                </if>
+                <if test="compareType == 2">
+                    <![CDATA[ = ]]>
+                </if>
+                <if test="compareType == 3">
+                    <![CDATA[ < ]]>
+                </if>
+                <if test="compareType == 4">
+                    <![CDATA[ <= ]]>
+                </if>
+                <if test="compareType == 5">
+                    <![CDATA[ != ]]>
+                </if>
+                #{dimensionValue}
+            </if>
+            <if test="activateDateIsNull==1">
+                and (LENGTH(trim( activate_date )) <![CDATA[ < ]]> 1 or activate_date is null)
+            </if>
+            <if test="activateDateIsNull==0">
+                and LENGTH(trim( activate_date )) <![CDATA[ > ]]> 1
+            </if>
+        </where>
+    </sql>
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        c_no,
+        msisdn,
+        iccid,
+        imsi,
+        imei,
+        DATE_FORMAT(activate_date,'%Y-%m-%d') AS 'activate_date',
+        dept_id,
+        channel_id,
+        status_show_id,
+        c_total,
+        c_used,
+        c_left,
+        <if test="headquarters!=null and headquarters=true">
+            status_id,
+            deleted,
+        </if>
+        DATE_FORMAT(create_time,'%Y-%m-%d') AS 'create_time'
+        FROM
+        os_card_info
+        <include refid="selWhere"/>
+        ORDER BY
+        <if test="order_by_type ==null or order_by_type ==''">
+            c_no
+        </if>
+        <include refid="orderByIf"/>
+        <if test="order_by_rule == 0">
+            asc
+        </if>
+        <if test="order_by_rule == 1">
+            desc
+        </if>
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+    <!--查询匹对通道下 iccid-->
+    <select id="findChannelIdIccid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            iccid
+        FROM
+            os_card_info
+        <where>
+            <choose>
+                <when test=" ''+ channel_id.get(0)=='IsNull'">
+                    and  ISNULL( channel_id ) = 1
+                </when>
+                <otherwise>
+                    and  channel_id IN
+                    <foreach item="channel_id" collection="channel_id" index="channel_id" open="(" separator="," close=")">
+                        #{channel_id}
+                    </foreach>
+                </otherwise>
+            </choose>
+            <if test="statusShowIdList != null and statusShowIdList != '' and statusShowIdList.size>0">
+                and status_show_id in
+                <foreach item="statusShowIdList" collection="statusShowIdList" index="index" open="(" separator="," close=")">
+                    #{statusShowIdList}
+                </foreach>
+            </if>
+            <if test="notInIccidList != null and notInIccidList != '' and notInIccidList.size>0">
+                and iccid not in
+                <foreach item="notInIccidList" collection="notInIccidList" index="index" open="(" separator="," close=")">
+                    #{notInIccidList.iccid}
+                </foreach>
+            </if>
+            and w_polling =#{w_polling}
+            and
+            <choose>
+                <when test=" functionName == 'synFlow' ">
+                    DATE_FORMAT( traffic_sync_time, "%Y-%m-%d %H:%i:%S"  )
+                </when>
+                <otherwise>
+                    DATE_FORMAT( state_sync_time, "%Y-%m-%d %H:%i:%S"  )
+                </otherwise>
+            </choose>
+            <![CDATA[ < ]]> #{startTime}
+        </where>
+        ORDER BY
+        <choose>
+            <when test=" functionName == 'synFlow' ">
+                traffic_sync_time
+            </when>
+            <otherwise>
+                state_sync_time
+            </otherwise>
+        </choose>
+            desc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+
+
+
+    <sql id="orderByIf">
+        <if test="order_by_rule != null and order_by_type != null">
+            <if test="order_by_type == 'id' ||  order_by_type == 'c_no' ||  order_by_type == 'msisdn' ||  order_by_type == 'iccid' ||
+             order_by_type == 'imsi' ||  order_by_type == 'imei' ||  order_by_type == 'activate_date' ||  order_by_type == 'dept_id' ||
+              order_by_type == 'channel_id' ||  order_by_type == 'status_show_id' ||  order_by_type == 'status_id' ||  order_by_type == 'c_total' ||
+              order_by_type == 'c_used' ||  order_by_type == 'c_left' ||  order_by_type == 'create_time' ||  order_by_type == 'deleted' ||  order_by_type == 'first_time_using' ||
+               order_by_type == 'traffic_sync_time' ||  order_by_type == 'state_sync_time' ||  order_by_type == 'w_real_name' ||  order_by_type == 'nedd_real_name' ||  order_by_type == 'type' ||
+                order_by_type == 'network_type' ||  order_by_type == 'w_sms' ||  order_by_type == 'w_voice' ||  order_by_type == 'sms_number' ||  order_by_type == 'deliver_date' ||
+                order_by_type == 'storage_date' ||  order_by_type == 'prodinsteff_time' ||  order_by_type == 'prodinstexp_time' ||  order_by_type == 'delivery_date' ||  order_by_type == 'w_polling' ||
+                 order_by_type == 'w_network_break' ||  order_by_type == 'customize_grouping' ||  order_by_type == 'remarks' ||  order_by_type == 'shutdown_threshold' ||  order_by_type == 'package_id' ||
+                 order_by_type == 'connection_status' ||  order_by_type == 'w_pool' ||  order_by_type == 'pool_code' ||  order_by_type == 'update_date' ||  order_by_type == 'balance' ||  order_by_type == 'payment_key'
+                 ||  order_by_type == 'automatic_renewal' ||  order_by_type == 'u_code' ||  order_by_type == 'supplier' ||
+                order_by_type == 'roaming_country' ||  order_by_type == 'internet_signal' ||  order_by_type == 'ip_attribution' ||  order_by_type == 'operator' ||  order_by_type == 'open_date'  ">
+                ${order_by_type}
+            </if>
+        </if>
+    </sql>
+
+
+
+    <select id="getGrouping" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select
+        customize_grouping
+        FROM
+        os_card_info
+        <where>
+            LENGTH(trim( customize_grouping ))> 0
+            <if test="dept_id!=null and dept_id!=''">
+                AND FIND_IN_SET(dept_id,#{dept_id})
+            </if>
+        </where>
+        group by  customize_grouping
+        order by
+        customize_grouping ASC
+    </select>
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        c_no,
+        msisdn,
+        iccid,
+        imsi,
+        imei,
+        DATE_FORMAT(activate_date,'%Y-%m-%d') AS 'activate_date',
+        dept_id,
+        channel_id,
+        c_total,
+        c_used,
+        c_left,
+        DATE_FORMAT(create_time,'%Y-%m-%d') AS 'create_time',
+        deleted,
+        DATE_FORMAT(traffic_sync_time,"%Y-%m-%d %H:%i:%S") AS 'traffic_sync_time',
+        DATE_FORMAT(state_sync_time,"%Y-%m-%d %H:%i:%S") AS 'state_sync_time',
+        w_real_name,
+        nedd_real_name,
+        type,
+        network_type,
+        w_sms,
+        w_voice,
+        sms_number,
+        deliver_date,
+        prodinsteff_time,
+        prodinstexp_time,
+        delivery_date,
+        customize_grouping,
+        remarks,
+        package_id,
+        automatic_renewal,
+        u_code,
+        roaming_country,
+        internet_signal,
+        ip_attribution,
+        status_show_id,
+        <if test="headquarters!=null and headquarters=true">
+            supplier,
+            connection_status,
+            w_pool,
+            pool_code,
+            DATE_FORMAT(update_date,"%Y-%m-%d %H:%i:%S") AS 'update_date',
+            balance,
+            payment_key,
+            shutdown_threshold,
+            w_polling,
+            w_network_break,
+            storage_date,
+            status_id,
+            DATE_FORMAT(first_time_using,'%Y-%m-%d') AS 'first_time_using',
+            DATE_FORMAT(open_date,"%Y-%m-%d %H:%i:%S") AS 'open_date',
+        </if>
+        operator
+        from
+        os_card_info
+        <where>
+            c_no = #{c_no}
+        </where>
+    </select>
+
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        os_card_info
+        <include refid="selWhere"/>
+    </select>
+
+
+    <sql id="setCommon">
+        <set>
+            <if test="c_no!=null">
+                c_no = #{c_no},
+            </if>
+            <if test="msisdn!=null">
+                msisdn = #{msisdn},
+            </if>
+            <if test="iccid!=null">
+                iccid = #{iccid},
+            </if>
+            <if test="imsi!=null">
+                imsi = #{imsi},
+            </if>
+            <if test="imei!=null">
+                imei = #{imei},
+            </if>
+            <if test="activate_date!=null">
+                activate_date = #{activate_date},
+            </if>
+            <if test="dept_id!=null">
+                dept_id = #{dept_id},
+            </if>
+            <if test="channel_id!=null">
+                channel_id = #{channel_id},
+            </if>
+            <if test="status_show_id!=null">
+                status_show_id = #{status_show_id},
+            </if>
+            <if test="status_id!=null">
+                status_id = #{status_id},
+            </if>
+            <if test="c_total!=null">
+                c_total = #{c_total},
+            </if>
+            <if test="c_used!=null">
+                c_used = #{c_used},
+            </if>
+            <if test="c_left!=null">
+                c_left = #{c_left},
+            </if>
+            <if test="deleted!=null">
+                deleted = #{deleted},
+            </if>
+
+            <if test="first_time_using!=null">
+                first_time_using = #{first_time_using},
+            </if>
+            <if test="traffic_sync_time!=null">
+                traffic_sync_time = #{traffic_sync_time},
+            </if>
+            <if test="state_sync_time!=null">
+                state_sync_time = #{state_sync_time},
+            </if>
+            <if test="w_real_name!=null">
+                w_real_name = #{w_real_name},
+            </if>
+            <if test="nedd_real_name!=null">
+                nedd_real_name = #{nedd_real_name},
+            </if>
+            <if test="type!=null">
+                type = #{type},
+            </if>
+            <if test="network_type!=null">
+                network_type = #{network_type},
+            </if>
+            <if test="w_sms!=null">
+                w_sms = #{w_sms},
+            </if>
+            <if test="w_voice!=null">
+                w_voice = #{w_voice},
+            </if>
+            <if test="sms_number!=null">
+                sms_number = #{sms_number},
+            </if>
+            <if test="deliver_date!=null">
+                deliver_date = #{deliver_date},
+            </if>
+            <if test="prodinsteff_time!=null">
+                prodinsteff_time = #{prodinsteff_time},
+            </if>
+            <if test="prodinstexp_time!=null">
+                prodinstexp_time = #{prodinstexp_time},
+            </if>
+            <if test="delivery_date!=null">
+                delivery_date = #{delivery_date},
+            </if>
+            <if test="w_polling!=null">
+                w_polling = #{w_polling},
+            </if>
+            <if test="w_network_break!=null">
+                w_network_break = #{w_network_break},
+            </if>
+            <if test="customize_grouping!=null">
+                customize_grouping = #{customize_grouping},
+            </if>
+            <if test="remarks!=null">
+                remarks = #{remarks},
+            </if>
+            <if test="shutdown_threshold!=null">
+                shutdown_threshold = #{shutdown_threshold},
+            </if>
+            <if test="package_id!=null">
+                package_id = #{package_id},
+            </if>
+            <if test="connection_status!=null">
+                connection_status = #{connection_status},
+            </if>
+            <if test="w_pool!=null">
+                w_pool = #{w_pool},
+            </if>
+            <if test="pool_code!=null">
+                pool_code = #{pool_code},
+            </if>
+            <if test="update_date!=null">
+                update_date = #{update_date},
+            </if>
+            <if test="balance!=null">
+                balance = #{balance},
+            </if>
+            <if test="payment_key!=null">
+                payment_key = #{payment_key},
+            </if>
+            <if test="automatic_renewal!=null">
+                automatic_renewal = #{automatic_renewal},
+            </if>
+            <if test="u_code!=null">
+                u_code = #{u_code},
+            </if>
+            <if test="supplier!=null">
+                supplier = #{supplier},
+            </if>
+            <if test="roaming_country!=null">
+                roaming_country = #{roaming_country},
+            </if>
+            <if test="internet_signal!=null">
+                internet_signal = #{internet_signal},
+            </if>
+            <if test="ip_attribution!=null">
+                ip_attribution = #{ip_attribution},
+            </if>
+            <if test="operator!=null">
+                operator = #{operator},
+            </if>
+            <if test="open_date!=null">
+                open_date = #{open_date},
+            </if>
+        </set>
+    </sql>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+        os_card_info
+        <include refid="setCommon"/>
+        <where>
+            <include refid="batchType"/>
+            = #{bValue}
+        </where>
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.HashMap">
+        update
+        os_card_info
+        <include refid="setCommon"/>
+        <where>
+            <include refid="batchWhere"/>
+            <if test="set_dept_id!=null and set_dept_id != '' ">
+                and dept_id = #{set_dept_id}
+            </if>
+            <if test="status_show_id!=null and status_show_id != '' ">
+                and status_show_id =  #{status_show_id}
+            </if>
+        </where>
+    </update>
+
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into
+        os_card_info
+        (
+        c_no,
+        msisdn,
+        iccid,
+        imsi,
+        imei,
+        activate_date,
+        dept_id,
+        channel_id,
+        status_show_id,
+        status_id,
+        create_time,
+
+        w_real_name,
+        nedd_real_name,
+        type,
+        network_type,
+        w_sms,
+        w_voice,
+        sms_number,
+        deliver_date,
+        storage_date,
+        delivery_date,
+        w_polling,
+        w_network_break,
+        customize_grouping,
+        remarks,
+        shutdown_threshold,
+        package_id,
+        connection_status,
+        w_pool,
+        pool_code,
+        payment_key,
+        automatic_renewal,
+        u_code,
+        supplier,
+        roaming_country,
+        internet_signal,
+        ip_attribution,
+        operator,
+        open_date,
+        update_date
+        )
+        value
+        <foreach item="lists" collection="lists" index="index"  separator="," >
+            (
+            #{lists.c_no},#{lists.msisdn},#{lists.iccid},#{lists.imsi},#{lists.imei},#{lists.activate_date},
+            <choose>
+                <when test="lists.dept_id!=null">
+                    #{lists.dept_id},
+                </when>
+                <otherwise>
+                    '100',
+                </otherwise>
+            </choose>
+            #{lists.channel_id},'0','0',now(),
+            <choose>
+                <when test="lists.w_real_name!=null">
+                    #{lists.w_real_name},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="lists.nedd_real_name!=null">
+                    #{lists.nedd_real_name},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+
+            #{lists.type},
+            #{lists.network_type},
+            #{lists.w_sms},
+            #{lists.w_voice},
+            #{lists.sms_number},
+            #{lists.deliver_date},
+            #{lists.storage_date},
+            #{lists.delivery_date},
+            <choose>
+                <when test="lists.w_polling!=null">
+                    #{lists.w_polling},
+                </when>
+                <otherwise>
+                    '1',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="lists.w_network_break!=null">
+                    #{lists.w_network_break},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            #{lists.customize_grouping},
+            #{lists.remarks},
+            #{lists.shutdown_threshold},
+            #{lists.package_id},
+            #{lists.connection_status},
+            <choose>
+                <when test="lists.w_pool!=null">
+                    #{lists.w_pool},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            #{lists.pool_code},
+            #{lists.payment_key},
+            <choose>
+                <when test="lists.automatic_renewal!=null">
+                    #{lists.automatic_renewal},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            #{lists.u_code},
+            #{lists.supplier},
+            #{lists.roaming_country},
+            #{lists.internet_signal},
+            #{lists.ip_attribution},
+            #{lists.operator},
+            #{lists.open_date},now()
+            )
+        </foreach>
+    </insert>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from
+        os_card_info
+        <include refid="selWhere"/>
+    </delete>
+
+
+    <!--获取匹配筛选条件下的 iccid -->
+    <select id="selIccid"  parameterType="java.util.HashMap" resultType="java.lang.String">
+        SELECT
+        iccid
+        FROM
+        os_card_info
+        <include refid="selWhere"/>
+    </select>
+
+    <!-- 备份企业卡号关系 -->
+    <select id="backupDept" resultType="java.util.HashMap">
+        SELECT
+            id,
+            iccid,
+            dept_id
+        FROM
+            os_card_info
+    </select>
+
+    <!-- 查询已同步过的卡号 -->
+    <select id="findSynced" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+        SELECT
+        msisdn,
+        iccid,
+        activate_date,
+        open_date,
+        imsi,
+        remarks
+        FROM
+        os_card_info
+        <where>
+            msisdn IN (
+            SELECT
+            msisdn
+            FROM
+            os_upstream_card
+            WHERE
+            channel_id = #{channel_id}
+            <if test="iccidNotNull !=null and iccidNotNull==1">
+                and LENGTH(trim(iccid))  <![CDATA[ > ]]> 1
+            </if>
+            )
+        </where>
+    </select>
+
+
+    <!-- 获取需要同步时需要卡号信息 -->
+    <select id="getSyncInfo" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+        SELECT
+            msisdn,
+            iccid,
+            activate_date,
+            open_date,
+            imsi,
+            DATE_FORMAT(first_time_using,'%Y-%m-%d %H:%i:%S') AS 'first_time_using',
+            DATE_FORMAT(traffic_sync_time,'%Y-%m-%d %H:%i:%S') AS 'traffic_sync_time',
+            DATE_FORMAT(state_sync_time,'%Y-%m-%d %H:%i:%S') AS 'state_sync_time',
+            w_real_name,
+            nedd_real_name,
+            channel_id,
+            w_network_break,
+            w_polling,
+            network_type,
+            shutdown_threshold,
+            package_id,
+            balance,
+            type,
+            dept_id,
+            c_total,
+            status_show_id,
+            status_id,
+            connection_status
+        FROM
+           os_card_info
+        <where>
+            iccid = #{iccid}
+            and deleted = 0
+        </where>
+    </select>
+
+
+    <update id="initTime" parameterType="java.util.HashMap">
+        update
+            os_card_info
+        <set>
+            <if test="traffic_sync_time!=null">
+                traffic_sync_time = #{traffic_sync_time},
+            </if>
+            <if test="state_sync_time!=null">
+                state_sync_time = #{state_sync_time},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="traffic_sync_time!=null">
+                    traffic_sync_time is null
+                </when>
+                <otherwise>
+                    state_sync_time is null
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+
+
+</mapper>

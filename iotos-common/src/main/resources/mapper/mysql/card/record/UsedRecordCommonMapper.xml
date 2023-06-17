@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.card.record.UsedRecordCommonMapper">
+
+    <sql id="selWhere">
+        <where>
+
+            <if test="iccid!=null">
+                and a.iccid =#{iccid}
+            </if>
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and b.dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            a.id,
+            a.ord_id,
+            a.iccid,
+            DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(a.record_date,'%Y-%m-%d') AS 'record_date',
+            DATE_FORMAT(a.record_date,'%m-%d') AS 'MMdd',
+            a.day_used,
+            a.month_used,
+            a.reveal_day_used,
+            a.reveal_month_used,
+            b.dept_id,
+            DATE_FORMAT(a.last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time'
+        from
+        <![CDATA[ os_used_record_${yyyyMM} ]]> a left join
+            os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+        ORDER BY
+        record_date asc,iccid asc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        from
+            <![CDATA[ os_used_record_${yyyyMM} ]]> a left join
+            os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            <![CDATA[ os_used_record_${yyyyMM} ]]>
+            <set>
+                day_used =#{day_used} ,
+                month_used =#{month_used} ,
+                reveal_day_used =#{reveal_day_used} ,
+                reveal_month_used =#{reveal_month_used}
+                last_upd_time = now()
+            </set>
+            <where>
+                id = #{id}
+            </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into `os_used_record_${yyyyMM}`(
+            ord_id,
+            iccid,
+            create_time,
+            record_date,
+            day_used,
+            month_used,
+            reveal_day_used,
+            reveal_month_used,
+            dept_id,
+            last_upd_time
+        )select
+             id,
+             iccid,
+             now(),
+             record_date,
+             day_used,
+             month_used,
+             reveal_day_used,
+             reveal_month_used,
+             dept_id,
+             last_upd_time
+        from
+            os_used_record
+            <where>
+                DATE_FORMAT( record_date, '%Y%m' ) = #{yyyyMM}
+            </where>
+    </insert>
+
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            ord_id,
+            iccid,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(record_date,'%Y-%m-%d') AS 'record_date',
+            day_used,
+            month_used,
+            reveal_day_used,
+            reveal_month_used,
+            dept_id,
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time'
+        from
+            `os_used_record_${yyyyMM}`
+        <where>
+            iccid = #{iccid}
+            and record_date = #{record_date}
+        </where>
+    </select>
+
+    <select id="findExists" parameterType="java.util.HashMap" resultType="java.lang.String">
+        <![CDATA[ SHOW TABLES like 'os_used_record_${yyyyMM}' ]]>
+    </select>
+
+
+    <update id="createTable" parameterType="java.util.HashMap">
+        CREATE TABLE  IF NOT EXISTS `os_used_record_${yyyyMM}` (
+              `id` int NOT NULL AUTO_INCREMENT,
+              `ord_id` int NOT NULL COMMENT 'os_used_record 原id',
+              `iccid` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'ICCID',
+              `create_time` datetime NOT NULL COMMENT '创建时间',
+              `record_date` date NOT NULL COMMENT '记录日期',
+              `day_used` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '天用量',
+              `month_used` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '月用量',
+              `reveal_day_used` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '展示-天用量',
+              `reveal_month_used` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '展示-月用量',
+              `dept_id` int NOT NULL COMMENT '所属企业',
+              `last_upd_time` datetime NOT NULL COMMENT '最后更新时间',
+              PRIMARY KEY (`id`),
+              KEY `iccid` (`iccid`,`record_date`),
+              KEY `dept_id` (`dept_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用量记录表 - 指定月 ';
+    </update>
+
+
+
+
+    <select id="findTotalDayUsed" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            <![CDATA[ convert(sum(a.reveal_day_used)/1024,decimal(10,2))  ]]>   as 'total_day_used'
+        from
+            `os_used_record_${yyyyMM}` a left join
+            os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+    </select>
+
+
+</mapper>

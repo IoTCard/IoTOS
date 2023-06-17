@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.card.OneLinkEcV5SessionMapper">
+
+    <sql id="selWhere">
+        <where>
+            iccid = #{iccid}
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+            <if test="rat != null and rat != ''">
+                and rat = #{rat}
+            </if>
+            <if test="dept_id != null and dept_id != ''">
+                and dept_id = #{dept_id}
+            </if>
+
+
+
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            apn_id,
+            status,
+            ip,
+            ipv6_prefix,
+            ipv6,
+            create_date,
+            rat,
+            iccid,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            s_id,
+            dept_id
+        FROM
+            os_onelink_ecv5_session
+        <include refid="selWhere"/>
+        ORDER BY
+        create_date desc
+        LIMIT #{starRow},#{pageSize}
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            os_onelink_ecv5_session
+        <include refid="selWhere"/>
+    </select>
+
+
+
+
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into
+        os_onelink_ecv5_session
+        (
+            apn_id,
+            status,
+            ip,
+            ipv6_prefix,
+            ipv6,
+            create_date,
+            rat,
+            iccid,
+            create_time,
+            s_id,
+            dept_id
+        )
+        value(
+            #{apn_id},
+            #{status},
+            #{ip},
+            #{ipv6_prefix},
+            #{ipv6},
+            #{create_date},
+            #{rat},
+            #{iccid},
+            now(),
+            #{s_id},
+            #{dept_id}
+            )
+    </insert>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from
+            os_onelink_ecv5_session
+        <where>
+            <include refid="selWhere"/>
+        </where>
+    </delete>
+
+
+
+
+
+</mapper>

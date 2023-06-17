@@ -1,0 +1,115 @@
+[
+  {
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardSave_queue",
+  "routingKey":   "admin.cardSave.queue"
+  },
+  {
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardUpdate_queue",
+  "routingKey":   "admin.cardUpdate.queue"
+  },
+  {
+    "exchangeName": "admin_exchange",
+    "queueName":    "admin_cardDivide_queue",
+    "routingKey":   "admin.cardDivide.queue"
+  },
+  {
+    "exchangeName": "admin_exchange",
+    "queueName":    "admin_cardDivideRollback_queue",
+    "routingKey":   "admin.cardDivideRollback.queue"
+  },{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardExport_queue",
+  "routingKey":   "admin.cardExport.queue"
+  },{
+    "exchangeName": "task_exchange",
+    "queueName":    "task_tasksClearUp_queue",
+    "routingKey":   "task.tasksClearUp.queue"
+  },
+  {
+    "exchangeName": "admin_exchange",
+    "queueName":    "admin_cardDelete_queue",
+    "routingKey":   "admin.cardDelete.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_upstream_oneLink_ECV5_queue",
+    "routingKey":   "task.upstream_oneLink_ECV5.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_synEcV5Msisdn_queue",
+    "routingKey":   "task.synEcV5Msisdn.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_synEcV5MsisdnGetInfo_queue",
+    "routingKey":   "task.synEcV5MsisdnGetInfo.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_synEcV5MsisdnExecution_queue",
+    "routingKey":   "task.synEcV5MsisdnExecution.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_contrastCardDifference_queue",
+    "routingKey":   "task.contrastCardDifference.queue"
+  },
+  {
+    "exchangeName": "task_exchange",
+    "queueName":    "task_newCardDataImport_queue",
+    "routingKey":   "task.newCardDataImport.queue"
+  },
+  {
+  "exchangeName": "task_exchange",
+  "queueName":    "task_synDataRecovery_queue",
+  "routingKey":   "task.synDataRecovery.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_usedResultProcessing_queue",
+  "routingKey":   "polling.usedResultProcessing.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_updCard_queue",
+  "routingKey":   "polling.updCard.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_addSimSession_queue",
+  "routingKey":   "polling.addSimSession.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_cardInfo_queue",
+  "routingKey":   "polling.cardInfo.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_synInfo_queue",
+  "routingKey":   "polling.synInfo.queue"
+},{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardBusinessHandling_queue",
+  "routingKey":   "admin.cardBusinessHandling.queue"
+},{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_tasksDetailsExport_queue",
+  "routingKey":   "admin.tasksDetailsExport.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_compensation_queue",
+  "routingKey":   "polling.compensation.queue"
+},{
+  "exchangeName": "polling_exchange",
+  "queueName":    "polling_compensationExecute_queue",
+  "routingKey":   "polling.compensationExecute.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_frontPageGenerate_queue",
+  "routingKey":   "task.frontPageGenerate.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_frontPageSave_queue",
+  "routingKey":   "task.frontPageSave.queue"
+}
+
+]

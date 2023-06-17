@@ -1,0 +1,109 @@
+{
+  "common": {
+    "success": "The operation was successful!",
+    "failed": "Operation failed!!!",
+    "encryErr": "Encry failed to return...",
+    "cmdSuccess": "Command sent successfully!",
+    "cmdFailed": "Command sending failed!!!"
+  },
+
+
+  "no": {
+    "view": {
+      "permission": "You do not have permission to view data, please contact the administrator to add permission [{0}]"
+    },
+    "create": {
+      "permission": "You do not have the permission to create data, please contact the administrator to add permission [{0}]"
+    },
+    "update": {
+      "permission": "You do not have permission to modify data, please contact the administrator to add permission [{0}]"
+    },
+    "permission": "You do not have data permission, please contact the administrator to add permission [{0}]",
+    "delete": {
+      "permission": "You do not have the permission to delete data, please contact the administrator to add permission [{0}]"
+    },
+    "export": {
+      "permission": "You do not have the permission to export data, please contact the administrator to add permission [{0}]"
+    }
+  },
+  "not": {
+    "null": "* Required"
+  },
+  "role": {
+    "blocked": "The role has been blocked, please contact the administrator"
+  },
+  "upload": {
+    "filename": {
+      "exceed": {
+        "length": "Uploaded filename can exceed {0} characters"
+      }
+    },
+    "exceed": {
+      "maxSize": "The uploaded file size exceeds the limit file size! <br/>The maximum allowed file size is: {0}MB!"
+    }
+  },
+  "length": {
+    "not": {
+      "valid": "The length must be between {min} and {max} characters"
+    }
+  },
+  "login": {
+    "blocked": "Unfortunately, the access IP has been blacklisted by the system"
+  },
+  "user": {
+    "forcelogout": "Administrator force logout, please log in again",
+    "mobile": {
+      "phone": {
+        "number": {
+          "not": {
+            "valid": "The phone number format is wrong"
+          }
+        }
+      }
+    },
+    "login": {
+      "success": "Login successful"
+    },
+    "unknown": {
+      "error": "Unknown error, please log in again"
+    },
+    "password": {
+      "not": {
+        "valid": "* 5-50 characters",
+        "match": "User does not exist/wrong password"
+      },
+      "delete": "Sorry, your account has been deleted",
+      "retry": {
+        "limit": {
+          "exceed": "Incorrect password entered {0} times, account locked for {1} minutes",
+          "count": "Wrong password entered {0} times"
+        }
+      }
+    },
+    "not": {
+      "exists": "User does not exist/wrong password"
+    },
+    "logout": {
+      "success": "Logout successful"
+    },
+    "blocked": "The user has been blocked, please contact the administrator",
+    "notfound": "Please log in again",
+    "jcaptcha": {
+      "expire": "The verification code has expired",
+      "error": "Captcha error"
+    },
+    "email": {
+      "not": {
+        "valid": "Email format error"
+      }
+    },
+    "username": {
+      "not": {
+        "valid": "* 2 to 20 Chinese characters, letters, numbers or underscores, and must start with a non-number"
+      }
+    },
+    "register": {
+      "success": "Registered successfully"
+    }
+  }
+}

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper">
+
+    <sql id="selWhere">
+        <where>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    and ( imsi = #{value} or
+                    msisdn = #{value} or
+                    iccid = #{value} or
+                    imei = #{value})
+                </if>
+                <if test="type==1">
+                    and group_id LIKE CONCAT('%',#{value},'%')
+                </if>
+            </if>
+            <if test="channel_id!=null">
+                and channel_id =#{channel_id}
+            </if>
+            <if test="w_new!=null">
+                and w_new =#{w_new}
+            </if>
+            <if test="iccidNotNull !=null and iccidNotNull==1">
+                and LENGTH(trim(iccid))  <![CDATA[ > ]]> 1
+            </if>
+            <if test="dateType != null  and dateType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="dateType == 'activate_date'">
+                    DATE_FORMAT( activate_date, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'create_time'">
+                    DATE_FORMAT( create_time, '%Y-%m-%d' )
+                </if>
+                <if test="dateType == 'last_upd_time'">
+                    DATE_FORMAT( last_upd_time, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            msisdn,
+            iccid,
+            imsi,
+            imei,
+            group_id,
+            activate_date,
+            open_date,
+            CONVERT(return_data USING utf8mb4) AS 'return_data',
+            channel_id,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time',
+            inconsistent_iccid,
+            w_new,
+            remark
+        from
+            os_upstream_card
+        <include refid="selWhere"/>
+        ORDER BY
+        create_time desc,last_upd_time desc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        from
+            os_upstream_card
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            os_upstream_card
+            <set>
+                <if test="group_id!=null">
+                    group_id =#{group_id} ,
+                </if>
+                <if test="msisdn!=null">
+                    msisdn =#{msisdn} ,
+                </if>
+                <if test="iccid!=null">
+                    iccid =#{iccid} ,
+                </if>
+                <if test="imsi!=null">
+                    imsi =#{imsi} ,
+                </if>
+                <if test="imei!=null">
+                    imei =#{imei} ,
+                </if>
+                <if test="activate_date!=null">
+                    activate_date =#{activate_date} ,
+                </if>
+                <if test="open_date!=null">
+                    open_date =#{open_date} ,
+                </if>
+                <if test="return_data!=null">
+                    return_data = <![CDATA[ #{return_data} ]]> ,
+                </if>
+                <if test="channel_id!=null">
+                    channel_id =#{channel_id} ,
+                </if>
+                <if test="inconsistent_iccid!=null">
+                    inconsistent_iccid =#{inconsistent_iccid} ,
+                </if>
+                <if test="w_new!=null">
+                    w_new =#{w_new} ,
+                </if>
+                <if test="remark!=null">
+                    remark =#{remark} ,
+                </if>
+
+                last_upd_time = now()
+            </set>
+            <where>
+                id = #{id}
+                and channel_id = #{channel_id}
+            </where>
+    </update>
+
+
+    <update id="updateBatch" parameterType="java.util.HashMap">
+        update
+            os_upstream_card
+        <set>
+            <if test="group_id!=null">
+                group_id =#{group_id} ,
+            </if>
+            <if test="msisdn!=null">
+                msisdn =#{msisdn} ,
+            </if>
+            <if test="iccid!=null">
+                iccid =#{iccid} ,
+            </if>
+            <if test="imsi!=null">
+                imsi =#{imsi} ,
+            </if>
+            <if test="imei!=null">
+                imei =#{imei} ,
+            </if>
+            <if test="activate_date!=null">
+                activate_date =#{activate_date} ,
+            </if>
+            <if test="open_date!=null">
+                open_date =#{open_date} ,
+            </if>
+            <if test="return_data!=null">
+                return_data = <![CDATA[ #{return_data} ]]> ,
+            </if>
+            <if test="channel_id!=null">
+                channel_id =#{channel_id} ,
+            </if>
+            <if test="inconsistent_iccid!=null">
+                inconsistent_iccid =#{inconsistent_iccid} ,
+            </if>
+            <if test="w_new!=null">
+                w_new =#{w_new} ,
+            </if>
+            <if test="remark!=null">
+                remark =#{remark} ,
+            </if>
+            last_upd_time = now()
+        </set>
+        <where>
+            msisdn in
+            <foreach item="updList" collection="updList" index="updList" open="(" separator="," close=")">
+                #{updList.msisdn}
+            </foreach>
+        </where>
+    </update>
+
+
+
+
+
+    <insert id="save" parameterType="java.util.HashMap"  keyProperty="id" useGeneratedKeys="true">
+        insert into os_upstream_card(
+            msisdn,
+            iccid,
+            imsi,
+            imei,
+            group_id,
+            activate_date,
+            open_date,
+            return_data,
+            channel_id,
+            remark,
+            create_time,
+            last_upd_time
+        )values
+        (
+            <choose>
+                <when test="msisdn!=null">
+                    #{msisdn},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="iccid!=null">
+                    #{iccid},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="imsi!=null">
+                    #{imsi},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="imei!=null">
+                    #{imei},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            #{group_id},
+            <choose>
+                <when test="activate_date!=null">
+                   #{activate_date},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="open_date!=null">
+                    #{open_date},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+           </choose>
+          <![CDATA[ #{return_data} ]]> ,
+            #{channel_id},
+            <choose>
+                <when test="remark!=null">
+                    #{remark},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            now(),
+            now()
+          )
+    </insert>
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            msisdn,
+            iccid,
+            imsi,
+            imei,
+            group_id,
+            activate_date,
+            open_date,
+            CONVERT(return_data USING utf8mb4) AS 'return_data',
+            channel_id,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time',
+            inconsistent_iccid,
+            w_new,
+            remark
+        from
+            os_upstream_card
+        <where>
+            <if test="msisdn!=null">
+                msisdn =#{msisdn}
+            </if>
+            <if test="channel_id!=null">
+                and channel_id =#{channel_id}
+            </if>
+            <if test="id!=null">
+                and id =#{id}
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_upstream_card <where> channel_id = #{channel_id}</where>
+    </delete>
+
+    <!-- 查询ICCID 重复卡号 （多线程同步时会脏读 对其数据进行修复）-->
+    <select id="findIccidRepeat" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            msisdn,
+            id
+        from
+            os_upstream_card
+        where
+            iccid IN (
+            SELECT
+                a.iccid
+            from
+                (
+                    SELECT
+                        iccid,
+                        count( 1 ) AS 'count'
+                    from
+                        os_upstream_card
+                    where
+                        channel_id = #{channel_id}
+                      AND LENGTH(trim( iccid )) <![CDATA[ > ]]> 1
+                    GROUP BY
+                        iccid,
+                        channel_id
+                ) a
+            where
+                a.count <![CDATA[ > ]]> 1
+        )
+    </select>
+
+
+    <!-- 查询ICCID 为空卡号 -->
+    <select id="findIccidNull" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            msisdn,
+            id
+        from
+            os_upstream_card
+        where
+            channel_id = #{channel_id}
+            and <![CDATA[ LENGTH(trim( iccid ))  < 1  ]]>
+    </select>
+
+    
+
+</mapper>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.performTasks.PerformTasksMapper">
+
+
+    <sql id="selWhere">
+        <where>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    AND t_no = #{value}
+                </if>
+                <if test="type==1">
+                    AND name LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==2">
+                    AND dept_name LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==3">
+                    AND user_name LIKE CONCAT('%',#{value},'%')
+                </if>
+            </if>
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
+            </if>
+
+            <if test="ts_type!=null">
+                and ts_type =#{ts_type}
+            </if>
+
+            <if test="timeType != null  and timeType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="timeType == 0">
+                    DATE_FORMAT( starting_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 1">
+                    DATE_FORMAT( end_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 2">
+                    DATE_FORMAT( last_upd_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 4">
+                    DATE_FORMAT( expiration_date, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+
+
+
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            t_no,
+            dept_id,
+            dept_name,
+            DATE_FORMAT(last_upd_time,"%Y-%m-%d %H:%i:%S") AS 'last_upd_time',
+            DATE_FORMAT(starting_time,"%Y-%m-%d %H:%i:%S") AS 'starting_time',
+            DATE_FORMAT(end_time,"%Y-%m-%d %H:%i:%S") AS 'end_time',
+            name,
+            remark,
+            user_id,
+            user_name,
+            DATE_FORMAT(expiration_date,'%Y-%m-%d') AS 'expiration_date',
+            w_details,
+            ts_type
+        FROM
+        os_perform_tasks
+        <include refid="selWhere"/>
+        ORDER BY
+        <if test="orderByType==null or orderByType==1">
+            starting_time
+        </if>
+        <if test="orderByType==2">
+            last_upd_time
+        </if>
+        <if test=" orderByRule==1">
+            ASC
+        </if>
+        <if test="orderByRule==null or orderByRule==2">
+            DESC
+        </if>
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            os_perform_tasks
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            os_perform_tasks
+            <set>
+                <if test="last_upd_time!=null">
+                    last_upd_time =#{last_upd_time} ,
+                </if>
+                <if test="starting_time!=null">
+                    starting_time =#{starting_time} ,
+                </if>
+                <if test="end_time!=null">
+                    end_time =#{end_time} ,
+                </if>
+                <if test="remark!=null">
+                    remark =#{remark} ,
+                </if>
+                <if test="expiration_date!=null">
+                    expiration_date =#{expiration_date} ,
+                </if>
+                <if test="w_details!=null">
+                    w_details =#{w_details} ,
+                </if>
+                last_upd_time = now()
+            </set>
+            <where>
+                t_no = #{t_no}
+            </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into os_perform_tasks(
+            t_no,
+            dept_id,
+            dept_name,
+            last_upd_time,
+            starting_time,
+            name,
+            remark,
+            user_id,
+            user_name,
+            expiration_date,
+            w_details,
+            ts_type
+        )values (
+            #{t_no},
+            #{dept_id},
+            #{dept_name},
+            now(),
+            now(),
+            #{name},
+            <choose>
+                <when test="remark!=null">
+                    #{remark},
+                </when>
+                <otherwise>
+                    '',
+                </otherwise>
+            </choose>
+            #{user_id},
+            #{user_name},
+            #{expiration_date},
+            <choose>
+                <when test="w_details!=null">
+                    #{w_details},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            #{ts_type}
+          )
+    </insert>
+
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            t_no,
+            dept_id,
+            dept_name,
+            DATE_FORMAT(last_upd_time,"%Y-%m-%d %H:%i:%S") AS 'last_upd_time',
+            DATE_FORMAT(starting_time,"%Y-%m-%d %H:%i:%S") AS 'starting_time',
+            DATE_FORMAT(end_time,"%Y-%m-%d %H:%i:%S") AS 'end_time',
+            name,
+            remark,
+            user_id,
+            user_name,
+            DATE_FORMAT(expiration_date,'%Y-%m-%d') AS 'expiration_date',
+            w_details,
+            ts_type
+        from
+            os_perform_tasks
+        <where>
+            t_no =  #{t_no}
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_perform_tasks <where> t_no = #{t_no}</where>
+    </delete>
+
+    <delete id="deleteArr" parameterType="java.util.HashMap" >
+        delete from os_perform_tasks
+        <where>
+            t_no in
+            <foreach item="t_noArr" collection="t_noArr" index="index" open="(" separator="," close=")">
+                #{t_noArr}
+            </foreach>
+        </where>
+    </delete>
+
+</mapper>

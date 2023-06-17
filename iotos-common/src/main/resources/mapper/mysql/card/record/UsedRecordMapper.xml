@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.card.record.UsedRecordMapper">
+
+
+    <sql id="selWhere">
+        <where>
+            <if test="iccid!=null">
+                and a.iccid =#{iccid}
+            </if>
+            <if test="record_date!=null">
+                and DATE_FORMAT(a.record_date,
+                <choose>
+                    <when test="format=='yyyyMMdd'">
+                        '%Y-%m-%d'
+                    </when>
+                    <otherwise>
+                        '%Y-%m'
+                    </otherwise>
+                </choose>
+                ) = #{record_date}
+            </if>
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and b.dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
+            </if>
+            <if test="startDate!=null and endDate!=null">
+                and DATE_FORMAT(a.record_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            a.id,
+            a.iccid,
+            DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(a.record_date,'%Y-%m-%d') AS 'record_date',
+            DATE_FORMAT(a.record_date,'%m-%d') AS 'MMdd',
+            a.day_used,
+            a.month_used,
+            a.reveal_day_used,
+            a.reveal_month_used,
+            b.dept_id,
+            DATE_FORMAT(a.last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time'
+        from
+        os_used_record a left join
+        os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+        ORDER BY
+        record_date asc,iccid asc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        from
+            os_used_record a left join
+            os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            os_used_record
+            <set>
+                day_used =#{day_used} ,
+                month_used =#{month_used} ,
+                reveal_day_used =#{reveal_day_used} ,
+                reveal_month_used =#{reveal_month_used} ,
+                last_upd_time = now()
+            </set>
+            <where>
+                id = #{id}
+            </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into os_used_record(
+            iccid,
+            create_time,
+            record_date,
+            day_used,
+            month_used,
+            reveal_day_used,
+            reveal_month_used,
+            dept_id,
+            last_upd_time
+        )values (
+            #{iccid},
+            now(),
+            #{record_date},
+            #{day_used},
+            #{month_used},
+            #{reveal_day_used},
+            #{reveal_month_used},
+            #{dept_id},
+            now()
+          )
+    </insert>
+
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            iccid,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(record_date,'%Y-%m-%d') AS 'record_date',
+            day_used,
+            month_used,
+            reveal_day_used,
+            reveal_month_used,
+            dept_id,
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time'
+        from
+            os_used_record
+        <where>
+            iccid = #{iccid}
+            and record_date = #{record_date}
+        </where>
+    </select>
+
+
+    <!--查询指定卡号 指定月 最后一条记录数据-->
+    <select id="findLastDay" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            iccid,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(record_date,'%Y-%m-%d') AS 'record_date',
+            day_used,
+            month_used,
+            reveal_day_used,
+            reveal_month_used,
+            dept_id,
+            DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time'
+         from
+            os_used_record
+        <where>
+            iccid = #{iccid}
+            and DATE_FORMAT( record_date, '%Y%m' ) = #{yyyyMM}
+        </where>
+        order by record_date desc
+        LIMIT 1
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap">
+        delete from  os_used_record
+        <where>
+         id in(
+                select
+                    ord_id
+                from
+                    `os_used_record_${yyyyMM}`
+            )
+        </where>
+    </delete>
+
+
+    <select id="findTotalMonthUsed" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            <![CDATA[  convert(sum(a.reveal_day_used)/1024,decimal(10,2))  ]]>   as 'total_day_used'
+        from
+        os_used_record a left join
+        os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+    </select>
+
+    <select id="findTotalDayUsed" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+             DATE_FORMAT( a.record_date, '%Y-%m-%d' ) as `record_date`,
+            <![CDATA[  convert(sum(a.reveal_day_used)/1024,decimal(10,2))  ]]>   as 'total_day_used'
+        from
+            os_used_record a left join
+        os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+        group by record_date
+    </select>
+
+
+    <!--查询用量排行-->
+    <select id="findLeaderboard" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            a.iccid,
+            <choose>
+                <when test="format=='yyyyMMdd'">
+                    a.reveal_day_used as 'reveal_used'
+                </when>
+                <otherwise>
+                    a.reveal_month_used as 'reveal_used'
+                </otherwise>
+            </choose>
+        from
+            os_used_record a left join
+        os_card b on a.iccid = b.iccid
+        <include refid="selWhere"/>
+        order by reveal_used desc
+        LIMIT 5
+    </select>
+
+
+
+
+</mapper>

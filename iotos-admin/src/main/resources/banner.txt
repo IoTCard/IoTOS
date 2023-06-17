@@ -1,0 +1,21 @@
+Application Version: ${iotos.version}
+Spring Boot Version: ${spring-boot.version}
+
+                    vvvvv-    *vvvvvvvvvvvvvvn
+               ^^vvvvvvvvvvvvvvvvvvvv    vvvvvvvvvvvv
+              vvvvvvvvvvvvvvvvv   vvvvvvvvvvvvvvvvvvvvvv.
+                             vvvvvvvvvvvvvvvvvvvvvvvvvvo
+                        vvvvvvvvvvvvvvvvvvvvvv.
+                     ~vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+                    ovvvvvvvvvvvvvvn          vvv
+                    vvvvvvvvvvvvvvvv~- .
+              ^^^^vvvvvvvvvv
+            vvvvvvvvvvv
+           vv vvvvv  ooooo   ooooooooooo*  ooooooooooooo   ooooooooooo^    ooooooooooo
+             vv      *vvv*   vvvv    vvvv      vvvv        vvvv    vvvv   vvvv    vvvv
+                     vvvv    vvv     vvvv      vvvv       *vvv     vvvv   vvvv
+                     vvvv   vvvv     vvvv      vvvv       vvvv     vvvn   vvvvvvvvvvv
+                     vvvn   vvvv    vvvv      +vvv^       vvvv    vvvv           vvvv
+                    *vvv    vvvvvvvvvvvv      vvvv        vvvvvvvvvvvv   vvvvvvvvvvvv
+
+

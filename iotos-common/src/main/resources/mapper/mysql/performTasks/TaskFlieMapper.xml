@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.performTasks.TaskFlieMapper">
+
+    <sql id="selWhere">
+
+
+        <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+            and dept_id in
+            <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                #{dept_id}
+            </foreach>
+        </if>
+
+        <if test="show_type!=null">
+            and show_type = #{show_type}
+        </if>
+
+
+    </sql>
+    <update id="update" parameterType="java.util.HashMap">
+        update
+            os_task_flie
+            <set>
+                <if test="end_time!=null">
+                    end_time =#{end_time} ,
+                </if>
+                <if test="url!=null">
+                    url =#{url} ,
+                </if>
+                <if test="w_external_link!=null">
+                    w_external_link =#{w_external_link} ,
+                </if>
+                <if test="download_times!=null">
+                    download_times = download_times + #{download_times} ,
+                </if>
+            </set>
+            <where>
+                t_no = #{t_no}
+                and id = #{id}
+            </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id" >
+        insert into os_task_flie(
+            t_no,
+            dept_id,
+            starting_time,
+            create_time,
+            url,
+            w_external_link,
+            download_times,
+            type,
+            show_type
+        )values (
+            #{t_no},
+            #{dept_id},
+            now(),
+            now(),
+           <![CDATA[ #{url} ]]> ,
+            <choose>
+                <when test="w_external_link!=null">
+                    #{w_external_link},
+                </when>
+                <otherwise>
+                    '0',
+                </otherwise>
+            </choose>
+            0,
+            #{type},
+            #{show_type}
+          )
+    </insert>
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            t_no,
+            dept_id,
+            DATE_FORMAT(create_time,"%Y-%m-%d %H:%i:%S") AS 'create_time',
+            DATE_FORMAT(starting_time,"%Y-%m-%d %H:%i:%S") AS 'starting_time',
+            DATE_FORMAT(end_time,"%Y-%m-%d %H:%i:%S") AS 'end_time',
+            url,
+            w_external_link,
+            download_times,
+            type,
+            show_type
+        from
+            os_task_flie
+        <where>
+            t_no =  #{t_no}
+            <include refid="selWhere"/>
+
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_task_flie
+        <where>
+            <choose>
+                <when test="t_no!=null">
+                   and t_no = #{t_no}
+                </when>
+                <otherwise>
+                    and id  in
+                    <foreach item="idArr" collection="idArr" index="index" open="(" separator="," close=")">
+                        #{idArr}
+                    </foreach>
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <delete id="deleteArr" parameterType="java.util.HashMap" >
+        delete from os_task_flie
+        <where>
+            t_no in
+            <foreach item="t_noArr" collection="t_noArr" index="index" open="(" separator="," close=")">
+                #{t_noArr}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>

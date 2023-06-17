@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.channel.ChannelMapper">
+
+
+    <sql id="selWhere">
+        <where>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    and name LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==1">
+                    and nick_name LIKE CONCAT('%',#{value},'%')
+                </if>
+                <if test="type==2">
+                    and c_no = #{value}
+                </if>
+            </if>
+            <if test="dept_id!=null">
+                and dept_id =#{dept_id}
+            </if>
+            <if test="template!=null">
+                and template =#{template}
+            </if>
+            <if test="w_polling!=null">
+                and w_polling IN
+                <foreach item="w_polling" collection="w_polling" index="index" open="(" separator="," close=")">
+                    #{w_polling}
+                </foreach>
+            </if>
+            <choose>
+                <when test="deleted!=null">
+                    and   deleted =  #{deleted}
+                </when>
+                <otherwise>
+                    and deleted = '0'
+                </otherwise>
+            </choose>
+            <if test="status!=null and status!='' and status.size>0 ">
+                and status IN
+                <foreach item="status" collection="status" index="index" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="templateList!=null and templateList!='' and templateList.size>0 ">
+                and template IN
+                <foreach item="templateList" collection="templateList" index="templateList" open="(" separator="," close=")">
+                    #{templateList}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        c_no,
+        template,
+        dept_id,
+        DATE_FORMAT(
+        last_upd_time,
+        '%Y-%m-%d'
+        ) AS 'last_upd_time',
+        name,
+        nick_name,
+        operator_type,
+        deleted,
+        status,
+        w_polling,
+        card_count,
+        card_used
+        from
+        os_channel
+        <include refid="selWhere"/>
+        ORDER BY
+        <if test="order_by_type==null or order_by_type==1">
+            last_upd_time
+        </if>
+        <if test="order_by_type==2">
+            template
+        </if>
+        <if test="order_by_rule==1">
+            ASC
+        </if>
+        <if test="order_by_rule==null or order_by_rule==2">
+            DESC
+        </if>
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select
+        COUNT(1)
+        from
+        os_channel
+        <include refid="selWhere"/>
+    </select>
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+        os_channel
+        <set>
+            <if test="template!=null">
+                template =#{template} ,
+            </if>
+            <if test="name!=null">
+                name =#{name} ,
+            </if>
+            <if test="nick_name!=null">
+                nick_name =#{nick_name} ,
+            </if>
+            <if test="operator_type!=null">
+                operator_type =#{operator_type} ,
+            </if>
+            <if test="deleted!=null">
+                deleted =#{deleted} ,
+            </if>
+            <if test="status!=null">
+                status =#{status} ,
+            </if>
+            <if test="w_polling!=null">
+                w_polling =#{w_polling} ,
+            </if>
+            <if test="card_count!=null">
+                card_count =#{card_count} ,
+            </if>
+            <if test="card_used!=null">
+                card_used =#{card_used} ,
+            </if>
+            last_upd_time = now()
+        </set>
+        <where>
+            c_no = #{c_no}
+        </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into os_channel(
+            c_no,
+            template,
+            dept_id,
+            last_upd_time,
+            name,
+            nick_name,
+            status,
+            w_polling
+        )values (
+                    #{c_no},
+                    #{template},
+                    #{dept_id},
+                    now(),
+                    #{name},
+                    #{nick_name},
+                    #{status},
+                    #{w_polling}
+                )
+    </insert>
+
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        c_no,
+        template,
+        dept_id,
+        DATE_FORMAT( last_upd_time, "%Y-%m-%d %H:%i:%S"  ) AS 'last_upd_time',
+        name,
+        nick_name,
+        operator_type,
+        deleted,
+        status,
+        w_polling,
+        card_count,
+        card_used
+        from
+        os_channel
+        <where>
+            c_no = #{c_no}
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_channel <where> c_no = #{c_no}</where>
+    </delete>
+
+
+    <select id="getNameOpen" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        select
+        c_no AS 'dictValue',
+        nick_name AS 'dictLabel'
+        from
+        os_channel
+        <where>
+            <if test="status!=null">
+                status = #{status}
+            </if>
+        </where>
+        ORDER BY dictLabel ASC, c_no
+    </select>
+
+
+    <select id="getName" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        select
+        c_no AS 'dictValue', CONCAT( nick_name , "-",name ) AS 'dictLabel'
+        from
+        os_channel
+        <where>
+            <if test="status!=null">
+                status = #{status}
+            </if>
+        </where>
+        ORDER BY dictLabel ASC,c_no
+    </select>
+
+
+
+
+
+
+</mapper>

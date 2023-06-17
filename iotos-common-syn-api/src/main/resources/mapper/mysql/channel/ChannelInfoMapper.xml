@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.channel.ChannelInfoMapper">
+
+
+
+    <update id="update" parameterType="java.util.HashMap">
+        update
+        os_channel_info
+        <set>
+            <if test="template!=null">
+                template =#{template} ,
+            </if>
+            <if test="name!=null">
+                name =#{name} ,
+            </if>
+            <if test="nick_name!=null">
+                nick_name =#{nick_name} ,
+            </if>
+            <if test="operator_type!=null">
+                operator_type =#{operator_type} ,
+            </if>
+            <if test="dept_id!=null">
+                dept_id =#{dept_id} ,
+            </if>
+            <if test="url!=null">
+                url =#{url} ,
+            </if>
+            <if test="parameter_one!=null">
+                parameter_one =#{parameter_one} ,
+            </if>
+            <if test="parameter_tow!=null">
+                parameter_tow =#{parameter_tow} ,
+            </if>
+            <if test="parameter_three!=null">
+                parameter_three =#{parameter_three} ,
+            </if>
+            <if test="w_forward!=null">
+                w_forward =#{w_forward} ,
+            </if>
+            <if test="forward_url!=null">
+                forward_url =#{forward_url} ,
+            </if>
+            <if test="login_url!=null">
+                login_url =#{login_url} ,
+            </if>
+            <if test="login_pwd!=null">
+                login_pwd =#{login_pwd} ,
+            </if>
+            <if test="login_account!=null">
+                login_account =#{login_account} ,
+            </if>
+            <if test="remarks!=null">
+                remarks =#{remarks} ,
+            </if>
+            <if test="sms_host!=null">
+                sms_host =#{sms_host} ,
+            </if>
+            <if test="sms_port!=null">
+                sms_port =#{sms_port} ,
+            </if>
+            <if test="sms_source_addr!=null">
+                sms_source_addr =#{sms_source_addr} ,
+            </if>
+            <if test="sms_shared_secret!=null">
+                sms_shared_secret =#{sms_shared_secret} ,
+            </if>
+            <if test="sms_template!=null">
+                sms_template =#{sms_template} ,
+            </if>
+            <if test="sms_src_terminalId!=null">
+                sms_src_terminalId =#{sms_src_terminalId} ,
+            </if>
+            <if test="w_sync_upstream!=null">
+                w_sync_upstream =#{w_sync_upstream} ,
+            </if>
+            <if test="sync_change_notification!=null">
+                sync_change_notification =#{sync_change_notification} ,
+            </if>
+            <if test="sync_data_type!=null">
+                sync_data_type =#{sync_data_type} ,
+            </if>
+            <if test="upstream_card_count!=null">
+                upstream_card_count =#{upstream_card_count} ,
+            </if>
+            <if test="sync_field!=null">
+                sync_field =#{sync_field} ,
+            </if>
+
+            <if test="success_rate!=null">
+                success_rate =#{success_rate} ,
+            </if>
+            <if test="syn_count!=null">
+                syn_count =#{syn_count} ,
+            </if>
+            <if test="success_total!=null">
+                success_total =#{success_total} ,
+            </if>
+            <if test="fail_total!=null">
+                fail_total =#{fail_total} ,
+            </if>
+            <if test="w_setmeal!=null">
+                w_setmeal =#{w_setmeal} ,
+            </if>
+            <if test="statistical_date!=null">
+                statistical_date =#{statistical_date} ,
+            </if>
+            last_upd_time = now()
+        </set>
+        <where>
+            c_no = #{c_no}
+        </where>
+    </update>
+
+
+    <insert id="save" parameterType="java.util.HashMap">
+        insert into os_channel_info(
+        c_no,
+        template,
+        dept_id,
+        last_upd_time,
+        name,
+        nick_name,
+        url,
+        parameter_one,
+        parameter_tow,
+        parameter_three,
+        login_url,
+        login_account,
+        login_pwd,
+
+        w_sync_upstream,
+        sync_change_notification,
+        sync_data_type,
+        sync_field
+        )values (
+        #{c_no},
+        #{template},
+        #{dept_id},
+        now(),
+        #{name},
+        #{nick_name},
+        <![CDATA[ #{url} ]]> ,
+        #{parameter_one},
+        #{parameter_tow},
+        #{parameter_three},
+        <![CDATA[ #{login_url} ]]>,
+        #{login_account},
+        #{login_pwd}
+        <choose>
+            <when test="w_sync_upstream!=null">
+                ,#{w_sync_upstream}
+            </when>
+            <otherwise>
+                ,''
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sync_change_notification!=null">
+                ,#{sync_change_notification}
+            </when>
+            <otherwise>
+                ,''
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sync_data_type!=null">
+                ,#{sync_data_type}
+            </when>
+            <otherwise>
+                ,''
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sync_field!=null">
+                ,#{sync_field}
+            </when>
+            <otherwise>
+                ,''
+            </otherwise>
+        </choose>
+
+        )
+    </insert>
+
+
+    <select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        id,
+        template,
+        dept_id,
+        DATE_FORMAT( last_upd_time, "%Y-%m-%d %H:%i:%S"  ) AS 'last_upd_time',
+        name,
+        nick_name,
+        url,
+        parameter_one,
+        parameter_tow,
+        parameter_three,
+        operator_type,
+        w_forward,
+        forward_url,
+        login_url,
+        login_account,
+        login_pwd,
+        remarks,
+        sms_host,
+        sms_port,
+        sms_source_addr,
+        sms_shared_secret,
+        sms_template,
+        sms_src_terminalId,
+        w_sync_upstream,
+        sync_change_notification,
+        sync_data_type,
+        upstream_card_count,
+        sync_field,
+        success_rate,
+        syn_count,
+        success_total,
+        fail_total,
+        w_setmeal,
+        c_no,
+        DATE_FORMAT( statistical_date, "%Y-%m-%d"  ) AS 'statistical_date'
+        from
+        os_channel_info
+        <where>
+            c_no =  #{c_no}
+            <if test="w_sync_upstream!=null">
+                and w_sync_upstream = #{w_sync_upstream}
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from os_channel_info <where> c_no = #{c_no}</where>
+    </delete>
+
+
+
+    <select id="findSyncChannel" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            a.template,
+            a.name,
+            a.nick_name,
+            a.url,
+            a.parameter_one,
+            a.parameter_tow,
+            a.parameter_three,
+            a.c_no
+        from
+            os_channel b left join
+            os_channel_info a
+            on b.c_no = a.c_no
+        <where>
+            b.c_no =  #{c_no}
+            <if test="w_sync_upstream!=null">
+                and w_sync_upstream = #{w_sync_upstream}
+            </if>
+            and b.deleted = 0
+            and b.status = 0
+        </where>
+    </select>
+
+
+
+
+</mapper>

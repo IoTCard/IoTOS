@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.synApi.mapper.mysql.card.CardSessionMapper">
+
+
+    <sql id="selWhere">
+        <where>
+            iccid = #{iccid}
+            <if test="template != null and template != ''   ">
+                and template = #{template}
+            </if>
+            <if test="dept_id != null and dept_id != ''">
+                and dept_id = #{dept_id}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            iccid,
+            template,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            CONVERT(return_data USING utf8mb4) AS 'return_data',
+            dept_id
+        FROM
+            os_card_session
+        <include refid="selWhere"/>
+        ORDER BY
+        create_time  desc
+        LIMIT #{starRow},#{pageSize}
+    </select>
+
+
+
+    <!-- 查询 总数-->
+    <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        os_card_session
+        <include refid="selWhere"/>
+    </select>
+
+
+
+
+
+
+    <insert id="save" parameterType="java.util.HashMap" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        os_card_session
+        (
+            iccid,
+            template,
+            create_time,
+            return_data,
+            dept_id
+        )
+        value(#{iccid},#{template},now(), #{return_data} ,#{dept_id})
+    </insert>
+
+
+    <delete id="delete" parameterType="java.util.HashMap" >
+        delete from
+            os_card_session
+        <where>
+            <include refid="selWhere"/>
+        </where>
+    </delete>
+
+
+
+
+
+</mapper>

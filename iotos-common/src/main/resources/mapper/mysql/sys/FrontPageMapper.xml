@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.sys.FrontPageMapper">
+
+
+	<select id="findLastId" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select
+			id
+		from
+			os_front_page
+		<where>
+			dept_id = #{dept_id}
+		</where>
+		order by create_time desc
+		LIMIT 1
+	</select>
+
+
+	<select id="findId" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select
+			id
+		from
+			os_front_page
+		<where>
+			record_date = #{record_date}
+			and dept_id = #{dept_id}
+		</where>
+	</select>
+
+
+	<select id="find" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+			id,
+			dept_id,
+			DATE_FORMAT(record_date,'%Y-%m-%d') AS 'record_date',
+			DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+			DATE_FORMAT(last_upd_time,'%Y-%m-%d %H:%i:%S') AS 'last_upd_time',
+			CONVERT(usage_line USING utf8mb4) AS 'usage_line',
+			CONVERT(activate_line USING utf8mb4) AS 'activate_line',
+			CONVERT(usage_table USING utf8mb4) AS 'usage_table',
+			CONVERT(life_cycle_pie USING utf8mb4) AS 'life_cycle_pie',
+			CONVERT(dept_proportion_pie USING utf8mb4) AS 'dept_proportion_pie',
+			CONVERT(dept_activate_pie USING utf8mb4) AS 'dept_activate_pie',
+			CONVERT(dept_usage_pie USING utf8mb4) AS 'dept_usage_pie',
+			CONVERT(channel_pie USING utf8mb4) AS 'channel_pie',
+			login_ip_count,
+			card_count,
+			agent_card_count,
+			dept_card_count,
+			dept_count,
+			CONVERT(login_pie USING utf8mb4) AS 'login_pie',
+			CONVERT(login_map USING utf8mb4) AS 'login_map',
+			card_add_count,
+			card_activation_count
+		from
+			os_front_page
+		<where>
+			id = #{id}
+		</where>
+	</select>
+
+	<insert id="save" parameterType="java.util.HashMap">
+		insert into os_front_page(
+			dept_id,
+			record_date,
+			create_time,
+			last_upd_time,
+			usage_line,
+			activate_line,
+			usage_table,
+			life_cycle_pie,
+			dept_proportion_pie,
+			dept_activate_pie,
+			dept_usage_pie,
+			channel_pie,
+			login_ip_count,
+			card_count,
+			agent_card_count,
+			dept_card_count,
+			dept_count,
+			login_pie,
+			login_map,
+			card_add_count,
+			card_activation_count
+		)values
+		(
+		  <![CDATA[
+			#{dept_id},
+			#{record_date},
+			now(),
+			now(),
+			#{usage_line},
+			#{activate_line},
+			#{usage_table},
+			#{life_cycle_pie},
+			#{dept_proportion_pie},
+			#{dept_activate_pie},
+			#{dept_usage_pie},
+			#{channel_pie},
+			#{login_ip_count},
+			#{card_count},
+			#{agent_card_count},
+			#{dept_card_count},
+			#{dept_count},
+			#{login_pie},
+			#{login_map},
+			#{card_add_count},
+			#{card_activation_count}
+			]]>
+		)
+	</insert>
+
+
+	<update id="update" parameterType="java.util.HashMap">
+		update
+			os_front_page
+		<set>
+			<if test="usage_line!=null">
+				usage_line = #{usage_line},
+			</if>
+			<if test="activate_line!=null">
+				activate_line = #{activate_line},
+			</if>
+			<if test="usage_table!=null">
+				usage_table = #{usage_table},
+			</if>
+			<if test="life_cycle_pie!=null">
+				life_cycle_pie = #{life_cycle_pie},
+			</if>
+			<if test="dept_proportion_pie!=null">
+				dept_proportion_pie = #{dept_proportion_pie},
+			</if>
+			<if test="dept_activate_pie!=null">
+				dept_activate_pie = #{dept_activate_pie},
+			</if>
+			<if test="dept_usage_pie!=null">
+				dept_usage_pie = #{dept_usage_pie},
+			</if>
+			<if test="channel_pie!=null">
+				channel_pie = #{channel_pie},
+			</if>
+			<if test="login_ip_count!=null">
+				login_ip_count = #{login_ip_count},
+			</if>
+			<if test="card_count!=null">
+				card_count = #{card_count},
+			</if>
+			<if test="agent_card_count!=null">
+				agent_card_count = #{agent_card_count},
+			</if>
+			<if test="dept_card_count!=null">
+				dept_card_count = #{dept_card_count},
+			</if>
+			<if test="dept_count!=null">
+				dept_count = #{dept_count},
+			</if>
+
+			<if test="login_pie!=null">
+				login_pie = #{login_pie},
+			</if>
+			<if test="login_map!=null">
+				login_map = #{login_map},
+			</if>
+			<if test="card_add_count!=null">
+				card_add_count = #{card_add_count},
+			</if>
+			<if test="card_activation_count!=null">
+				card_activation_count = #{card_activation_count},
+			</if>
+			last_upd_time = now()
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+
+
+	<select id="findLogin" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+		<if test="groupType!=null">
+			<if test="groupType=='user_name'"> user_name </if>
+			<if test="groupType=='login_location'"> login_location </if>
+			as 'groupType',
+		</if>
+			count(1) as 'count'
+		from
+			sys_logininfor
+		<where>
+			DATE_FORMAT( login_time, '%Y-%m' ) = #{yyyyMM}
+		</where>
+		<if test="groupType!=null">
+			group by groupType
+		</if>
+
+	</select>
+
+
+	<select id="findDeptCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			sys_dept
+		<where>
+			del_flag = 0
+		</where>
+	</select>
+
+
+
+
+</mapper> 
