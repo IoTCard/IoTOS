@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.iotos.common.mapper.mysql.sys.NoticeMapper">
+
+    <sql id="selWhere">
+        <where>
+            <if test="value!=null and value!=''">
+                <if test="type==0">
+                    AND notice_title = #{value}
+                </if>
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+            <if test="notice_type!=null">
+                and notice_type = #{notice_type}
+            </if>
+            <if test="timeType != null  and timeType != '' and startDate!=null and endDate!=null">
+                and
+                <if test="timeType == 0">
+                    DATE_FORMAT( create_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 1">
+                    DATE_FORMAT( update_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 2">
+                    DATE_FORMAT( start_time, '%Y-%m-%d' )
+                </if>
+                <if test="timeType == 4">
+                    DATE_FORMAT( end_time, '%Y-%m-%d' )
+                </if>
+                BETWEEN #{startDate} AND #{endDate}
+            </if>
+
+            <if test="normal != null  and normal != '' and normal == '1'">
+                <![CDATA[ and start_time  <=  now()
+                and end_time   >=  now()
+                and status = 0 ]]>
+            </if>
+
+        </where>
+    </sql>
+
+
+
+
+    <select id="getList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            notice_id, notice_title, notice_type, cast(notice_content as char) as notice_content, status, create_by, create_time, update_by, update_time, remark,
+            start_time,
+            end_time,
+            terminal_type,
+            method_informe,
+            total
+        from sys_notice
+        <include refid="selWhere"/>
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
+    
+</mapper>

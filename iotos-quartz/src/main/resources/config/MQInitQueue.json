@@ -1,13 +1,13 @@
 [
   {
-  "exchangeName": "admin_exchange",
-  "queueName":    "admin_cardSave_queue",
-  "routingKey":   "admin.cardSave.queue"
+    "exchangeName": "admin_exchange",
+    "queueName":    "admin_cardSave_queue",
+    "routingKey":   "admin.cardSave.queue"
   },
   {
-  "exchangeName": "admin_exchange",
-  "queueName":    "admin_cardUpdate_queue",
-  "routingKey":   "admin.cardUpdate.queue"
+    "exchangeName": "admin_exchange",
+    "queueName":    "admin_cardUpdate_queue",
+    "routingKey":   "admin.cardUpdate.queue"
   },
   {
     "exchangeName": "admin_exchange",
@@ -22,11 +22,11 @@
   "exchangeName": "admin_exchange",
   "queueName":    "admin_cardExport_queue",
   "routingKey":   "admin.cardExport.queue"
-  },{
-    "exchangeName": "task_exchange",
-    "queueName":    "task_tasksClearUp_queue",
-    "routingKey":   "task.tasksClearUp.queue"
-  },
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_tasksClearUp_queue",
+  "routingKey":   "task.tasksClearUp.queue"
+},
   {
     "exchangeName": "admin_exchange",
     "queueName":    "admin_cardDelete_queue",
@@ -63,10 +63,10 @@
     "routingKey":   "task.newCardDataImport.queue"
   },
   {
-  "exchangeName": "task_exchange",
-  "queueName":    "task_synDataRecovery_queue",
-  "routingKey":   "task.synDataRecovery.queue"
-},{
+    "exchangeName": "task_exchange",
+    "queueName":    "task_synDataRecovery_queue",
+    "routingKey":   "task.synDataRecovery.queue"
+  },{
   "exchangeName": "polling_exchange",
   "queueName":    "polling_usedResultProcessing_queue",
   "routingKey":   "polling.usedResultProcessing.queue"
@@ -110,6 +110,10 @@
   "exchangeName": "task_exchange",
   "queueName":    "task_frontPageSave_queue",
   "routingKey":   "task.frontPageSave.queue"
+},{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_imLoginNotify_queue",
+  "routingKey":   "admin.imLoginNotify.queue"
 }
 
 ]

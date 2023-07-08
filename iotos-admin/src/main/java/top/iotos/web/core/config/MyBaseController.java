@@ -72,7 +72,7 @@ public class MyBaseController extends BaseController
         SysUser user = getUser();
         String deptId = user.getDeptId().toString();
         if(!deptId.equals("100")){//非 总部进行权限过滤
-           Map<String, Object> findMap =  new HashMap<String, Object>();
+            Map<String, Object> findMap =  new HashMap<String, Object>();
             findMap.put("deptId",deptId);
             String arrStr = cardInfoMapper.queryChildrenAreaInfo(findMap);
             if(arrStr!=null){
@@ -119,16 +119,20 @@ public class MyBaseController extends BaseController
     public String getDeptID(){
         return getUser().getDeptId().toString();
     }
-
-
-    public String getCodeMsg(String code){
-        return  LanguageConvert.getMessage(getLocale(),code);
+    public String getDeptID(String token){
+        return getUser(token).getDeptId().toString();
     }
 
+    public String getCodeMsg(String code){
+        return  LanguageConvert.getMessage(getLocale(null),code);
+    }
+    public String getCodeMsg(String token,String code){
+        return  LanguageConvert.getMessage(getLocale(token),code);
+    }
 
-    public Locale getLocale(){
+    public Locale getLocale(String token){
         Locale locale = Locale.SIMPLIFIED_CHINESE;
-        String lc = getLoginLgCode();
+        String lc = getLoginLgCode(token);
         if(lc.equalsIgnoreCase("zh-hans") || lc.equalsIgnoreCase("zh-cn")
                 || lc.equalsIgnoreCase("zh-sg")|| lc.equalsIgnoreCase("zh-my")
                 || lc.equalsIgnoreCase("zh-Hans-CN")|| lc.equalsIgnoreCase("zh-Hans-HK")){
@@ -158,8 +162,12 @@ public class MyBaseController extends BaseController
 
 
 
-    public String getLoginLgCode(){
-        return getUser().getLanguageCode();//获取语言编码
+    public String getLoginLgCode(String token){
+        if(token!=null){
+            return getUser(token).getLanguageCode();//获取语言编码
+        }else {
+            return getUser().getLanguageCode();//获取语言编码
+        }
     }
 
 
@@ -184,8 +192,19 @@ public class MyBaseController extends BaseController
         rMap.put("data",obj);
         return rMap;
     }
-    
-    
+
+    public Map<String, Object> RSuccess(Object obj,String token,String msg)
+    {
+        String deptId = getDeptID(token);
+        msg = msg!=null?msg:"common.success";
+        Map<String, Object> rMap =  new HashMap<String, Object>();
+        rMap.put("code",HttpStatus.SUCCESS);
+        msg = deptId.equals("100")?msg:"common.success";//分为内部返回和 外部返回
+        rMap.put("msg",getCodeMsg(token,msg));
+        rMap.put("deptId",deptId);
+        rMap.put("data",obj);
+        return rMap;
+    }
 
     /**
      * my 成功返回函数
@@ -200,6 +219,17 @@ public class MyBaseController extends BaseController
             return getCodeMsg("common.encryErr");
         }
     }
+
+    protected String RetunnSuccess(Object obj,String token,String msg)
+    {
+        try {
+            return AesEncryptUtil.encrypt(JSON.toJSONString(RSuccess(obj,token,msg)));
+        }catch (Exception e){
+            System.err.println(e);
+            return getCodeMsg("common.encryErr");
+        }
+    }
+
 
 
     /**
@@ -233,7 +263,7 @@ public class MyBaseController extends BaseController
 
 
     public String getIP(){
-       return IpUtils.getIpAddr(ServletUtils.getRequest());
+        return IpUtils.getIpAddr(ServletUtils.getRequest());
     }
 
 }

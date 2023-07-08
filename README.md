@@ -3,7 +3,7 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.0.0
+# IoTOS v1.2.1
 
 ## 一款高效实用 IoTCard 管理 & 运营系统。
 
@@ -19,6 +19,13 @@
           <a target="_blank" class="shields-wrapper-image" href='https://gitee.com/chinaiot/iotos/stargazers'><img src='https://gitee.com/chinaiot/iotos/badge/star.svg?theme=dark' alt='star'></a>
           <a target="_blank" class="shields-wrapper-image" href='https://gitee.com/chinaiot/iotos/members'><img src='https://gitee.com/chinaiot/iotos/badge/fork.svg?theme=dark' alt='fork'></a>
 </div>
+
+**# 相关开源系列
+
+- [IoTOS](https://gitee.com/chinaiot/iotos) 基于[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue?_from=gitee_search) 开发 适配国际化多语言 用于IoTCard 管理业务以高效、健壮、灵活设计 SaaS、多语言、机器人推送、自动化管理、数据同步多类型算法为主要业务
+- [IoTOS-App](https://gitee.com/chinaiot/iotos-app) 基于[RuoYi-App](https://gitee.com/y_project/RuoYi-App?_from=gitee_search) 开发 适配国际化多语言 UI 使用 [uView](https://gitee.com/umicro/uView) 
+- [IoTOS-IM](https://gitee.com/chinaiot/iotos-im)  基于 [J-IM](https://gitee.com/xchao/j-im?_from=gitee_search)([t-io](https://gitee.com/tywo45/t-io?_from=gitee_search) 网络框架 谭聊原型核心) 延展开发**
+
 
 
 # 一、 关于 IoTOS
@@ -78,7 +85,7 @@ _（注意：演示环境已屏蔽管理权限和相关操作）_
 
 ## 2.2 系统架构
 
-IoTOS V1.0.0 整体系统架构如下：
+IoTOS V1.2.1 整体系统架构如下：
 
 ## 2.3 技术栈
 
@@ -157,6 +164,13 @@ IoTOS V1.0.0 整体系统架构如下：
 - [x] 用量、生命周期补偿算法完善；
 - [x] 首页统计数据完善；
 
+## V1.2.1 更新日志
+
+- [x] 登录页增加可修改数据轮播；
+- [x] 登录页增加国内常用运营商平台网站、国际平台运营商网站、关于-IoTOS链接；
+- [x] 登录页增加平台能力说明、开放协议说明、系列产品说明；
+- [x] 增加适配移动端系统通知登录后通过[IoTOS-IM](https://gitee.com/chinaiot/iotos-im)下发公告通知；
+- [x] 优化登录界面默认语言为 ‘中文’；
 
 
 # 五、联系我们
@@ -183,6 +197,14 @@ IoTOS V1.0.0 整体系统架构如下：
 如果您对长期赞助 `IoTOS` 团队感兴趣，或者有其他好想法，欢迎联系开发团队微信 `iotos_top`，或发送邮件到 `card@iotos.top`。
 
 # 七、项目展示
+
+![index 登录1](readme-pic/cn/cr1.png)
+
+![index 登录2](readme-pic/cn/cr2.png)
+
+![index 登录3](readme-pic/cn/cr3.png)
+
+![index 登录4](readme-pic/cn/cr4.png)
 
 ![index 首页](readme-pic/cn/index.png)
 

@@ -450,6 +450,33 @@ export default {
     rs_password: '密碼不能為空',
     rs_vcode: '驗證碼不能為空',
     login_pt: '登錄中',
+
+    loginImgList:[
+      {
+        title:"IoTOS開源系列",
+        describe:" 基於多API開放能力集成 極致高效同步算法；多語言國際化、自動化管理 提供移動端App便捷管控 拿來即用",
+        btn1Title:"專題介紹",
+        btn2Title:"獲取源碼",
+      },
+      {
+        title:"開放式協議 Apache-2.0",
+        describe:"二次開發可商用，可衍生作品；商業和非商業環境中自由使用、修改和分發開源軟件，同時保護了軟件的作者和貢獻者的權益。它鼓勵開放合作和共享創新，促進了開源軟件社區的繁榮發展",
+        btn1Title:"專題介紹",
+        btn2Title:"獲取源碼",
+      },
+      {
+        title:"PC、Android、小程序、IOS",
+        describe:"後台提供PC端操作，移動端採用 uni-app 開發支持多端打包上架 編寫一套代碼，可發佈到iOS、Android、Web（響應式）、以及各種小程序（微信/支付寶/百度/頭條/飛書/QQ/快手/釘釘/淘寶）、快應用等多平台",
+        btn1Title:"專題介紹",
+        btn2Title:"移動端源碼",
+      },
+      {
+        title:"多運營商（國際）、第三方接入",
+        describe:"提供多家運營商接口對接（包含常用國際運營商接入），靈活的套餐包包裝；後續可供支持套餐及時充值到賬多上游套餐包裝等；詳細功能可關注公眾號聯繫我們獲取更多合作交流機會。",
+        btn1Title:"專題介紹",
+        btn2Title:"獲取源碼",
+      }
+    ],
   },
   tagsView: {
     refresh: '刷新頁面',

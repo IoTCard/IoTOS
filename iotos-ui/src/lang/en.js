@@ -451,6 +451,33 @@ export default {
     rs_password: 'Password cannot be empty',
     rs_vcode: 'Verification code cannot be empty',
     login_pt: 'logging in',
+
+    loginImgList:[
+      {
+        title: "IoTOS Open Source Series",
+        describe: "Based on multi-API open capability integration, extremely efficient synchronization algorithm; multi-language internationalization, automatic management, providing convenient management and control of mobile App, ready to use",
+        btn1Title: "Special Introduction",
+        btn2Title: "Get source code",
+      },
+      {
+        title: "Open Protocol Apache-2.0",
+        describe: "Secondary development is commercially available and can be derived works; free use, modification and distribution of open source software in commercial and non-commercial environments, while protecting the rights and interests of software authors and contributors. It encourages open cooperation and shared innovation, and promotes The Open Source Software Community Thrives",
+        btn1Title: "Special Introduction",
+        btn2Title: "Get source code",
+      },
+      {
+        title: "PC, Android, Applet, IOS",
+        describe: "The background provides PC-side operations, and the mobile side uses uni-app development to support multi-terminal packaging and writing a set of codes, which can be published to iOS, Android, Web (responsive), and various small programs (WeChat/Alipay/Baidu/ Toutiao/Flying Book/QQ/Kuaishou/DingTalk/Taobao), Quick App and other multiple platforms",
+        btn1Title: "Special Introduction",
+        btn2Title: "Mobile source code",
+      },
+      {
+        title: "Multi-operator (international), third-party access",
+        describe: "Provide multiple operator interface docking (including commonly used international operator access), flexible package packaging; follow-up support packages can be recharged in time to account for multiple upstream package packaging, etc.; for detailed functions, please follow the official account and contact us to obtain More cooperation and exchange opportunities.",
+        btn1Title: "Special Introduction",
+        btn2Title: "Get source code",
+      }
+    ],
   },
   tagsView: {
     refresh: 'Refresh the page',
