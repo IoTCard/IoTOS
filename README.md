@@ -20,7 +20,7 @@
           <a target="_blank" class="shields-wrapper-image" href='https://gitee.com/chinaiot/iotos/members'><img src='https://gitee.com/chinaiot/iotos/badge/fork.svg?theme=dark' alt='fork'></a>
 </div>
 
-**# 相关开源系列
+# 相关开源系列
 
 - [IoTOS](https://gitee.com/chinaiot/iotos) 基于[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue?_from=gitee_search) 开发 适配国际化多语言 用于IoTCard 管理业务以高效、健壮、灵活设计 SaaS、多语言、机器人推送、自动化管理、数据同步多类型算法为主要业务
 - [IoTOS-App](https://gitee.com/chinaiot/iotos-app) 基于[RuoYi-App](https://gitee.com/y_project/RuoYi-App?_from=gitee_search) 开发 适配国际化多语言 UI 使用 [uView](https://gitee.com/umicro/uView) 
