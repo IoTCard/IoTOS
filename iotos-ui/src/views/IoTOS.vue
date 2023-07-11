@@ -33,7 +33,7 @@
             size="mini"
             plain
             @click="goTarget('https://gitee.com/chinaiot/iotos')"
-            >{{ $t("IoTOS.gitEE") }}</el-button>
+          >{{ $t("IoTOS.gitEE") }}</el-button>
           <el-button
             type="primary"
             size="mini"
@@ -46,7 +46,7 @@
             icon="el-icon-notebook-1"
             plain
             @click="goTarget('http://www.iotos.top/')"
-            >{{ $t("IoTOS.doc") }}</el-button>
+          >{{ $t("IoTOS.doc") }}</el-button>
           <el-button
             size="mini"
             icon="el-icon-paperclip"
@@ -102,10 +102,10 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> {{ $t("IoTOS.officialWebsite") }}：<el-link
-                href="http://www.iotos.top"
-                target="_blank"
-                >http://www.iotos.top</el-link
-              >
+              href="http://www.iotos.top"
+              target="_blank"
+            >http://www.iotos.top</el-link
+            >
             </p>
             <div>
               <i class="el-icon-chat-dot-round"></i> {{ $t("IoTOS.weChat") }}：iotos_top
@@ -127,6 +127,17 @@
           </div>
           <el-collapse accordion v-model="version">
 
+
+            <el-collapse-item title="v1.2.1 - 2023-07-08"  name="v1.2.1">
+              <ol>
+                <li>{{ $t("IoTOS.v121.l00") }}</li>
+                <li>{{ $t("IoTOS.v121.l01") }}</li>
+                <li>{{ $t("IoTOS.v121.l02") }}</li>
+                <li>{{ $t("IoTOS.v121.l03") }}</li>
+                <li>{{ $t("IoTOS.v121.l04") }}</li>
+
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v1.0.0 - 2023-06-18"  name="v1.0.0">
               <ol>
                 <li>{{ $t("IoTOS.v100.l00") }}</li>
@@ -146,7 +157,7 @@
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
-       <el-card class="update-log">
+        <el-card class="update-log">
           <div slot="header" class="clearfix">
             <img style="width: 530px;float: left;" src="../assets/images/gzhewm.gif"/>
 
@@ -163,7 +174,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "v1.0.0",
+      version: "v1.2.1",
 
     };
   },

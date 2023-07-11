@@ -641,6 +641,13 @@ export default {
       l06: 'Usage, life cycle compensation algorithm is perfect;',
       l07: 'The statistics on the homepage are perfect;',
     },
+    v121:{
+      l00:'Add a modifiable data carousel to the login page;',
+      l01: 'The login page adds domestic common operator platform websites, international platform operator websites, and about-IoTOS links;',
+      l02:'Add platform capability description, open protocol description, and series product description on the login page;',
+      l03: 'Add the notification of the adapted mobile terminal system and send the announcement notification through IoTOS-IM after logging in;',
+      l04: 'The default language of the optimized login interface is Chinese;',
+    },
     visitMainSite: 'Visit the main site',
   },
 
