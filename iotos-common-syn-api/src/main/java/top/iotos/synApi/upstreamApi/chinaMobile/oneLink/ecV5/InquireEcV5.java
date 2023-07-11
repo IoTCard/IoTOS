@@ -29,37 +29,7 @@ public class InquireEcV5 extends EcV5Api {
     private final String location = "/location";
 
 
-    public static void main(String[] args) {
 
-            Map<String, Object> initMap = new HashMap<>();
-            initMap.put("url","https://api.iot.10086.cn/v5/ec");
-            initMap.put("parameter_one","200217412200200000");
-            initMap.put("parameter_tow","fNP3N@1X3xh1");
-            initMap.put("parameter_three","");
-            InquireEcV5 inquire = new InquireEcV5();
-            inquire.serverIp = initMap.get("url").toString();
-            inquire.appId = initMap.get("parameter_one").toString();
-            inquire.password = initMap.get("parameter_tow").toString();
-            String method = inquire.serverIp + "/get/token";
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("appid", inquire.appId);
-            params.put("password", inquire.password);
-            params.put("transid", inquire.appId + new SimpleDateFormat("YYYYMMDDHHMMSS").format(new Date()));
-            String reqUrl = UrlUtil.getUrl(method, params);
-            String res = HttpUtil.get(reqUrl);
-            System.out.println("res = " + res);
-            JSONObject json = JSON.parseObject(res);
-            Object status = json.get("status");
-            if (status != null && status.toString().equals("0")) {
-                Map<String, String> map = ((List<Map<String, String>>) json.get("result")).get(0);
-                inquire.token = map.get("token");
-            }
-            inquire.pMap = new HashMap<>();
-            inquire.pMap.put("token", token);
-            System.out.println(inquire.querySimDataUsage("msisdn","1440646080601"));
-
-
-    }
 
 
     /**
