@@ -32,6 +32,8 @@ public class InquireEcV5 extends EcV5Api {
 
 
 
+
+
     /**
      * 5.1.1CMIOT_API23M27-单卡操作订单处理情况查询
      * @param orderNum 订单编号
