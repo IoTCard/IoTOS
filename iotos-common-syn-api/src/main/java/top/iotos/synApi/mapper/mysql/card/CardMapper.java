@@ -28,5 +28,8 @@ public interface CardMapper {
 
     public List<Map<String, Object>> findDateGroup(Map map);
 
+    public List<Map<String, Object>> getChannelSum(Map map);
+
+    public List<Map<String, Object>> getChannelCount(Map map);
 
 }

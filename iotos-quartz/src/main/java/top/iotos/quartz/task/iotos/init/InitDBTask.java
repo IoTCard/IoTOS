@@ -4,7 +4,6 @@ package top.iotos.quartz.task.iotos.init;
 import org.springframework.stereotype.Component;
 import top.iotos.common.mapper.mysql.card.record.UsedRecordCommonMapper;
 import top.iotos.common.mapper.mysql.card.record.UsedRecordMapper;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.synApi.utils.iotos.time.VeDate;
 
 import javax.annotation.Resource;

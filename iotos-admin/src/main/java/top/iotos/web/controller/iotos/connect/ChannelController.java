@@ -1,14 +1,14 @@
 package top.iotos.web.controller.iotos.connect;
 
-import top.iotos.common.annotation.Log;
-import top.iotos.common.enums.BusinessType;
-import top.iotos.system.service.iotos.connect.IChannelService;
-import top.iotos.web.core.config.MyBaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.iotos.common.annotation.Log;
+import top.iotos.common.enums.BusinessType;
+import top.iotos.system.service.iotos.connect.IChannelService;
+import top.iotos.web.core.config.MyBaseController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

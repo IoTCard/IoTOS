@@ -1,20 +1,20 @@
 package top.iotos.web.core.config;
 
 import com.alibaba.fastjson2.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.iotos.common.config.LanguageConvert;
 import top.iotos.common.constant.HttpStatus;
 import top.iotos.common.core.controller.BaseController;
 import top.iotos.common.core.domain.entity.SysUser;
 import top.iotos.common.core.domain.model.LoginUser;
-import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.common.utils.ServletUtils;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.common.utils.ip.IpUtils;
 import top.iotos.common.utils.spring.SpringUtils;
-import top.iotos.synApi.utils.iotos.web.AesEncryptUtil;
 import top.iotos.framework.web.service.TokenService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
+import top.iotos.synApi.utils.iotos.service.MQAide;
+import top.iotos.synApi.utils.iotos.web.AesEncryptUtil;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -72,7 +72,7 @@ public class MyBaseController extends BaseController
         SysUser user = getUser();
         String deptId = user.getDeptId().toString();
         if(!deptId.equals("100")){//非 总部进行权限过滤
-            Map<String, Object> findMap =  new HashMap<String, Object>();
+           Map<String, Object> findMap =  new HashMap<String, Object>();
             findMap.put("deptId",deptId);
             String arrStr = cardInfoMapper.queryChildrenAreaInfo(findMap);
             if(arrStr!=null){
@@ -263,7 +263,7 @@ public class MyBaseController extends BaseController
 
 
     public String getIP(){
-        return IpUtils.getIpAddr(ServletUtils.getRequest());
+       return IpUtils.getIpAddr(ServletUtils.getRequest());
     }
 
 }

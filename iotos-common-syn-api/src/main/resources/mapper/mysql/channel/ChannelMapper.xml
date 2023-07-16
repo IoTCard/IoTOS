@@ -69,15 +69,20 @@
         status,
         w_polling,
         card_count,
-        card_used
+        card_used,
+        card_left,
+        card_total
         from
         os_channel
         <include refid="selWhere"/>
         ORDER BY
         <if test="order_by_type==null or order_by_type==1">
-            last_upd_time
+            c_no
         </if>
         <if test="order_by_type==2">
+            last_upd_time
+        </if>
+        <if test="order_by_type==3">
             template
         </if>
         <if test="order_by_rule==1">
@@ -134,6 +139,12 @@
             </if>
             <if test="card_used!=null">
                 card_used =#{card_used} ,
+            </if>
+            <if test="card_left!=null">
+                card_left =#{card_left} ,
+            </if>
+            <if test="card_total!=null">
+                card_total =#{card_total} ,
             </if>
             last_upd_time = now()
         </set>

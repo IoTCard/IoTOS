@@ -2,8 +2,17 @@
   <div>
     <div class="main">
       <div style="float: right;margin-top: -35px;margin-right: 50px;">
-          <el-button  size="mini" type="primary" @click="copyCardInfo">{{ $t("cardInfoDetails.copyCardInfo") }}</el-button>
-          <el-button  size="mini" type="primary" @click="edieOpen">{{ $t("common.edie") }}</el-button>
+        <router-link  v-hasPermi="['iotos:card:diagnosis']" style="margin-right: 10px;"
+           v-if="showDiagnosis" :to="'/connect/diagnosis/'+ tools.encryptSy({'value':sel.iccid})">
+            <el-button  size="mini" type="primary" @click="closeShow">{{ $t("diagnosis.oneDiagnosis") }}</el-button>
+        </router-link>
+        <router-link  v-hasPermi="['iotos:channel:list']" style="margin-right: 10px;"
+                      v-if="showDiagnosis" :to="'/connect/channel/'+ tools.encryptSy({'value':sel.channel_id,'type':'2'})">
+          <el-button  size="mini" type="primary" @click="closeShow" >{{ $t("cardInfoDetails.tFrom.channel_id") }}</el-button>
+        </router-link>
+        <el-button  size="mini" type="primary" @click="copyCardInfo">{{ $t("cardInfoDetails.copyCardInfo") }}</el-button>
+        <el-button  size="mini" type="primary" @click="edieOpen">{{ $t("common.edie") }}</el-button>
+
 
       </div>
         <el-table
@@ -15,13 +24,13 @@
               <b >{{ scope.row.label1 }}</b>
             </template>
           </el-table-column>
-          <el-table-column prop="value1"/>
+          <el-table-column prop="value1" width="135px"/>
           <el-table-column prop="label2">
             <template slot-scope="scope">
               <b>{{ scope.row.label2 }}</b>
             </template>
           </el-table-column>
-          <el-table-column prop="value2"/>
+          <el-table-column prop="value2" width="160px"/>
           <el-table-column prop="label3">
             <template slot-scope="scope">
               <b>{{ scope.row.label3 }}</b>
@@ -33,7 +42,7 @@
               <b>{{ scope.row.label4 }}</b>
             </template>
           </el-table-column>
-          <el-table-column prop="value4"/>
+          <el-table-column prop="value4" width="135px"/>
           <el-table-column prop="label5">
             <template slot-scope="scope">
               <b>{{ scope.row.label5 }}</b>
@@ -89,6 +98,10 @@
       deptsOptions: Array,//企业信息
       cardStatusShowOptions: Array,//卡状态
       channelOptions: Array,//通道
+      showDiagnosis: {
+        type: Boolean,
+        default: false
+      },//诊断按钮 是否显示
 
     },
     name: "cardInfoDetails",
@@ -203,14 +216,14 @@
 
         let map = {};
         map.c_no = row.c_no;
-        let pwdStr = tools.encrypt(JSON.stringify(map));
+        let pwdStr = tools.encryptSy(map);
         getCard(pwdStr).then(response => {
             let jsonObj = JSON.parse(tools.Decrypt(response));
             this.headquarters = jsonObj.deptId == '100' ? true : false;
 
             if (jsonObj.code == 200) {
               row = jsonObj.data;
-              let sel = {"iccid":row.iccid,"c_used":row.c_used,"c_left":row.c_left,"first_time_using":row.first_time_using};
+              let sel = {"iccid":row.iccid,"c_used":row.c_used,"c_left":row.c_left,"first_time_using":row.first_time_using,"channel_id":row.channel_id};
               this.$emit("setObj", "setSel", sel);//更新选中数据
 
               this.tablefrom.push({"label1":"MSISDN","value1":row.msisdn,"label2":"ICCID","value2":row.iccid,"label3":"IMSI","value3":row.imsi,"label4":"IMEI","value4":row.imei,"label5":this.$t("cardInfoDetails.tFrom.w_polling"),"value5":tools.getDkeyValue(this.whetherOptions, row.w_polling)});
@@ -313,9 +326,13 @@
 
       //打开父级 编辑组件
       edieOpen(){
+
         this.$emit("setObj", "openEditShow", this.dsUpdForm);//已加载
       },
-
+      //关闭当前窗口
+      closeShow(){
+        this.$emit("setObj", "setShowDs",false);
+      },
 
       //复制 基础信息
       copyCardInfo() {

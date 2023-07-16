@@ -8,14 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import top.iotos.common.core.domain.entity.SysDept;
 import top.iotos.common.core.domain.entity.SysDictData;
 import top.iotos.common.core.domain.entity.SysUser;
+import top.iotos.common.utils.file.FileUtils;
+import top.iotos.common.utils.iotos.service.PageUtil;
+import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.mapper.mysql.card.CardApiBusinessMapper;
 import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.synApi.mapper.mysql.card.CardMapper;
-import top.iotos.common.utils.file.FileUtils;
+import top.iotos.synApi.mapper.mysql.card.OneLinkEcV5SessionMapper;
+import top.iotos.synApi.mapper.mysql.channel.ChannelMapper;
 import top.iotos.synApi.utils.iotos.common.DbFieldArr;
+import top.iotos.synApi.utils.iotos.common.GetMapUtil;
 import top.iotos.synApi.utils.iotos.service.MQAide;
-import top.iotos.common.utils.iotos.service.PageUtil;
-import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.system.service.ISysDictTypeService;
 import top.iotos.system.service.impl.SysDeptServiceImpl;
 import top.iotos.system.service.impl.iotos.connect.ChannelServiceimpl;
@@ -23,7 +26,10 @@ import top.iotos.system.service.iotos.card.ICardService;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CardServiceimpl implements ICardService {
@@ -45,8 +51,10 @@ public class CardServiceimpl implements ICardService {
     private ISysDictTypeService iSysDictTypeService;
     @Resource
     private CardApiBusinessMapper cardApiBusinessMapper;
-
-
+    @Resource
+    private OneLinkEcV5SessionMapper oneLinkEcV5SessionMapper;
+    @Resource
+    private ChannelMapper channelMapper;
 
     @Override
     public Map<String, Object> getList(Map map) {
@@ -64,6 +72,86 @@ public class CardServiceimpl implements ICardService {
         List<Map<String, Object>> Data = advancedSearch?cardInfoMapper.getList(map):cardMapper.getList(map);
         rMap.put("Pu", Pu);
         rMap.put("data", Data);
+        return rMap;
+    }
+
+    @Override
+    public Map<String, Object> querySession(Map map) {
+        Map<String, Object> rMap = new HashMap<String, Object>();
+        Map<String, Object> channel = channelMapper.find(map);
+        String onlyCreateDate = GetMapUtil.getValueToStr(map,"onlyCreateDate","0");
+        Integer rowCount = 0;
+        String template = "";
+        if(channel!=null && channel.get("template")!=null){
+            template = channel.get("template").toString();
+            switch (template){
+                case "oneLink_ECV5":
+                    if(onlyCreateDate.equals("1")){//过滤重复会话时间
+                        List<Map<String, Object>> countList = oneLinkEcV5SessionMapper.getListOnlyCreateDateCount(map);
+                        rowCount = IoTOSTools.isNull(countList)?countList.size():0;
+                    }else {
+                        rowCount = oneLinkEcV5SessionMapper.getListCount(map);
+                    }
+                    break;
+            }
+        }
+        PageUtil Pu = new PageUtil(rowCount, map.get("pageNum").toString(), map.get("pageSize").toString());//初始化分页工具类
+        map.put("starRow", Pu.getStarRow());
+        map.put("pageSize", Pu.getPageSize());
+        List<Map<String, Object>> Data = null;
+        switch (template){
+            case "oneLink_ECV5":
+                if(onlyCreateDate.equals("1")){//过滤重复会话时间
+                    Data = oneLinkEcV5SessionMapper.getListOnlyCreateDate(map);
+                }else {
+                    Data = oneLinkEcV5SessionMapper.getList(map);
+                }
+                break;
+        }
+        rMap.put("template", template);
+        rMap.put("Pu", Pu);
+        rMap.put("data", Data);
+        return rMap;
+    }
+
+    @Override
+    public Map<String, Object> getCard(Map map) {
+        map.put("starRow",0);
+        map.put("pageSize",1);
+        List<Map<String, Object>> list = cardMapper.getList(map);
+        return list!=null&&list.size()>0?list.get(0):null;
+    }
+
+    @Override
+    public Map<String, Object> cardMatch(Map map) {
+        Map<String, Object> rMap = new HashMap<>();
+        Map<String, Object> pMap = new HashMap<>();
+        Map<String, Object> matchMap = null;
+        String value = map.get("value").toString();
+        String pValue = map.get("value").toString();
+        Integer cardMatchCount = 0;
+        pMap.put("type", map.get("type"));
+
+        int frequency = 0;
+        while (true) {
+            pMap.put("value", pValue);
+            cardMatchCount = cardInfoMapper.findMatcheCount(pMap);
+            cardMatchCount = cardMatchCount != null ? cardMatchCount : 0;
+            if (cardMatchCount > 0) {
+                matchMap = cardInfoMapper.findMatche(pMap);
+                break;
+            } else {
+                pValue = pValue.substring(0, pValue.length() - 1);
+            }
+            frequency += 1;
+            if (frequency == 5) {
+                break;
+            }
+        }
+        rMap.put("cardCount", cardMatchCount);
+        rMap.put("matchMap", matchMap);
+        rMap.put("prefix", pValue);
+        rMap.put("value", value.substring(value.length() - frequency));
         return rMap;
     }
 
@@ -322,6 +410,41 @@ public class CardServiceimpl implements ICardService {
         String queueName = "polling_updCard_queue";
         String routingKey = "polling.updCard.queue";
         boolean bool = mQAide.send(exchangeName,routingKey,30,sendMap);
+        return bool;
+    }
+
+    @Override
+    public boolean exportSession(Map<String, Object> map) {
+        boolean bool = false;
+        map.remove("pageNum");
+        map.remove("pageSize");
+
+        List<SysDictData> onelinkSessionStatusOptions = null;
+        List<SysDictData> onelinkRatTypeOptions = null;
+        Map<String, Object> channel = channelMapper.find(map);
+        String template = "";
+        if(channel!=null && channel.get("template")!=null){
+            template = channel.get("template").toString();
+            if(template.equals("oneLink_ECV5")){
+                onelinkSessionStatusOptions = iSysDictTypeService.selectDictDataByType("onelink_session_status");//字典 【oneLink在线状态】
+                onelinkRatTypeOptions = iSysDictTypeService.selectDictDataByType("onelink_rat_type");//字典 【onelink_rat接入方式】
+            }
+        }
+
+        try {
+            //发送消息
+            String queueName = "admin_exportSession_queue";
+            String routingKey = "admin.exportSession.queue";
+            String exchangeName = "admin_exchange";//路由
+            Map<String, Object> sendMap = new HashMap<>();
+            sendMap.put("map",map);
+            sendMap.put("onelinkSessionStatusOptions",onelinkSessionStatusOptions);
+            sendMap.put("onelinkRatTypeOptions",onelinkRatTypeOptions);
+
+            bool = mQAide.send(exchangeName, routingKey, 30, sendMap);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return bool;
     }
 }

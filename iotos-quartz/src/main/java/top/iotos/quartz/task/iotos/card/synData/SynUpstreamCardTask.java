@@ -4,9 +4,9 @@ package top.iotos.quartz.task.iotos.card.synData;
 import org.springframework.stereotype.Component;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
+import top.iotos.common.mapper.mysql.sys.DictTypeMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelInfoMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelMapper;
-import top.iotos.common.mapper.mysql.sys.DictTypeMapper;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;
@@ -126,7 +126,7 @@ public class SynUpstreamCardTask {
                                          List<Map<String, Object>> rList= ecv5GroupMapper.getList(fMap);
                                          if(rList!=null && rList.size()>0){
                                              for (int j = 0; j < rList.size(); j++) {
-                                                 Map<String, Object> rMap = rList.get(i);
+                                                 Map<String, Object> rMap = rList.get(j);
                                                  Integer up_total_count = Integer.parseInt(rMap.get("up_total_count").toString());
                                                  if(up_total_count!=null && up_total_count>0){
                                                      Integer total_count = upstreamCardMapper.getListCount(fMap);

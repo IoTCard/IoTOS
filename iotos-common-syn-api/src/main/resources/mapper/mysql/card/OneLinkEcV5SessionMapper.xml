@@ -14,10 +14,12 @@
             <if test="rat != null and rat != ''">
                 and rat = #{rat}
             </if>
-            <if test="dept_id != null and dept_id != ''">
-                and dept_id = #{dept_id}
+            <if test="dept_id != null and dept_id != '' and dept_id.size>0">
+                and dept_id in
+                <foreach item="dept_id" collection="dept_id" index="index" open="(" separator="," close=")">
+                    #{dept_id}
+                </foreach>
             </if>
-
 
 
         </where>
@@ -32,21 +34,60 @@
             ip,
             ipv6_prefix,
             ipv6,
-            create_date,
             rat,
             iccid,
             DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(create_date,'%Y-%m-%d %H:%i:%S') AS 'create_date',
             s_id,
             dept_id
         FROM
             os_onelink_ecv5_session
         <include refid="selWhere"/>
         ORDER BY
-        create_date desc
-        LIMIT #{starRow},#{pageSize}
+        create_time desc
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
     </select>
 
+    <!--获取唯一汇话时间的汇话信息-->
+    <select id="getListOnlyCreateDate" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT *
+        FROM (
+            SELECT
+            id,
+            apn_id,
+            status,
+            ip,
+            ipv6_prefix,
+            ipv6,
+            rat,
+            iccid,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') AS 'create_time',
+            DATE_FORMAT(create_date,'%Y-%m-%d %H:%i:%S') AS 'create_date',
+            s_id,
+            dept_id
+            FROM
+            os_onelink_ecv5_session
+            <include refid="selWhere"/>
+            ORDER BY
+            create_time desc
+        ) a
+        GROUP BY create_date
+        <if test="starRow!=null and pageSize!=null ">
+            LIMIT #{starRow},#{pageSize}
+        </if>
+    </select>
 
+    <!-- 查询 总数-->
+    <select id="getListOnlyCreateDateCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            COUNT(1),
+            DATE_FORMAT(create_date,'%Y-%m-%d %H:%i:%S') AS 'create_date'
+        FROM
+        os_onelink_ecv5_session
+        <include refid="selWhere"/>
+    </select>
 
     <!-- 查询 总数-->
     <select id="getListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
@@ -79,12 +120,12 @@
             dept_id
         )
         value(
-            #{apn_id},
+            #{apnId},
             #{status},
             #{ip},
-            #{ipv6_prefix},
+            #{ipv6Prefix},
             #{ipv6},
-            #{create_date},
+            #{createDate},
             #{rat},
             #{iccid},
             now(),
@@ -102,7 +143,20 @@
         </where>
     </delete>
 
-
+    <!-- 删除 startTime 时间之前的 保留 会话创建时间相同的最后一个id -->
+    <delete id="deleteReserveDayOne" parameterType="java.util.HashMap" >
+        DELETE FROM os_onelink_ecv5_session
+        WHERE id NOT IN (
+            SELECT id
+            FROM (
+                     SELECT id, ROW_NUMBER() OVER (PARTITION BY DATE(create_date) ORDER BY create_date DESC) AS row_num
+                     FROM os_onelink_ecv5_session
+                     WHERE create_date <![CDATA[ < ]]> #{startDate}
+                 ) AS subquery
+            WHERE row_num = 1
+        )
+          AND create_time <![CDATA[ < ]]> #{startDate}
+    </delete>
 
 
 

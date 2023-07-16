@@ -1,13 +1,13 @@
 [
   {
-    "exchangeName": "admin_exchange",
-    "queueName":    "admin_cardSave_queue",
-    "routingKey":   "admin.cardSave.queue"
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardSave_queue",
+  "routingKey":   "admin.cardSave.queue"
   },
   {
-    "exchangeName": "admin_exchange",
-    "queueName":    "admin_cardUpdate_queue",
-    "routingKey":   "admin.cardUpdate.queue"
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_cardUpdate_queue",
+  "routingKey":   "admin.cardUpdate.queue"
   },
   {
     "exchangeName": "admin_exchange",
@@ -22,11 +22,11 @@
   "exchangeName": "admin_exchange",
   "queueName":    "admin_cardExport_queue",
   "routingKey":   "admin.cardExport.queue"
-},{
-  "exchangeName": "task_exchange",
-  "queueName":    "task_tasksClearUp_queue",
-  "routingKey":   "task.tasksClearUp.queue"
-},
+  },{
+    "exchangeName": "task_exchange",
+    "queueName":    "task_tasksClearUp_queue",
+    "routingKey":   "task.tasksClearUp.queue"
+  },
   {
     "exchangeName": "admin_exchange",
     "queueName":    "admin_cardDelete_queue",
@@ -63,10 +63,10 @@
     "routingKey":   "task.newCardDataImport.queue"
   },
   {
-    "exchangeName": "task_exchange",
-    "queueName":    "task_synDataRecovery_queue",
-    "routingKey":   "task.synDataRecovery.queue"
-  },{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_synDataRecovery_queue",
+  "routingKey":   "task.synDataRecovery.queue"
+},{
   "exchangeName": "polling_exchange",
   "queueName":    "polling_usedResultProcessing_queue",
   "routingKey":   "polling.usedResultProcessing.queue"
@@ -114,6 +114,27 @@
   "exchangeName": "admin_exchange",
   "queueName":    "admin_imLoginNotify_queue",
   "routingKey":   "admin.imLoginNotify.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_cardCount_queue",
+  "routingKey":   "task.cardCount.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_cardSum_queue",
+  "routingKey":   "task.cardSum.queue"
+},{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_exportSession_queue",
+  "routingKey":   "admin.exportSession.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_cardSessionClearUp_queue",
+  "routingKey":   "task.cardSessionClearUp.queue"
+},{
+  "exchangeName": "task_exchange",
+  "queueName":    "task_upstreamCardClearUp_queue",
+  "routingKey":   "task.upstreamCardClearUp.queue"
 }
+
 
 ]

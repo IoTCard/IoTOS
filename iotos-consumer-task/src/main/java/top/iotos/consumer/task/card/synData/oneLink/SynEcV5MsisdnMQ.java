@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import top.iotos.common.core.redis.RedisCache;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.common.utils.iotos.service.PageUtil;
 import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.upstreamApi.chinaMobile.oneLink.ecV5.InquireEcV5;
+import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 同步上游卡号 消费者
@@ -65,7 +65,7 @@ public class SynEcV5MsisdnMQ {
     public void execution(Map<String, Object> map){
 
         String group_id = map.get("group_id").toString();
-        Map<String, Object> channel = (Map<String, Object>) map.get("mapper.mysql/channel");
+        Map<String, Object> channel = (Map<String, Object>) map.get("channel");
 
         Map<String, Object> initMap = new HashMap<>();
         String template = channel.get("template").toString();
@@ -149,7 +149,7 @@ public class SynEcV5MsisdnMQ {
 
         Map<String, Object> initMap = (Map<String, Object>) map.get("initMap");
         Map<String, Object> pMap = (Map<String, Object>) map.get("pMap");
-        Map<String, Object> channel = (Map<String, Object>) map.get("mapper.mysql/channel");
+        Map<String, Object> channel = (Map<String, Object>) map.get("channel");
         String template = channel.get("template").toString();
         InquireEcV5 inquire = new InquireEcV5(initMap,template);
 
@@ -199,7 +199,11 @@ public class SynEcV5MsisdnMQ {
                 addMap.put("id",dbMap.get("id"));
                 upstreamCardMapper.update(addMap);
             }else {
-                upstreamCardMapper.save(addMap);
+                try {
+                    upstreamCardMapper.save(addMap);
+                }catch (Exception e){
+                    log.error("e {}",e.getMessage());
+                }
             }
 
             if(totalCount>0){//修改分组上游 资费组下卡总数
@@ -271,7 +275,7 @@ public class SynEcV5MsisdnMQ {
     public void getInfoExecute(Map<String, Object> map){
 
         Map<String, Object> initMap = (Map<String, Object>) map.get("initMap");
-        Map<String, Object> channel = (Map<String, Object>) map.get("mapper.mysql/channel");
+        Map<String, Object> channel = (Map<String, Object>) map.get("channel");
         String template = channel.get("template").toString();
 
         String msisdn = map.get("msisdn").toString();

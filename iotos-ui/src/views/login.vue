@@ -19,14 +19,14 @@
       <div class="block home-header-container">
         <el-carousel :interval="3000" style="height: 600px;width: 100%;" >
           <el-carousel-item v-for="item in loginImgList" :style="{height:'600px',backgroundImage:`url(${item.url})`,backgroundSize:'auto',backgroundRepeat: 'no-repeat no-repeat'}" :key="item.index">
-            <div style="width:600px;height:400px;position: absolute; top: 125px;left: 7%;  z-index: 998;">
-              <div class="section-banner-content-normal">
-                <h1>{{ item.title }}</h1>
-                <p>{{ item.describe }}</p>
-                <a v-if="tools.isNull(item.btn1Title)" :href="item.btn1Url" :target="tools.isNull(item.btn1Type)?item.btn1Type:'_self'">{{ item.btn1Title }}</a>
-                <a v-if="tools.isNull(item.btn2Title)" :href="item.btn2Url" :target="tools.isNull(item.btn2Type)?item.btn2Type:'_self'">{{ item.btn2Title }}</a>
+              <div style="width:600px;height:400px;position: absolute; top: 125px;left: 7%;  z-index: 998;">
+                <div class="section-banner-content-normal">
+                  <h1>{{ item.title }}</h1>
+                  <p>{{ item.describe }}</p>
+                  <a v-if="tools.isNull(item.btn1Title)" :href="item.btn1Url" :target="tools.isNull(item.btn1Type)?item.btn1Type:'_self'">{{ item.btn1Title }}</a>
+                  <a v-if="tools.isNull(item.btn2Title)" :href="item.btn2Url" :target="tools.isNull(item.btn2Type)?item.btn2Type:'_self'">{{ item.btn2Title }}</a>
+                </div>
               </div>
-            </div>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -35,115 +35,115 @@
 
     <div style="position: absolute; top: 125px;right: 10%;  z-index: 999;">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-        <h3 class="title">{{ $t('login.title') }} <lang-select class="set-language" /> </h3>
+      <h3 class="title">{{ $t('login.title') }} <lang-select class="set-language" /> </h3>
 
-        <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('login.username')">
-            <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            v-model="loginForm.password"
-            type="password"
-            auto-complete="off"
-            :placeholder="$t('login.password')"
-            @keyup.enter.native="handleLogin"
-          >
-            <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="code">
-          <el-input
-            v-model="loginForm.code"
-            auto-complete="off"
-            :placeholder="$t('login.vcode_title')"
-            style="width: 63%"
-            @keyup.enter.native="handleLogin"
-          >
-            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
-          </el-input>
-          <div class="login-code">
-            <img :src="codeUrl" @click="getCode" class="login-code-img"/>
-          </div>
-        </el-form-item>
-        <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">{{ $t('login.r_password') }}</el-checkbox>
-        <el-form-item style="width:100%;">
-          <el-button
-            :loading="loading"
-            size="medium"
-            type="primary"
-            style="width:100%;"
-            @click.native.prevent="handleLogin"
-          >
-            <span v-if="!loading">{{ $t('login.logIn') }}</span>
-            <span v-else>{{ $t('login.login_pt') }}...</span>
-          </el-button>
-        </el-form-item>
-      </el-form>
+      <el-form-item prop="username">
+        <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('login.username')">
+          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          auto-complete="off"
+          :placeholder="$t('login.password')"
+          @keyup.enter.native="handleLogin"
+        >
+          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="code">
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          :placeholder="$t('login.vcode_title')"
+          style="width: 63%"
+          @keyup.enter.native="handleLogin"
+        >
+          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+        </el-input>
+        <div class="login-code">
+          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
+        </div>
+      </el-form-item>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">{{ $t('login.r_password') }}</el-checkbox>
+      <el-form-item style="width:100%;">
+        <el-button
+          :loading="loading"
+          size="medium"
+          type="primary"
+          style="width:100%;"
+          @click.native.prevent="handleLogin"
+        >
+          <span v-if="!loading">{{ $t('login.logIn') }}</span>
+          <span v-else>{{ $t('login.login_pt') }}...</span>
+        </el-button>
+      </el-form-item>
+    </el-form>
     </div>
 
     <div style="height: 245px;width: 100%;padding: 0 5%;background-color: #fbfbfb;">
-      <div class="footer-left" >
-        <div class="column">
-          <ul>
-            <li v-for="(item,index) in linkList1" >
-              <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
-                <span :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
-              </a>
-            </li>
-          </ul>
+        <div class="footer-left" >
+          <div class="column">
+            <ul>
+              <li v-for="(item,index) in linkList1" >
+                <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
+                  <span :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <ul>
+              <li v-for="(item,index) in linkList2" >
+                <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
+                  <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <ul>
+              <li v-for="(item,index) in linkList3" >
+                <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
+                  <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <ul>
+              <li v-for="(item,index) in linkList4" >
+                <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
+                  <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="column">
-          <ul>
-            <li v-for="(item,index) in linkList2" >
-              <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
-                <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="column">
-          <ul>
-            <li v-for="(item,index) in linkList3" >
-              <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
-                <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="column">
-          <ul>
-            <li v-for="(item,index) in linkList4" >
-              <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
-                <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
 
 
-      <div class="footer-right">
-        <div class="qrcode ">
-          <img alt="微信订阅号" src="http://www.iotos.top/dyh_iotos.jpg">
-          <p >微信订阅号</p>
+       <div class="footer-right">
+         <div class="qrcode ">
+           <img alt="微信订阅号" src="http://www.iotos.top/dyh_iotos.jpg">
+           <p >微信订阅号</p>
+         </div>
+          <div class="qrcode ">
+            <img alt="微信服务号" src="http://www.iotos.top/fwh_iotos.jpg">
+            <p >微信服务号</p>
+          </div>
+          <div class="column">
+            <ul>
+              <li v-for="(item,index) in linkIoTOSList" >
+                <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
+                  <svg-icon :icon-class="item.icon" v-show="index!=0"   class-name="font-icon"/>
+                  <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="qrcode ">
-          <img alt="微信服务号" src="http://www.iotos.top/fwh_iotos.jpg">
-          <p >微信服务号</p>
-        </div>
-        <div class="column">
-          <ul>
-            <li v-for="(item,index) in linkIoTOSList" >
-              <a class="item"  :href="item.url" :target="index==0 ?'_self':'_blank'">
-                <svg-icon :icon-class="item.icon" v-show="index!=0"   class-name="font-icon"/>
-                <span  :style="index==0 ? 'font-size: 25px;' : 'font-size: 15px;'">  {{ item.title }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
     <!--  底部  -->
     <div class="el-login-footer">
@@ -422,7 +422,7 @@ export default {
               this.loading = false;
               //自动解析 用户系统语言
               let rCode = Cookies.get("LgCode");
-              let lang = rCode!=null?rCode:"";
+             let lang = rCode!=null?rCode:"";
               let lgCode = "zh";
               if(lang=='zh-CN'){
                 lgCode = "zh";
@@ -523,9 +523,7 @@ export default {
   height: 100%;
   margin: 0 auto;
 }
-.iotosBlue{
-  color:rgb(59, 164, 255);
-}
+
 
 .title {
   margin: 0px auto 30px auto;

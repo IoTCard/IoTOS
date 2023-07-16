@@ -15,6 +15,12 @@ public interface ICardService {
      */
     public Map<String,Object> getList(Map map);
 
+    public Map<String,Object> querySession(Map map);
+
+    public Map<String,Object> getCard(Map map);
+
+    public Map<String,Object> cardMatch(Map map);
+
 
     /**
      * 删除
@@ -81,5 +87,10 @@ public interface ICardService {
      * @return
      */
     public boolean editCardPublic(Map<String, Object> map);
+
+
+
+    public boolean exportSession(Map<String, Object> map);
+
 
 }

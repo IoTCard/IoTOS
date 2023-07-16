@@ -116,7 +116,7 @@
                 <if test="dateType == 'create_time'">
                     DATE_FORMAT( create_time, '%Y-%m-%d' )
                 </if>
-                BETWEEN #{startDate} AND #{endDate}
+                BETWEEN DATE_FORMAT( #{startDate}, '%Y-%m-%d' ) AND DATE_FORMAT( #{endDate}, '%Y-%m-%d' )
             </if>
             <if test="activateDateIsNull==1">
                 and (LENGTH(trim( activate_date )) <![CDATA[ < ]]> 1 or activate_date is null)
@@ -361,7 +361,26 @@
         group by groupType
     </select>
 
+    <!--获取通道卡数量-->
+    <select id="getChannelCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            channel_id,
+            COUNT(1) as 'count'
+        FROM
+            os_card
+        group by channel_id
+    </select>
 
-
+    <!--获取通道 总量 已用 剩余-->
+    <select id="getChannelSum" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            channel_id,
+            SUM(c_total) as 'sumTotal',
+            SUM(c_used) as 'sumUsed',
+            SUM(c_left) as 'sumLeft'
+        FROM
+            os_card
+        group by channel_id
+    </select>
 
 </mapper>

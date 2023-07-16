@@ -56,7 +56,7 @@
         </el-form>
 
 
-        <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="dataList" >
           <el-table-column :label="columns[0].label" align="center"  prop="c_no" v-if="columns[0].visible" width="210">
             <template slot-scope="scope">
               <span @click="viewDetails(scope.row)" class="link-type">{{ scope.row.c_no }}</span>
@@ -73,7 +73,7 @@
           <el-table-column :label="columns[4].label" align="center" v-if="columns[4].visible"
                            :show-overflow-tooltip="true" width="100">
             <template slot-scope="scope">
-              <span :class="scope.row.status=='1'?'mygreen':'mygred'">{{
+              <span :class="scope.row.status=='0'?'myGreen':'mygRed'">{{
                   tools.getDkeyValue(statusOptions, scope.row.status)
                 }}</span>
             </template>
@@ -81,13 +81,15 @@
           <el-table-column :label="columns[5].label" align="center"  v-if="columns[5].visible"
                            :show-overflow-tooltip="true" width="80">
             <template slot-scope="scope">
-              <span :class="scope.row.w_polling=='1'?'mygreen':'mygred'">{{
+              <span :class="scope.row.w_polling=='1'?'myGreen':'mygRed'">{{
                   tools.getDkeyValue(whetherOptions, scope.row.w_polling)
                 }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="columns[6].label" align="center" prop="card_count" v-if="columns[6].visible" width="150"/>
-          <el-table-column :label="columns[7].label" align="center" prop="card_used" v-if="columns[7].visible" width="150"/>
+          <el-table-column :label="columns[7].label" align="center" prop="card_total" v-if="columns[7].visible" width="110"/>
+          <el-table-column :label="columns[8].label" align="center" prop="card_used" v-if="columns[8].visible" width="110"/>
+          <el-table-column :label="columns[9].label" align="center" prop="card_left" v-if="columns[9].visible" width="110"/>
 
           <el-table-column
             :label="$t('common.operate')"
@@ -336,6 +338,7 @@ import {
   delChanne,
 } from "@/api/iotos/connect/channel";
 import tools from "@/utils/iotos/tools";
+import '@/assets/styles/iotos.css';
 
 export default {
   name: "channel",
@@ -344,6 +347,12 @@ export default {
   },
   data() {
     return {
+
+
+
+
+
+
       //保存 编辑 按钮
       saveBtn: false,
       edieBtn: false,
@@ -423,6 +432,9 @@ export default {
         {key: 5, label: this.$t('channel_index.table.i_6'), visible: true},
         {key: 6, label: this.$t('channel_index.table.i_7'), visible: true},
         {key: 7, label: this.$t('channel_index.table.i_8'), visible: true},
+        {key: 8, label: this.$t('channel_index.table.i_9'), visible: true},
+        {key: 9, label: this.$t('channel_index.table.i_10'), visible: true},
+
       ],
       showButton:false,
 
@@ -431,6 +443,9 @@ export default {
     };
   },
   created() {
+
+    let str = this.$route.params;
+
 
     if (window['channel_sel_type'] != undefined && window['channel_sel_type'] != null && window['channel_sel_type'] != '') {
       this.typeOptions = window['channel_sel_type'];
@@ -496,10 +511,15 @@ export default {
     }
 
 
-
-
-
-    this.queryParams.type = "1";
+    if(tools.isNull(str)==true && tools.isNull(str.pwdStr)==true){
+      let jsonObj = JSON.parse(tools.Decrypt(str.pwdStr));
+      if(tools.isNull(jsonObj.value)){
+        this.queryParams.value = jsonObj.value;
+        this.queryParams.type = jsonObj.type;
+      }
+    }else {
+      this.queryParams.type = "1";
+    }
     this.getList();
 
   },
@@ -537,7 +557,7 @@ export default {
       this.loading = true;
       this.getParams();
       this.queryParams.page = 1;
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listChanne(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
         if (jsonObj.code == 200) {
@@ -565,12 +585,7 @@ export default {
       this.queryParams.pageSize = 10;
       this.handleQuery();
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.userId);
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
-    },
+
     /** 新增按钮操作 */
     handleSave() {
       this.showButton=false;
@@ -604,7 +619,7 @@ export default {
       this.pMap = {};//清空数据
       let map = {};
       map.c_no = row.c_no;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       getChanne(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         if (jsonObj.code == 200) {
@@ -652,7 +667,7 @@ export default {
             let map = {};
             map.pMap = this.pMap;
             map.aMap = this.aMap;
-            let pwdStr = tools.encrypt(JSON.stringify(map));
+            let pwdStr = tools.encryptSy(map);
             saveChanne(pwdStr).then(response => {
               let jsonObj = JSON.parse(tools.Decrypt(response));
               if (jsonObj.code == 200) {
@@ -702,7 +717,7 @@ export default {
               let map = {};
               map.pMap = this.pMap;
               map.aMap = this.aMap;
-              let pwdStr = tools.encrypt(JSON.stringify(map));
+              let pwdStr = tools.encryptSy(map);
               editChanne(pwdStr).then(response => {
                 let jsonObj = JSON.parse(tools.Decrypt(response));
                 if (jsonObj.code == 200) {
@@ -733,7 +748,7 @@ export default {
       this.showButton=false;
       let map = {};
       map.c_no = row.c_no;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       tools.openAsk(this, 'warning', this.$t("common.ask.wDelName") + row.name + " ？", this.delRouteFun, pwdStr);
 
     },

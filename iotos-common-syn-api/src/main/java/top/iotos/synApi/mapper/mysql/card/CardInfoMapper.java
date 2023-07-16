@@ -37,4 +37,8 @@ public interface CardInfoMapper {
 
     public int initTime(Map map);
 
+    public Map<String, Object> findMatche(Map map);
+
+    public Integer findMatcheCount(Map map);
+
 }

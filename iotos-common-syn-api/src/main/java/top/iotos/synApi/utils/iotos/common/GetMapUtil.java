@@ -38,11 +38,17 @@ public class GetMapUtil {
      * @return
      */
     public static Map<String,Object> getMap(Map<String,Object> pMap,String key,Object defaultsValue){
+        return getMap(pMap, key,null, defaultsValue);
+    }
+
+    public static Map<String,Object> getMap(Map<String,Object> pMap,String key,String newKey,Object defaultsValue){
         if(pMap.get(key)==null){
+            key = newKey!=null?newKey:key;
             pMap.put(key,defaultsValue);
         }
         return pMap;
     }
+
 
     public static String getValueToStr(Map<String,Object> pMap,String key){
         return getValue(pMap,key,"").toString();

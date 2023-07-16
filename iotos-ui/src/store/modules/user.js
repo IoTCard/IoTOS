@@ -41,7 +41,7 @@ const user = {
       map.password = password;
       map.code = code;
       map.uuid = uuid;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       return new Promise((resolve, reject) => {
         login(pwdStr).then(res => {
           setToken(res.token);

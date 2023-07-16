@@ -70,8 +70,20 @@
         </where>
     </delete>
 
-
-
+    <!-- 删除 startTime 时间之前的 保留每天最后一天数据 -->
+    <delete id="deleteReserveDayOne" parameterType="java.util.HashMap" >
+        DELETE FROM os_card_session
+        WHERE id NOT IN (
+            SELECT id
+            FROM (
+                SELECT id, ROW_NUMBER() OVER (PARTITION BY DATE(create_time) ORDER BY create_time DESC) AS row_num
+                FROM os_card_session
+                WHERE create_time <![CDATA[ < ]]> #{startDate}
+            ) AS subquery
+            WHERE row_num = 1
+            )
+        AND create_time <![CDATA[ < ]]> #{startDate}
+    </delete>
 
 
 </mapper>

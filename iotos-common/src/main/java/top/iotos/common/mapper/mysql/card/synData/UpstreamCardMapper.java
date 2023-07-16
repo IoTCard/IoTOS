@@ -23,5 +23,6 @@ public interface UpstreamCardMapper {
 
     public List<Map<String, Object>> findIccidNull(Map map);
 
+    public int deleteAll(Map map);
 
 }

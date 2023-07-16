@@ -302,7 +302,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="语言编码">
-              <el-input v-model="form.languageCode"  placeholder="如 zh_CN"></el-input>
+              <el-input v-model="form.languageCode"  placeholder="如 zh-CN"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -526,7 +526,7 @@ export default {
         sex: undefined,
         status: "0",
         remark: undefined,
-        languageCode:'zh_CN',
+        languageCode:'zh-CN',
         postIds: [],
         roleIds: []
       };

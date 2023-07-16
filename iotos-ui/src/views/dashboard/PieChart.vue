@@ -40,14 +40,14 @@ export default {
         this.setOptions(val)
       }
     },
-    pieChartExecuteBool: {
+   /* pieChartExecuteBool: {
       deep: true,  // 深度监听
       handler(newVal,oldVal) {
         if(newVal==true){
           this.initChart();
         }
       }
-    }
+    }*/
   },
   data() {
     return {
@@ -121,6 +121,7 @@ export default {
         },
       };
 
+
       let bottom = '10';
       let color = [];
       if(p_legend!=null){
@@ -148,6 +149,7 @@ export default {
         if(tools.isNull(p_series.labelLine)){
           seriesMap.labelLine = p_series.labelLine;
         }
+
       }
       let legend_data = [];
       if(seriesMap.data!=null){//放入类别

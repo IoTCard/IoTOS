@@ -13,4 +13,6 @@ public interface CardSessionMapper {
 
     public int delete(Map map);
 
+    public int deleteReserveDayOne(Map map);
+
 }

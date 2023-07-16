@@ -62,6 +62,7 @@ public class PollingStartTask {
         String  startDate = VeDate.getNextDay(VeDate.getStringDateShort(),"-"+xDaysAgo)+" 00:00:00";
 
         sendMap.put("startDate",startDate);
+        sendMap.put("startTime",startDate);
         sendMap.put("starRow",0);
         sendMap.put("pageSize",pageSize);
         sendMap.put("functionName",functionName);//函数名

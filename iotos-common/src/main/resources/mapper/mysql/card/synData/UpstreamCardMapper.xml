@@ -302,6 +302,10 @@
         delete from os_upstream_card <where> channel_id = #{channel_id}</where>
     </delete>
 
+    <delete id="deleteAll" parameterType="java.util.HashMap" >
+        delete from os_upstream_card
+    </delete>
+
     <!-- 查询ICCID 重复卡号 （多线程同步时会脏读 对其数据进行修复）-->
     <select id="findIccidRepeat" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT

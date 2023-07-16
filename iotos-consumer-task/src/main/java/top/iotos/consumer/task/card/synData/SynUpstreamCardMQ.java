@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
+import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.synApi.utils.iotos.common.ListCompare;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.synApi.utils.iotos.time.VeDate;
@@ -71,24 +71,23 @@ public class SynUpstreamCardMQ {
         findMap.put("startDate",startDate);
         findMap.put("endDate",endDate);
         findMap.put("w_new","0");//不是 新数据 标记卡号
-        List<Map<String, Object>> uList = upstreamCardMapper.getList(findMap);//已同步卡号
 
         List<Map<String, Object>> addList = new ArrayList<>();
         List<Map<String, Object>> updList = new ArrayList<>();
         String sync_data_type = map.get("sync_data_type")!=null ?map.get("sync_data_type").toString():null;//'上游返回的数据-同步类型'
 
-
+        List<Map<String, Object>> uList = upstreamCardMapper.getList(findMap);//去除已同步卡号外 需要同步的新数据 进行同步导入
         if (sList != null && sList.size() > 0) {
+
             if(uList != null && uList.size() > 0) {
                 List<String> msisdnList = new ArrayList<>();
-                for (int j = 0; j < uList.size(); j++) {
-                    Map<String, Object> obj = uList.get(j);
+                for (int j = 0; j < sList.size(); j++) {
+                    Map<String, Object> obj = sList.get(j);
                     String msisdn = obj.get("msisdn")!=null?obj.get("msisdn").toString():null;
                     if(msisdn!=null){
                         msisdnList.add(msisdn);
                     }
                 }
-
                 Map<String, Object> getNotRepeatingMap_DB = ListCompare.getNotRepeating(uList, msisdnList, "msisdn");//获取 筛选不重复的某列值 和 重复的
                 uList = (List<Map<String, Object>>) getNotRepeatingMap_DB.get("Repeatlist");//更新 数据
                 addList.addAll(uList);

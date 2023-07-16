@@ -12,5 +12,10 @@ public interface OneLinkEcV5SessionMapper {
     public int save(Map map);
 
     public int delete(Map map);
+    public List<Map<String, Object>> getListOnlyCreateDate(Map map);
+
+    public List<Map<String, Object>> getListOnlyCreateDateCount(Map map);
+
+    public int deleteReserveDayOne(Map map);
 
 }

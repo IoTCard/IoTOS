@@ -1,5 +1,3 @@
-import tools from "@/utils/iotos/tools";
-
 export default {
   common:{//通用
     success:"操作成功",
@@ -73,7 +71,7 @@ export default {
     data:'條 數據',
     moreOperations:"更多",
     noDataFound:"未找到匹對數據！",
-
+    notNull:'不能為空!',
     today:"今天",
     yesterday:"昨天",
     weekAgo:"一周前",
@@ -93,15 +91,15 @@ export default {
     lastWeek:'最近一周',
     lastRecentMonth:'最近一個月',
     lastThreeMonths:'最近三個月',
-
+    empty:'未找到數據',
     open:'張',
     indivual:'個',
     share:'份',
     yuan:'元',
-
+    sum:'共',
     month:'月',
     day:'日',
-
+    copy:"複製",
 
     ask:{//通用詢問
       wDelName:"是否確認 [刪除] ‘名稱‘ 為：",
@@ -118,7 +116,57 @@ export default {
     }
   },
 
+  diagnosis:{//智能診斷
+    cardMatching:"卡號匹對",
+    oneDiagnosis:"一鍵診斷",
+    diagnosis:"診斷",
+    empty:'未找到查詢卡號，請核對卡號 或使用 ‘卡號匹對’ 查找！ ',
+    rs:{
+      value:'查詢卡號 ',
+      length:'請輸入大於4位數的匹對卡號 ！ ',
+    },
+    referenceNumber:'參考號碼',
+    prefixMatching:'前綴匹對',
+  },
+  dsEcV5:{
+    dTitle:{
+      i_1:'診斷中',
+      i_2:'診斷完成',
+    },
+    table:{
+      i_1:'服務類型',
+      i_2:'APN',
 
+      i_3:'狀態',
+      i_4:'狀態變更時間',
+    },
+    te1:{
+      title:'SIM卡狀態',
+      i_1:'SIM卡狀態',
+      i_2:'停機原因',
+      i_3:'設備狀態',
+      i_3top:'開機表示設備連接並附著基站',
+      i_4:'是否凍結',
+      solution:'SIM卡狀態為可測試、待激活、已激活狀態可以正常通訊',
+    },
+    te2:{
+      title:'通信服務',
+      titletop:'由於網絡波動和延遲，該結果可能存在一定誤差，僅供參考，建議以終端的實際狀態為準',
+    },
+    te3:{
+      title:'策略限制',
+      i_1:'超出區域限制',
+      i_2:'機卡分離狀態',
+      i_3:'限制區域',
+    },
+    te4:{
+      title:'狀態變更記錄',
+    },
+    suggestedSolution:'建議解決方案：',
+
+
+
+  },
 
 
   index:{
@@ -206,7 +254,7 @@ export default {
     flexibleChange:"靈活變更狀態",
     tip:{
       reset:"遇到上網功能異常的時候可以通過調用該接口來重置恢復GPRS上網功能；（選擇 ‘是’ 時執行）",
-      openStop:"停復機：對卡號執行 停機 復機 操作；（PS：長期停機可能會產生停機保號費用，且可能會銷戶卡號！具體根據上游運營商而定！）",
+      openStop:"停復機：對卡號執行 停機 復機 操作；（PS：長期停機可能會產生停機保號費用，且可能會銷戶卡號！具體根據上游運營商而定！ ）",
       openClose:"斷開網：對卡號執行 關閉網絡連接 打開網絡連接 操作；（PS：該功能類似手機數據流量打開關閉。）",
       flexibleChange:"靈活變更卡狀態：適配部分上游API，（PS：且停機原因為主動申請停機時才能複機 其他原因需要聯繫客戶經理處理！）",
     },
@@ -251,7 +299,8 @@ export default {
       i_9:'備註',
     },
     table_1:{
-      i_1:'文件名',i_2:'開始時間',
+      i_1:'文件名',
+      i_2:'開始時間',
       i_3:'結束時間',
       i_4:'類型',
       i_5:'下載次數',
@@ -282,7 +331,7 @@ export default {
     cbefore:" 變更前 ",
     cafterward:" 變更後 ",
     source:" 來源 ",
-
+    onlyCreateDate:" 過濾重複會話時間 ",
     last30Days:"最近30天",
     flowRecord:"流量使用",
     session:{
@@ -293,18 +342,28 @@ export default {
       hint1:"請核對API信息（未產生用量不會有在線記錄！）",
       hint2:"僅支持 上游開放查詢會話信息API獲取",
       error1:"暫未獲取到會話信息",
-    }
+    },
+    oneLink_ECV5: {
+      label_0:'APN',
+      label_1:'在線狀態',
+      label_2:'IP',
+      label_3:'IPV6 地址前綴',
+      label_4:'IPV6 地址接口',
+      label_5:'會話創建時間',
+      label_6:'接入方式',
+      label_7:'平台記錄時間',
+    },
+
+
+
+
 
   },
 
 
 
-
   cardInfoDetails:{//卡基礎信息
-
     copyCardInfo:"複製 基礎信息",
-
-
 
     tFrom:{
       operator:"運營商",
@@ -344,12 +403,6 @@ export default {
       create_time:"創建時間",
       storage_date:"入庫日期",
       delivery_date:"出庫日期",
-
-
-
-
-
-
 
     }
 
@@ -410,7 +463,9 @@ export default {
       i_5:'狀態',
       i_6:'輪詢',
       i_7:'卡總數',
-      i_8:'總用量',
+      i_8:'總流量',
+      i_9:'總用量',
+      i_10:'總剩餘',
     },
     form:{//表單
       template:'模板',
@@ -477,6 +532,8 @@ export default {
         btn2Title:"獲取源碼",
       }
     ],
+
+
   },
   tagsView: {
     refresh: '刷新頁面',
@@ -518,7 +575,7 @@ export default {
     User_Management:'用戶管理',
     role_management:'角色管理',
     menu_management:'菜單管理',
-    department_management:'部門管理',
+    department_management:'企業管理',
     job_management:'崗位管理',
     dictionary_management:'字典管理',
     parameter_settings:'參數設置',
@@ -551,10 +608,10 @@ export default {
     New_menu:'菜單新增',
     menu_modification:'菜單修改',
     menu_delete:'菜單刪除',
-    Department_inquiry:'部門查詢',
-    new_department:'部門新增',
-    department_modification:'部門修改',
-    department_delete:'部門刪除',
+    Department_inquiry:'企業查詢',
+    new_department:'企業新增',
+    department_modification:'企業修改',
+    department_delete:'企業刪除',
     job_search:'崗位查詢',
     new_jobs:'崗位新增',
     job_modification:'崗位修改',
@@ -613,7 +670,9 @@ export default {
     schedulingLog:'調度日誌',
     modifyGeneration:'修改生成配置',
     accountCenter:'賬號中心',
+    diagnosis:'智能診斷',
   },
+
 
   IoTOS:{
     introduce:'IoTOS 基於多個物聯網管理系統API（如:中國移動 oneLink 等 後續接入API） 開放能力，不僅集成了上游強大的API管理及基礎的 數據同步算法 功能，而且提供了多語言國際化方案。並通過 高效靈活的同步算法、系統構架業務分離 等靈活高效的數據運營模塊，讓企業與上游之間建立強鏈接，從而進一步通過多元化的管理運營方案，幫助企業提高物聯網卡運營效率，強化運營能力，拓展可盈利空間。 ',
@@ -637,20 +696,27 @@ export default {
       l02:'通道、卡列表、用量記錄、基礎業務；',
       l03:'卡號自動同步載入策略；',
       l04:'API目前僅支持 OneLink EcV5 接口(最終會依賴該接口作為一個全面對接的展示業務 敬請期待！)；',
-      l05:'OneLink EcV5同步算法策略 隊列多線程中使用java多線程套娃式顯著提升算法同步效率；',
-      l06:'用量、生命週期補償算法完善；',
-      l07:'首頁統計數據完善；',
+      l05:'OneLink EcV5同步算法策略 队列多线程中使用java多线程套娃式显著提升算法同步效率；',
+      l06:'用量、生命周期补偿算法完善；',
+      l07:'首页统计数据完善；',
     },
     v121:{
-      l00:'登錄頁增加可修改數據輪播；',
-      l01:'登錄頁增加國內常用運營商平台網站、國際平台運營商網站、關於-IoTOS鏈接；',
-      l02:'登錄頁增加平台能力說明、開放協議說明、系列產品說明；',
-      l03:'增加適配移動端系統通知登錄後通過IoTOS-IM下發公告通知；',
-      l04:'優化登錄界面默認語言為 ‘中文’；',
+      l00:'登录页增加可修改数据轮播；',
+      l01:'登录页增加国内常用运营商平台网站、国际平台运营商网站、关于-IoTOS链接；',
+      l02:'登录页增加平台能力说明、开放协议说明、系列产品说明；',
+      l03:'增加适配移动端系统通知登录后通过IoTOS-IM下发公告通知；',
+      l04:'优化登录界面默认语言为 ‘中文’；',
     },
-    visitMainSite:'訪問主站點',
-  },
-
+    v153:{
+      l00:'通道数据统计增加 卡数量、总流量 已用流量 剩余流量 统计；',
+      l01:'卡详情增加会话信息查询会话记录（分页查询）、导出历史记录；',
+      l02:'新增智能诊断 卡状态、冻结状态、停机原因、区域限制状态、区域限制地区、设备状态、业务变更历史、已开通APN查询、诊断建议提示；（完美还原OneLink智能诊断）；',
+      l03:'优化卡号同步算法bug；',
+      l04:'优化卡号比对新增卡号算法定时任务触发间隔等；',
+      l05:'优化定时清理上游同步卡号缓存（确保上游卡号变动时更新新的卡号或已销户卡号不再同步）；',
+    },
+    visitMainSite:'访问主站点',
+    },
 
 
 }

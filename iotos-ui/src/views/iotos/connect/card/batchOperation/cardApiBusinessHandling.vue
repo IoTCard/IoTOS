@@ -287,7 +287,7 @@ export default {
       }
       map.activeName = this.activeName;
       //console.log(map)
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       this.upload.pwdStr = pwdStr;
     },
 

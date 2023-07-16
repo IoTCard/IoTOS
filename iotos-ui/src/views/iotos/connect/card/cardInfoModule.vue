@@ -1,84 +1,137 @@
 <template>
   <div >
     <!--这里是标签页-->
-    <div class="main" >
+      <div class="main" >
 
-      <el-tabs v-model="activeName" type="border-card"  @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="border-card"  @tab-click="handleClick">
 
-        <el-tab-pane :label="$t('cardInfoModule.flowRecord')" name="flowRecord">
+          <el-tab-pane :label="$t('cardInfoModule.flowRecord')" name="flowRecord">
 
-          <el-row :gutter="10" style="height: 300px;">
-            <el-col :xs="24" :sm="24" :md="6" :lg="6">
-              <pie-chart style="margin-top: 15px;" :p_legend="p_legend" :p_series="p_series" :p_color="p_color"/>
-            </el-col>
-            <el-col :xs="24" :sm="24" :md="18" :lg="18">
-              <div style="float: right;margin-top: -5px;margin-right: 50px;height: 40px;">
-                <div style="float: right">
-                  <el-button  @click="last30Days">{{ $t('cardInfoModule.last30Days') }}</el-button>
+            <el-row :gutter="10" style="height: 300px;">
+              <el-col :xs="24" :sm="24" :md="6" :lg="6">
+                <pie-chart style="margin-top: 15px;" v-if="showChart" :p_legend="p_legend" :p_series="p_series" :p_color="p_color"/>
+              </el-col>
+              <el-col :xs="24" :sm="24" :md="18" :lg="18">
+                <div style="float: right;margin-top: -5px;margin-right: 50px;height: 40px;">
+                  <div style="float: right">
+                    <el-button  @click="last30Days">{{ $t('cardInfoModule.last30Days') }}</el-button>
 
-                  <el-date-picker
-                    v-model="recordTime"
-                    type="month"
-                    value-format="yyyy-MM"
-                    :picker-options="pickerOptions"
-                    style="width: 160px;margin-left: 20px;"
-                    @change="changeRecordTime"
-                    align="right">
-                  </el-date-picker>
+                    <el-date-picker
+                      v-model="recordTime"
+                      type="month"
+                      value-format="yyyy-MM"
+                      :picker-options="pickerOptions"
+                      style="width: 160px;margin-left: 20px;"
+                      @change="changeRecordTime"
+                      align="right">
+                    </el-date-picker>
+                  </div>
                 </div>
-              </div>
-              <line-chart style="margin-top: 15px;" :chart-data="recordData" :p_xAxis="p_xAxis" :p_colorArr="p_colorArr" :p_showLable="p_showLable" :p_config="p_config" />
-            </el-col>
-          </el-row>
+                <line-chart style="margin-top: 15px;"  v-if="showlineChart" :chart-data="recordData" :p_xAxis="p_xAxis" :p_colorArr="p_colorArr" :p_showLable="p_showLable" :p_config="p_config" />
+              </el-col>
+            </el-row>
 
 
-        </el-tab-pane>
+          </el-tab-pane>
 
-        <el-tab-pane :label="$t('cardInfoModule.cardSession')" name="cardSession">
+          <el-tab-pane :label="$t('cardInfoModule.cardSession')" name="cardSession">
 
-          <el-divider content-position="left">{{ onlineTitle }}
-            <el-button @click="getOnlineStatus" size="mini" type="primary" style="margin-left: 20px">{{ $t('common.refresh')  }}</el-button>
-          </el-divider>
+            <el-divider content-position="left">{{ onlineTitle }}
+              <el-button @click="getOnlineStatus" size="mini" type="primary" style="margin-left: 20px">{{ $t('common.refresh')  }}</el-button>
+              <el-button @click="copyOnlineStatus" size="mini" type="primary" style="margin-left: 20px">{{ lgCode.copy  }}</el-button>
+              {{ $t('cardInfoModule.onlyCreateDate') }}
+                <el-select
+                  v-model="querySessionParams.onlyCreateDate"
+                  :placeholder="$t('cardInfoDetails.tFrom.status_id')"
+                  size="small"
+                  style="width: 80px"
+                >
+                  <el-option
+                    v-for="dict in whetherOptions"
+                    :key="dict.dictValue"
+                    :label="dict.dictLabel"
+                    :value="dict.dictValue"
+                  />
+                </el-select>
+              <el-button @click="getSessionList" size="mini" type="primary" style="margin-left: 20px">{{  $t('common.search')  }}</el-button>
+              <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleSessionExport" v-hasPermi="['iotos:cardSession:export']">{{ $t('common.export') }}</el-button>
+            </el-divider>
 
-          <el-card shadow="always">
+            <el-card shadow="always">
 
-            <el-table
-              :data="tableSession"
-              :show-header="false"
-              border>
-              <el-table-column prop="label1" >
+              <el-table
+                :data="tableSession"
+                :show-header="false"
+                border>
+                <el-table-column prop="label1" >
+                  <template slot-scope="scope" >
+                    <b >{{ scope.row.label1 }}</b>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="value1"/>
+                <el-table-column prop="label2">
+                  <template slot-scope="scope">
+                    <b>{{ scope.row.label2 }}</b>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="value2"/>
+                <el-table-column prop="label3">
+                  <template slot-scope="scope">
+                    <b>{{ scope.row.label3 }}</b>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="value3"/>
+              </el-table>
+            </el-card>
+
+
+            <!-- 会话记录 -->
+            <el-table v-loading="sessionLoading" :data="dataSessionList" >
+
+              <el-table-column v-for="(item, index) in sessionLie" :label="item.label" align="center" :prop="item.prop"  :width="item.width" >
                 <template slot-scope="scope" >
-                  <b >{{ scope.row.label1 }}</b>
+                  <span v-if="tools.isNull(item.options)"> {{  tools.getDkeyValue(item.options, scope.row[item.prop]) }} </span>
+                  <span v-if="!tools.isNull(item.options)">{{  scope.row[item.prop] }}</span>
                 </template>
+
               </el-table-column>
-              <el-table-column prop="value1"/>
-              <el-table-column prop="label2">
+              <el-table-column
+                :label="$t('common.operate')"
+                align="center"
+                width="160"
+                class-name="small-padding fixed-width"
+              >
                 <template slot-scope="scope">
-                  <b>{{ scope.row.label2 }}</b>
+                  <el-button
+                    size="mini"
+                    type="text"
+                    @click="copySessionTable(scope.row)"
+                  >{{ lgCode.copy }}</el-button>
                 </template>
               </el-table-column>
-              <el-table-column prop="value2"/>
-              <el-table-column prop="label3">
-                <template slot-scope="scope">
-                  <b>{{ scope.row.label3 }}</b>
-                </template>
-              </el-table-column>
-              <el-table-column prop="value3"/>
+
             </el-table>
-          </el-card>
+            <pagination
+              v-show="sessionTotal>0"
+              :total="sessionTotal"
+              :page-sizes="[5, 10, 20, 50]"
+              :page.sync="querySessionParams.pageNum"
+              :limit.sync="querySessionParams.pageSize"
+              @pagination="getSessionList"
+            />
 
-        </el-tab-pane>
+          </el-tab-pane>
 
-        <el-tab-pane :label="$t('cardInfoModule.cardApiBusiness')" name="cardApiBusiness">
-          <el-steps align-center :active="cardApiBusinessList.length" >
-            <el-step :title="item.create_time" :description="'['+tools.getDkeyValue(tasksDetailsTypeOptions, item.type)+']'+$t('cardInfoModule.source')+'['+tools.getDkeyValue(apiSourceTypeOptions, item.source_type)+']'+' ['+tools.getDkeyValue(resultStatusOptions, item.state)+']'"
-                     v-for="item in  cardApiBusinessList">
-            </el-step>
-          </el-steps>
-        </el-tab-pane>
+          <el-tab-pane :label="$t('cardInfoModule.cardApiBusiness')" name="cardApiBusiness">
+            <el-steps align-center :active="cardApiBusinessList.length" >
+              <el-step :title="item.create_time" :description="'['+tools.getDkeyValue(tasksDetailsTypeOptions, item.type)+']'+$t('cardInfoModule.source')+'['+tools.getDkeyValue(apiSourceTypeOptions, item.source_type)+']'+' ['+tools.getDkeyValue(resultStatusOptions, item.state)+']'"
+                       v-for="item in  cardApiBusinessList">
+              </el-step>
+            </el-steps>
+          </el-tab-pane>
 
 
-      </el-tabs>
+        </el-tabs>
     </div>
 
     <!-- 触发加载数据函数-->
@@ -95,6 +148,8 @@
 import {
   synSession,
   getApiBusinessList,
+  querySession,
+  exportSession,
 } from "@/api/iotos/connect/card";
 import tools from "@/utils/iotos/tools";
 import LineChart from '../../../dashboard/LineChart'
@@ -112,6 +167,7 @@ export default {
     sel: Object,
 
   },
+
   components: {
     LineChart,
     PieChart
@@ -140,6 +196,12 @@ export default {
   name: "cardInfoModule",
   data() {
     return {
+      showlineChart:false,
+      showChart:false,
+      lgCode:{
+        copy:this.$t('common.copy'),
+      },
+
       activeName: "flowRecord",//默认选择
 
 
@@ -186,22 +248,7 @@ export default {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;//如果不包括今天。就是return time.getTime() > Date.now() - 24*3600*1000;
         },
-        shortcuts: [{
-          text: this.$t('common.currentMonth'),
-          onClick(picker) {
-            picker.$emit('pick', tools.getMonthStringFromDateOffset(0));
-          }
-        }, {
-          text: this.$t('common.lastMonth'),
-          onClick(picker) {
-            picker.$emit('pick', tools.getMonthStringFromDateOffset(-1));
-          }
-        }, {
-          text: this.$t('common.aYearAgo'),
-          onClick(picker) {
-            picker.$emit('pick', tools.getMonthStringFromDateOffset(-12));
-          }
-        }]
+        shortcuts: tools.getMoonShortcuts(this),
       },
       onelinkSessionStatusOptions:[],
       onelinkRatTypeOptions:[],
@@ -209,6 +256,19 @@ export default {
       apiSourceTypeOptions:[],//执行任务详情类型
       resultStatusOptions:[],//通用结果状态
 
+      channelTemplate:'',
+      sessionTotal:0,
+      dataSessionList:[],
+      querySessionParams:{
+        onlyCreateDate: "0",
+        iccid:'',
+        c_no:'',
+        pageNum: 1,
+        pageSize: 5,
+      },
+      sessionLoading:false,
+      sessionLie:[],//session 列
+      whetherOptions:[],
     }
   },
   created() {
@@ -234,16 +294,6 @@ export default {
     }
 
 
-
-    //加载 onelink_rat接入方式
-    if (window['onelinkRatTypeOptions'] != undefined && window['onelinkRatTypeOptions'] != null && window['onelinkRatTypeOptions'] != '') {
-      this.onelinkRatTypeOptions = window['onelinkRatTypeOptions'];
-    } else {
-      this.getDicts("onelink_rat_type").then(response => {
-        window['onelinkRatTypeOptions'] = response.data;
-        this.onelinkRatTypeOptions = window['onelinkRatTypeOptions'];
-      });
-    }
 
     //API业务变更来源
     if (window['apiSourceTypeOptions'] != undefined && window['apiSourceTypeOptions'] != null && window['apiSourceTypeOptions'] != '') {
@@ -274,19 +324,146 @@ export default {
         this.resultStatusOptions = window['resultStatusOptions'];
       });
     }
-
+    //加载 是否
+    if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+      this.whetherOptions = window['whetherOptions'];
+    } else {
+      this.getDicts("iotos_whether").then(response => {
+        window['whetherOptions'] = response.data;
+        this.whetherOptions = window['whetherOptions'];
+      });
+    }
 
 
   },
 
   methods: {
 
+    //导出汇话信息
+    handleSessionExport(){
+      this.sesloading = true;
+      let pwdStr = tools.encryptSy(this.querySessionParams);
+      querySession(pwdStr).then(response => {
+          let jsonObj = JSON.parse(tools.Decrypt(response));
+          if (jsonObj.code == 200) {
+            this.dataSessionList = jsonObj.data.data;
+            this.sessionTotal = jsonObj.data.Pu.rowCount;
+            this.channelTemplate = jsonObj.data.template;
+            this.channelTemplateChange(this.channelTemplate);
+
+            if(this.total>5000){//大于 X 提示确认
+              this.$confirm(this.$t("common.chosen")+' 【'+this.total+'】'+this.$t("common.articleData")+this.$t("common.whetherToConfirm")+'？', this.$t("common.hint"), {
+                confirmButtonText: this.$t("common.sure"),
+                cancelButtonText: this.$t("common.cancel"),
+                type: 'warning'
+              }).then(() => {
+                this.cardExportSessionFun();
+              }).catch(() => {});
+            }else{
+              this.cardExportSessionFun();
+            }
+          } else {
+            this.$message.error(jsonObj.msg);
+          }
+          this.loading = false;
+        }
+      );
+    },
+
+    cardExportSessionFun(template){
+      let map = JSON.parse(JSON.stringify(this.querySessionParams));
+      map.template = this.channelTemplate;
+      let pwdStr = tools.encryptSy(map);
+      exportSession(pwdStr).then(response => {
+        let jsonObj = JSON.parse(tools.Decrypt(response));
+        let msg = jsonObj.msg;
+        if (jsonObj.code == 200) {
+          this.$message.success(msg);
+        } else {
+          this.$message.error(msg);
+        }
+      })
+    },
 
 
+    //复制实时会话信息
+    copySessionTable(row){
+      let copyText = "";
+     for (let i = 0; i < this.sessionLie.length; i++) {
+          let obj = this.sessionLie[i];
+          let value = tools.isNull(obj.options)?tools.getDkeyValue(obj.options, row[obj.prop]):row[obj.prop];
+          copyText += obj.label+" : "+value;
+          if(i+1!=this.sessionLie.length){
+            copyText += " , ";
+          }
+      }
+      let _this = this;
+      tools.copyThat(copyText,_this);
+    },
 
+    //复制实时会话信息
+    copyOnlineStatus(){
+      let copyText = "";
+      for (let i = 0; i < this.tableSession.length; i++) {
+        let obj = this.tableSession[i];
+        let value1 = tools.getVal(obj.value1);
+        let value2 = tools.getVal(obj.value2);
+        let value3 = tools.getVal(obj.value3);
+        copyText += obj.label1+" : "+value1+" , "+obj.label2+" : "+value2+" , "+obj.label3+" : "+value3;
+        copyText +="\n";
+      }
+      let _this = this;
+      tools.copyThat(copyText,_this);
+    },
+
+
+    /** 查询 */
+    getSessionList() {
+      this.sessionLoading = true;
+      this.querySessionParams.iccid = this.sel.iccid;
+      this.querySessionParams.c_no =  this.sel.channel_id;
+      //console.log(this.querySessionParams)
+      let pwdStr = tools.encryptSy(this.querySessionParams);
+      querySession(pwdStr).then(response => {
+          let jsonObj = JSON.parse(tools.Decrypt(response));
+        //console.log(jsonObj)
+        if (jsonObj.code == 200) {
+            this.dataSessionList = jsonObj.data.data;
+            this.sessionTotal = jsonObj.data.Pu.rowCount;
+            this.channelTemplate = jsonObj.data.template;
+            this.channelTemplateChange(this.channelTemplate);
+            if(tools.isNull(this.channelTemplate)){
+              this.$emit("setObj", "setCnTemplate", this.channelTemplate);//给父窗体反馈通道模板
+            }
+          } else {
+            this.$message.error(jsonObj.msg);
+          }
+          this.sessionLoading = false;
+        }
+      );
+    },
+
+    //通道变更时适配 不同的通道
+    channelTemplateChange(channelTemplate){
+      let sessionLie = [];
+      if(channelTemplate=='oneLink_ECV5'){
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_0'),prop:'apn_id',width:'80px'});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_1'),prop:'status',width:'80px',options:this.onelinkSessionStatusOptions});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_2'),prop:'ip',width:''});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_3'),prop:'ipv6_prefix',width:''});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_4'),prop:'ipv6',width:''});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_5'),prop:'create_date',width:''});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_6'),prop:'rat',width:'80px',options:this.onelinkRatTypeOptions});
+        sessionLie.push({label:this.$t('cardInfoModule.oneLink_ECV5.label_7'),prop:'create_time',width:''});
+      }
+      this.sessionLie = sessionLie;
+    },
 
 
     LoadEx() {
+      this.showChart = false;
+      this.showlineChart = false;
+
       this.$emit("setObj", "setModuleEditexecute", true);//已加载
       this.cardApiBusinessList = [];//业务变更 数组
       this.tableSession = [];//在线状态信息
@@ -296,6 +473,8 @@ export default {
       this.cardSession_load = false;
       this.cardApiBusiness_load = false;
       this.loadUsedRecord(tools.gitDatayyyyMM());//默认当月
+      this.showChart = true;
+      this.showlineChart = true;
 
     },
 
@@ -312,9 +491,10 @@ export default {
             this.loadUsedRecord(tools.gitDatayyyyMM());//默认当月
           }
           break;
-        case 'cardSession'://在线信息
+        case 'cardSession'://会话信息
           if(!this.cardSession_load ) {
             this.getOnlineStatus();
+            this.getSessionList();//会话信息 平台历史记录
           }
           break;
 
@@ -334,7 +514,7 @@ export default {
       map.pageNum = 1;
       map.pageSize = 31;
       //console.log(map)
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       listUsedRecord(pwdStr).then(res => {
         let jsonObj = JSON.parse(tools.Decrypt(res));
         //console.log(jsonObj)
@@ -373,7 +553,7 @@ export default {
       this.tableSession = [];//重置数据
       let map = {};
       map.iccid = this.sel.iccid;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       synSession(pwdStr).then(res => {
         let jsonObj = JSON.parse(tools.Decrypt(res));
         this.headquartersBool = jsonObj.deptId=='100'?true:false;
@@ -435,7 +615,7 @@ export default {
       let _this = this;
       let map = {};
       map.iccid = iccid;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
 
     },
 
@@ -459,7 +639,7 @@ export default {
       map.starRow = 0;
       map.pageSize = 4;
       //console.log(map)
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       getApiBusinessList(pwdStr).then(res => {
         let jsonObj = JSON.parse(tools.Decrypt(res));
         //console.log(jsonObj)

@@ -213,7 +213,7 @@
                 <if test="dateType == 'open_date'">
                     DATE_FORMAT( open_date, '%Y-%m-%d' )
                 </if>
-                BETWEEN #{startDate} AND #{endDate}
+                BETWEEN DATE_FORMAT( #{startDate}, '%Y-%m-%d' ) AND DATE_FORMAT( #{endDate}, '%Y-%m-%d' )
             </if>
             <if test="channel_id != null and channel_id != '' and channel_id.size>0">
                 <choose>
@@ -955,6 +955,7 @@
             os_upstream_card
             WHERE
             channel_id = #{channel_id}
+
             <if test="iccidNotNull !=null and iccidNotNull==1">
                 and LENGTH(trim(iccid))  <![CDATA[ > ]]> 1
             </if>
@@ -1021,6 +1022,50 @@
         </where>
     </update>
 
+
+    <select id="findMatche" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+            id,
+            c_no,
+            msisdn,
+            iccid,
+            imsi,
+            imei,
+            channel_id,
+            DATE_FORMAT(traffic_sync_time,"%Y-%m-%d %H:%i:%S") AS 'traffic_sync_time'
+        from
+            os_card_info
+        <include refid="matcheWhere"/>
+        ORDER BY traffic_sync_time DESC
+        LIMIT 1
+    </select>
+
+
+    <select id="findMatcheCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        from
+            os_card_info
+        <include refid="matcheWhere"/>
+    </select>
+
+    <sql id="matcheWhere" >
+        <where>
+            <if test="type == 0">
+                vid
+            </if>
+            <if test="type == 1">
+                iccid
+            </if>
+            <if test="type == 2">
+                msisdn
+            </if>
+            <if test="type == 3">
+                imsi
+            </if>
+            LIKE CONCAT(#{value},'%')
+        </where>
+    </sql>
 
 
 </mapper>

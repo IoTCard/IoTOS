@@ -1,6 +1,5 @@
 package top.iotos.synApi.mapper.mysql.channel;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ChannelInfoMapper {

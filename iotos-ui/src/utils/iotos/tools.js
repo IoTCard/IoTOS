@@ -39,6 +39,13 @@ tools.encrypt = function (data, key, iv) {
   }).toString();
 }
 
+
+tools.encryptSy = function (map) {
+  return tools.encrypt(JSON.stringify(map));
+}
+
+
+
 tools.install = function (Vue, options) {
   Vue.prototype.$tools = tools
   Vue.tools = tools
@@ -47,6 +54,11 @@ tools.install = function (Vue, options) {
 
 // 解密
 tools.Decrypt = function (text, key, iv) {
+  var reg_1 = new RegExp( "%2F" , "g" );
+  var reg_2 = new RegExp( " " , "g" );
+  text = text.replace(reg_1, "/");//转义 /
+  text = text.replace(reg_2, "+");//转义 [ ]  》 +
+
   key = tools.isNull(key) ? key : "urlwww.iotos.top";
   iv = tools.isNull(iv) ? iv : "WeiXin:iotos_top";
   //console.log(key+"  = = =   "+iv);
@@ -1143,16 +1155,7 @@ tools.validImgUpload = function (file, size) {
 
 //-----[传入数组，值判断这个值是否在这个数组中true:在False:不在]
 tools.VerificationValIsArray = function (arr, val) {
-  var bool = false;
- /* for (let i = 0; i < arr.length; i++) {
-    bool = arr[i] == val ? true : false;
-    if (bool) {
-      break;
-    }
-  }*/
-  bool = arr.indexOf(val)===-1?false:true;
-
-  return bool;
+  return arr.indexOf(val)===-1?false:true;
 }
 //-----[END][传入数组，值判断这个值是否在这个数组中]
 
@@ -1355,7 +1358,7 @@ tools.downloadCommon = function (path,url,map) {
   map = tools.isNull(map)?map:{};
   map.path = path;
   map.token = getToken();
-  let pwdStr = tools.encrypt(JSON.stringify(map));
+  let pwdStr = tools.encryptSy(map);
   window.open(url+"?pwdStr="+pwdStr, '_blank');
 }
 
@@ -1477,6 +1480,145 @@ tools.listMapSort =  function(arr, keyArr, orderByArr) {
   return arr;
 }
 
+/**
+ * 时间组件快速获取时间 【今天、昨天、前天】
+ * @param _this
+ * @returns {{shortcuts: [{onClick(*): void, text: *},{onClick(*): void, text: *},{onClick(*): void, text: *}]}}
+ */
+tools.getDeliveryOptions = function (_this) {
+  let deliveryOptions = {
+    shortcuts: [{
+      text: _this.$t("common.today"),
+      onClick(picker) {
+        picker.$emit('pick', tools.gitData());
+      }
+    }, {
+      text: _this.$t("common.yesterday"),
+      onClick(picker) {
+        picker.$emit('pick', tools.getBeforeDate(1));
+      }
+    }, {
+      text: _this.$t("common.weekAgo"),
+      onClick(picker) {
+        picker.$emit('pick', tools.getBeforeDate(7));
+      }
+    }]
+  };
+  return deliveryOptions;
+}
 
+/**
+ * 时间组件快速获取时间 【近一周、最近一个月、最近三个月】
+ * @param _this
+ * @returns {{shortcuts: *[]}}
+ */
+tools.getWeekPickerOptions = function (_this) {
+      let map_1 = {
+        text: _this.$t('common.lastWeek'),
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+          picker.$emit('pick', [start, end]);
+        }
+      };
+    let map_2 = {
+      text: _this.$t('common.lastRecentMonth'),
+        onClick(picker) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        picker.$emit('pick', [start, end]);
+      }
+    };
+    let map_3 = {
+      text: _this.$t('common.lastThreeMonths'),
+        onClick(picker) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+        picker.$emit('pick', [start, end]);
+      }
+    };
+  let shortcutsArr =[];
+  shortcutsArr.push(map_1);
+  shortcutsArr.push(map_2);
+  shortcutsArr.push(map_3);
+  let pickerOptions = {shortcuts:shortcutsArr};
+  return pickerOptions;
+}
+
+
+/**
+ * 时间组件快速获取时间 【当月、上月、一年前】
+ * @param _this
+ * @returns {{shortcuts: *[]}}
+ */
+tools.getMoonShortcuts = function (_this) {
+  let map_1 = {
+    text: _this.$t('common.currentMonth'),
+    onClick(picker) {
+      picker.$emit('pick', tools.getMonthStringFromDateOffset(0));
+    }
+  };
+  let map_2 = {
+    text: _this.$t('common.lastMonth'),
+      onClick(picker) {
+      picker.$emit('pick', tools.getMonthStringFromDateOffset(-1));
+    }
+  };
+  let map_3 = {
+    text: _this.$t('common.aYearAgo'),
+      onClick(picker) {
+      picker.$emit('pick', tools.getMonthStringFromDateOffset(-12));
+    }
+  };
+
+  let shortcutsArr =[];
+  shortcutsArr.push(map_1);
+  shortcutsArr.push(map_2);
+  shortcutsArr.push(map_3);
+  return shortcutsArr;
+}
+
+/**
+ * 删除相同前缀部分
+ * @param strings ArrList
+ * @returns {*}
+ */
+tools.removePrefixWithDifferentSuffix = function (strings) {
+  if (strings.length < 2) {
+    // 如果字符串数组长度小于2，无法比较前缀和后缀
+    return strings;
+  }
+  // 将字符串数组按照前缀排序
+  strings.sort();
+  // 获取第一个字符串和最后一个字符串
+  const firstString = strings[0];
+  const lastString = strings[strings.length - 1];
+  let prefixEndIndex = 0;
+
+  // 寻找前缀的结束索引
+  while (prefixEndIndex < firstString.length && firstString.charAt(prefixEndIndex) === lastString.charAt(prefixEndIndex)) {
+    prefixEndIndex++;
+  }
+
+  // 删除具有相同前缀的字符串
+  const result = strings.filter((str) => str.substring(0, prefixEndIndex) !== firstString.substring(0, prefixEndIndex));
+  return result;
+}
+
+/**
+ * 获取本月第一天
+ * @returns {string}
+ */
+tools.getMonthFirstDay = function () {
+var currentDate = new Date();
+currentDate.setDate(1);
+var year = currentDate.getFullYear();
+var month = currentDate.getMonth() + 1;
+var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-01';
+return formattedDate;
+}
 
 export default tools

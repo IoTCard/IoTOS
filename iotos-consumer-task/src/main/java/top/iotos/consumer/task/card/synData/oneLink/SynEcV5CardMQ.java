@@ -7,9 +7,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.common.utils.iotos.service.PageUtil;
 import top.iotos.synApi.upstreamApi.chinaMobile.oneLink.ecV5.InquireEcV5;
+import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

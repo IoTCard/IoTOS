@@ -3,7 +3,7 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.2.1
+# IoTOS v1.5.2
 
 ## 一款高效实用 IoTCard 管理 & 运营系统。
 
@@ -172,6 +172,14 @@ IoTOS V1.2.1 整体系统架构如下：
 - [x] 增加适配移动端系统通知登录后通过[IoTOS-IM](https://gitee.com/chinaiot/iotos-im)下发公告通知；
 - [x] 优化登录界面默认语言为 ‘中文’；
 
+## V1.5.3 更新日志
+
+- [x] 通道数据统计增加 卡数量、总流量 已用流量 剩余流量 统计；
+- [x] 卡详情增加会话信息查询会话记录（分页查询）、导出历史记录；
+- [x] 新增智能诊断 卡状态、冻结状态、停机原因、区域限制状态、区域限制地区、设备状态、业务变更历史、已开通APN查询、诊断建议提示；（完美还原OneLink智能诊断）；
+- [x] 优化卡号同步算法bug；
+- [x] 优化卡号比对新增卡号算法定时任务触发间隔等；
+- [x] 优化定时清理上游同步卡号缓存（确保上游卡号变动时更新新的卡号或已销户卡号不再同步）；
 
 # 五、联系我们
 
@@ -211,6 +219,13 @@ IoTOS V1.2.1 整体系统架构如下：
 ![channel 通道](readme-pic/cn/channel.png)
 
 ![card 卡列表](readme-pic/cn/card.png)
+
+![diagnosis 智能诊断gif](readme-pic/cn/diagnosis.gif)
+
+![diagnosis 智能诊断png](readme-pic/cn/diagnosis.png)
+
+![sessionOut 会话记录导出](readme-pic/cn/sessionOut.png)
+
 
 ![cardInfoUsed 卡号详情](readme-pic/cn/cardInfoUsed.png)
 

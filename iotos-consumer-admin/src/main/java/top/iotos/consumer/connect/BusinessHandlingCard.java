@@ -23,7 +23,6 @@ import top.iotos.synApi.utils.sync.CardStateTransition;
 import top.iotos.synApi.utils.sync.MQSyncSend;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

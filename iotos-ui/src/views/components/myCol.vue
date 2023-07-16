@@ -1,6 +1,23 @@
 <template>
   <el-col :xs="xsW" :sm="smW" :md="mdW" :lg="lgW" class="card-panel-col" >
-    <div class="card-panel">
+    <router-link v-if="tools.isNull(toUrl)" :to="toUrl" class="link-type">
+      <div class="card-panel">
+        <div :class="iconClass">
+          <svg-icon :icon-class="icon" class-name="card-panel-icon"/>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            {{ title }}
+          </div>
+          <div class="card-panel-text">
+                      <span class="card-panel-text-font">
+                          <count-to :start-val="0" :end-val="val" :duration="duration" class="card-panel-num"/>
+                       </span> {{ unit }}
+          </div>
+        </div>
+      </div>
+    </router-link>
+    <div class="card-panel" v-if="!tools.isNull(toUrl)" >
       <div :class="iconClass">
         <svg-icon :icon-class="icon" class-name="card-panel-icon"/>
       </div>
@@ -9,9 +26,9 @@
           {{ title }}
         </div>
         <div class="card-panel-text">
-                    <span class="card-panel-text-font">
-                        <count-to :start-val="0" :end-val="val" :duration="duration" class="card-panel-num"/>
-                     </span> {{ unit }}
+                      <span class="card-panel-text-font">
+                          <count-to :start-val="0" :end-val="val" :duration="duration" class="card-panel-num"/>
+                       </span> {{ unit }}
         </div>
       </div>
     </div>
@@ -20,6 +37,7 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import tools from "@/utils/iotos/tools";
 
 export default {
 
@@ -35,12 +53,14 @@ export default {
     val: Number,//显示值
     icon: String,//图标
     iconClass: String,//图标 Class
+    toUrl: {type: String,default: null },//跳转路径
   },
   components: {
     CountTo,
-  },  data() {
+  },
+  data() {
     return {
-
+      tools:tools
     }
   },
   methods: {

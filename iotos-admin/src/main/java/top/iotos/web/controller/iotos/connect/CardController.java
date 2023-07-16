@@ -368,4 +368,258 @@ public class CardController extends MyBaseController
         }
     }
 
+    /**
+     * 查询 session记录
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:synSession')")
+    @PostMapping(value = "/querySession", produces = {"application/json;charset=utf-8"})
+    public String querySession (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
+            return RetunnSuccess(iCardService.querySession(parameter),null);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySession  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 导出历史会话记录
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:cardSession:export')")
+    @PostMapping(value = "/exportSession", produces = {"application/json;charset=utf-8"})
+    public String exportSession (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
+            return RetunnIfStr(iCardService.exportSession(parameter),"common.cmdSuccess","common.cmdFailed",null);
+
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/exportSession  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+
+    /**
+     * 获取卡号简要信息
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:list')")
+    @PostMapping(value = "/getCard", produces = {"application/json;charset=utf-8"})
+    public String getCard (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
+            return RetunnSuccess(iCardService.getCard(parameter),null);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/getCard  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+
+    /**
+     * 冻结状态查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:queryFStatus')")
+    @PostMapping(value = "/queryFStatus", produces = {"application/json;charset=utf-8"})
+    public String queryFStatus (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.querySimManageStopRestartStatus(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/queryFStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 资费详情实时查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:queryApiTariff')")
+    @PostMapping(value = "/queryApiTariff", produces = {"application/json;charset=utf-8"})
+    public String queryApiTariff (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.queryOfferingsDetail(iccid,null,parameter);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/queryApiTariff  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 单卡停机原因查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:querySimStopReason')")
+    @PostMapping(value = "/querySimStopReason", produces = {"application/json;charset=utf-8"})
+    public String querySimStopReason (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.querySimStopReason(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimStopReason  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+
+    /**
+     * 单卡通信功能开通查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:querySimProduct')")
+    @PostMapping(value = "/querySimProduct", produces = {"application/json;charset=utf-8"})
+    public String querySimProduct (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.querySimCommunicationFunctionStatus(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimProduct  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 物联卡区域限制状态查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:querySimRLStatus')")
+    @PostMapping(value = "/querySimRLStatus", produces = {"application/json;charset=utf-8"})
+    public String querySimRLStatus (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.regionLimitStatus(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimRLStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 物联卡区域限制区域查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:querySimRLArea')")
+    @PostMapping(value = "/querySimRLArea", produces = {"application/json;charset=utf-8"})
+    public String querySimRLArea (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.querySimRegionLimitArea(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimRLArea  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 单卡开关机状态实时查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:queryOnOffStatus')")
+    @PostMapping(value = "/queryOnOffStatus", produces = {"application/json;charset=utf-8"})
+    public String queryOnOffStatus (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.queryOnOffStatus(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/queryOnOffStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+
+    /**
+     * 物联卡机卡分离状态查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:queryCardBindStatus')")
+    @PostMapping(value = "/queryCardBindStatus", produces = {"application/json;charset=utf-8"})
+    public String queryCardBindStatus (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.queryCardBindStatus(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/queryCardBindStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    /**
+     * 单卡状态变更历史查询
+     * @param pwdStr
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('iotos:card:querySimChangeHistory')")
+    @PostMapping(value = "/querySimChangeHistory", produces = {"application/json;charset=utf-8"})
+    public String querySimChangeHistory (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            String iccid = parameter.get("iccid").toString();
+            Map<String, Object> rMap = apiProcessor.querySimChangeHistory(iccid,null);
+            return synCommonReturn(rMap);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimChangeHistory  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+    @PreAuthorize("@ss.hasPermi('iotos:card:cardMatch')")
+    @PostMapping(value = "/cardMatch", produces = {"application/json;charset=utf-8"})
+    public String cardMatch (@RequestBody String pwdStr)
+    {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+
+            return RetunnSuccess(iCardService.cardMatch(parameter),null);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/querySimChangeHistory  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
+        }
+        return RetunnError(null);
+    }
+
+
 }

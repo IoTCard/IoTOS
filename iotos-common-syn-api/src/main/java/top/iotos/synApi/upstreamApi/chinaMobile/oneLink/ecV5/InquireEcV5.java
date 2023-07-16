@@ -1,15 +1,6 @@
 package top.iotos.synApi.upstreamApi.chinaMobile.oneLink.ecV5;
 
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import top.iotos.synApi.utils.http.HttpUtil;
-import top.iotos.synApi.utils.http.UrlUtil;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +23,6 @@ public class InquireEcV5 extends EcV5Api {
 
 
 
-
-
     /**
      * 5.1.1CMIOT_API23M27-单卡操作订单处理情况查询
      * @param orderNum 订单编号
@@ -46,7 +35,7 @@ public class InquireEcV5 extends EcV5Api {
     }
 
     /**
-     * 5.1.1CMIOT_API23M27-单卡操作订单处理情况查询
+     * 5.1.2 CMIOT_API23M10-物联卡业务批量办理结果查询
      * @param orderNum 订单编号
      * @return
      */
@@ -55,6 +44,19 @@ public class InquireEcV5 extends EcV5Api {
         pMap.put("orderNum", orderNum);
         return commonRequest(functionNm,pMap);
     }
+
+    /**
+     * 5.1.3 CMIOT_API23M40-物联卡管理停复机冻结状态查询
+     * @param key [msisdn/iccid/imsi]
+     * @param value 对应号码
+     * @return
+     */
+    public String querySimManageStopRestartStatus(String key,String value) {
+        String functionNm =   query+"/sim-manage-stop-restart-status";
+        pMap.put(key, value);
+        return commonRequest(functionNm,pMap);
+    }
+
 
     /**
      * 5.1.4CMIOT_API23S00-单卡基本信息查询
@@ -724,7 +726,7 @@ public class InquireEcV5 extends EcV5Api {
      * 6.1.1CMIOT_API23A04-物联卡机卡分离状态查询
      * @param msisdn
      * @param testType [分离检测方式：0：话单侧检测 1：网络侧检测]
-     * @return
+     * @returnquery/ordered-offerings
      */
     public String queryCardBindStatus(String msisdn,String testType) {
         String functionNm =  query+"/card-bind-status";

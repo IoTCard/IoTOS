@@ -22,7 +22,7 @@
 
         <el-row :gutter="10" class="panel-group">
           <myCol ref="card_count" :xsW="24" :smW="8" :mdW="6" :lgW="6" :duration="8" :title="$t('index.cardCount')"
-                 :unit="$t('common.open')" :val="frontPage.card_count" icon="sim"
+                 :unit="$t('common.open')" :val="frontPage.card_count" icon="sim" toUrl="/connect/cardList/"
                  iconClass="card-panel-icon-wrapper icon-one"/>
           <myCol ref="proxyCardCount" :xsW="24" :smW="8" :mdW="6" :lgW="6" :duration="8"
                  :title="$t('index.proxyCardCount')" :unit="$t('common.open')" :val="frontPage.agent_card_count"
@@ -40,10 +40,12 @@
                  :unit="$t('common.indivual')" :val="frontPage.login_ip_count" icon="ip"
                  iconClass="card-panel-icon-wrapper icon-one"/>
           <myCol ref="saveCount" :xsW="24" :smW="8" :mdW="6" :lgW="6" :duration="8" :title="$t('index.saveCount')"
+                 :toUrl="'/connect/cardList/'+ tools.encryptSy({'dateType':'create_time','selTime':[monthFirstDay,frontPage.last_upd_time.split(' ')[0]]})"
                  :unit="$t('common.open')" :val="frontPage.card_add_count" icon="increase"
                  iconClass="card-panel-icon-wrapper icon-three"/>
           <myCol ref="activationCount" :xsW="24" :smW="8" :mdW="6" :lgW="6" :duration="8"
                  :title="$t('index.activationCount')" :unit="$t('common.open')" :val="frontPage.card_activation_count"
+                 :toUrl="'/connect/cardList/'+ tools.encryptSy({'dateType':'activate_date','selTime':[monthFirstDay,frontPage.last_upd_time.split(' ')[0]]})"
                  icon="activation" iconClass="card-panel-icon-wrapper icon-three"/>
           <router-link v-hasPermi="['monitor:online:list']" v-if="headquarters"  :to="'/monitor/online/'">
             <myCol ref="onlineUser" :xsW="24" :smW="8" :mdW="6" :lgW="6" :duration="8" :title="$t('index.onlineUser')"
@@ -122,7 +124,7 @@
                         <el-table-column label="ICCID" align="left" width="180">
                           <template slot-scope="scope">
                             <router-link
-                              :to="'/card/card/'+ tools.encrypt(JSON.stringify({'type':'0','value':scope.row.iccid}))"
+                              :to="'/connect/cardList/'+ tools.encryptSy({'type':'0','value':scope.row.iccid})"
                               class="link-type">
                               <span>{{ scope.row.iccid }}</span>
                             </router-link>
@@ -246,7 +248,7 @@ export default {
     return {
       tools: tools,
       usageType: false,//用量查看方式
-
+      monthFirstDay:tools.getMonthFirstDay(),
       usage_p_xAxis: [],
       usage_p_colorArr: this.usageType?['#3c97fd']:['#67c23a'],//折线图 颜色
       usage_p_showLable: this.usageType?{data: this.$t("index.monthlyDosage")}:{data: this.$t("index.dailyDosage")},
@@ -290,7 +292,7 @@ export default {
         dept_id: '',
         record_date: '',
         create_time: '',
-        last_upd_time: {},
+        last_upd_time: '',
         usage_line: {
           usage_month:{
             data: {},
@@ -467,7 +469,7 @@ export default {
     if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
       this.channelOptions = window['channelOptions'];
     } else {
-      let pwdStr = tools.encrypt(JSON.stringify({}));
+      let pwdStr = tools.encryptSy({});
       this.getNameOpen(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         window['channelOptions'] = jsonObj.data;
@@ -491,7 +493,7 @@ export default {
 
 
     findIndex(){
-      let pwdStr = tools.encrypt(JSON.stringify({}));
+      let pwdStr = tools.encryptSy({});
       find(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         let msg = jsonObj.msg;

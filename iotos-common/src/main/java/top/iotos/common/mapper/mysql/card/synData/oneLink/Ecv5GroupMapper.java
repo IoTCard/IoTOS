@@ -17,6 +17,7 @@ public interface Ecv5GroupMapper {
 
     public Map<String, Object> find(Map map);
 
+    public int deleteAll(Map map);
 
 
 }

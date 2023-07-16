@@ -142,7 +142,7 @@ public class EcV5HttpThread  implements Callable<String> {
                     this.setJsonStr(inquire.querySimDataUsage(getTostr("key"),getTostr("value")));
                     break;
                 case "queryCardBindStatus":
-                    this.setJsonStr(inquire.queryCardBindStatus(getTostr("msisdn"),getTostr("testType")));
+                    this.setJsonStr(inquire.queryCardBindStatus(getTostr("msisdn"),getTostr("testType","0")));
                     break;
                 case "querySimBasicInfo":
                     this.setJsonStr(inquire.querySimBasicInfo(getTostr("key"),getTostr("value")));
@@ -222,6 +222,13 @@ public class EcV5HttpThread  implements Callable<String> {
                 case "queryLocationSavedCards":
                     this.setJsonStr(inquire.queryLocationSavedCards(getTostr("key"),getTostr("value"),getTostr("pageSize"),getTostr("startNum")));
                     break;
+                case "querySimManageStopRestartStatus":
+                    this.setJsonStr(inquire.querySimManageStopRestartStatus(getTostr("key"),getTostr("value")));
+                    break;
+                case "queryOfferingsDetail":
+                    this.setJsonStr(inquire.queryOfferingsDetail(getTostr("offeringId")));
+                    break;
+
 
 
 
@@ -236,7 +243,10 @@ public class EcV5HttpThread  implements Callable<String> {
         String str = getPMap().get(key)!=null?getPMap().get(key).toString():null;
         return str;
     }
-
+    public String getTostr(String key,String defVal){
+        String str = getPMap().get(key)!=null?getPMap().get(key).toString():defVal;
+        return str;
+    }
 
 
 

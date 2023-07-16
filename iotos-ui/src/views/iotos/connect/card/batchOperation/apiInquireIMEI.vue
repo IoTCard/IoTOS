@@ -101,7 +101,7 @@ export default {
     },
     // 加密数据
     getPwdStr(){
-      let pwdStr = tools.encrypt(JSON.stringify(this.updFome));
+      let pwdStr = tools.encryptSy(this.updFome);
       this.upload.pwdStr = pwdStr;
     },
 

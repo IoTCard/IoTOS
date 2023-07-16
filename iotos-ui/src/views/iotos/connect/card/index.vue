@@ -114,7 +114,7 @@
           <el-form-item>
             <el-date-picker
               v-model="selTime"
-              type="datetimerange"
+              type="daterange"
               :picker-options="pickerOptions"
               :range-separator="$t('common.to')"
               value-format="yyyy-MM-dd"
@@ -602,7 +602,7 @@
       <!-- 基础信息 子组件-->
       <cardInfoDetails ref="cardInfoDetails"
           @setObj="setObj"  :detailsEditexecute="detailsEditexecute" :show_Details="show_ds"   :sel="sel"
-          :deptsOptions="deptsOptions" :cardStatusShowOptions="cardStatusShowOptions"   :channelOptions="channelOptions"
+          :deptsOptions="deptsOptions" :cardStatusShowOptions="cardStatusShowOptions"   :channelOptions="channelOptions" :showDiagnosis="true"
       />
 
       <!-- 拓展模块 信息 子组件-->
@@ -631,57 +631,11 @@
       />
     </el-dialog>
 
-<!--    修改卡信息-->
+    <!-- 修改卡信息-->
     <el-dialog  :title="$t('card_index.editCard')" :visible.sync="edit_show" width="600px" :close-on-click-modal="false" append-to-body>
-      <el-form ref="form" :model="updForm" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item :label="$t('card_index.updForm.customize_grouping')"  >
-              <el-input v-model="updForm.customize_grouping" :placeholder="$t('common.pleaseEnter')"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="IMEI :"  >
-              <el-input v-model="updForm.imei" :placeholder="$t('common.pleaseEnter')"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-          <!--  发货日期-->
-          <el-form-item :label="$t('card_index.updForm.delivery_date')"  >
-            <el-date-picker
-              v-model="updForm.delivery_date"
-              :placeholder="$t('common.pleaseChoose')"
-              size="small"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              :picker-options="deliveryOptions">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item :label="$t('card_index.updForm.remarks')"  >
-            <el-input v-model="updForm.remarks" type="textarea" :placeholder="$t('common.pleaseEnter')"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('card_index.updForm.updateNotFilled')" label-width="140px">
-              <el-radio-group>
-                <label class="el-radio " v-for="(item,index) in whetherOptions">
-                                  <span class="el-radio__input my_checkbox__inner">
-                                  <input type="radio" v-model="updForm.updateNotFilled"
-                                         name="Button"
-                                         :value="item.dictValue"/>
-                                   </span>
-                  <span class="el-radio__label ">{{ item.dictLabel }}</span>
-                </label>
-              </el-radio-group>
-          </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" v-if="wUpdBatch" @click="edidBatch">{{ $t('common.sure') }}</el-button>
-        <el-button type="primary" v-if="!wUpdBatch" @click="edidOn">{{ $t('common.sure') }}</el-button>
-        <el-button @click="edit_show=false">{{ $t('common.cancel') }}</el-button>
-      </div>
-
-
+      <editCard ref="editCard"  @setObj="setObj" :wUpdBatch="wUpdBatch" :edit_show="edit_show"
+                :whetherOptions="whetherOptions" :updForm="updForm" :deliveryOptions="deliveryOptions"
+      />
     </el-dialog>
 
   </div>
@@ -699,7 +653,6 @@ import {
   synRealName,
   synActivateDate,
   synImei,
-  editCardPublic
 } from "@/api/iotos/connect/card";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import tools from "@/utils/iotos/tools";
@@ -711,6 +664,7 @@ import cardInfoModule from "./cardInfoModule";
 import cardApiBusinessHandling from "./batchOperation/cardApiBusinessHandling";
 import cardInfoRenew from "./batchOperation/cardInfoRenew";
 import apiInquireIMEI from "./batchOperation/apiInquireIMEI";
+import editCard from "./components/editCard";
 
 
 export default {
@@ -720,7 +674,8 @@ export default {
     cardInfoDetails,
     cardInfoModule,
     cardApiBusinessHandling,
-    apiInquireIMEI
+    apiInquireIMEI,
+    editCard
   },
   watch: {
     // 根据名称筛选企业树
@@ -920,33 +875,7 @@ export default {
       },
       cardStatusOptions:[],//卡状态描述
       dateTypeOptions:[],//卡列表时间类型
-      pickerOptions: {
-        shortcuts: [{
-          text: this.$t('common.lastWeek'),
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: this.$t('common.lastRecentMonth'),
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: this.$t('common.lastThreeMonths'),
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
+      pickerOptions: tools.getWeekPickerOptions(this),
       selTime: [],//时间选择
       headquartersBool:false,//是否总部
       cardGroupingOptions: [],//卡列表-分组
@@ -962,9 +891,7 @@ export default {
       IMEI_wExecute: false,//查询IMEI 界面是否已加载
       IMEI_show: false,//查询IMEI 展示
       edit_show: false,//编辑卡信息 展示
-
-
-      wUpdBatch: false,//是够批量操作
+      wUpdBatch: false,//是否批量操作
       updForm:{
         remarks:null,
         updateNotFilled:'0',
@@ -973,24 +900,7 @@ export default {
         customize_grouping:null,
         iccid:null,
       },
-      deliveryOptions: {
-        shortcuts: [{
-          text: this.$t("common.today"),
-          onClick(picker) {
-            picker.$emit('pick', tools.gitData());
-          }
-        }, {
-          text: this.$t("common.yesterday"),
-          onClick(picker) {
-            picker.$emit('pick', tools.getBeforeDate(1));
-          }
-        }, {
-          text: this.$t("common.weekAgo"),
-          onClick(picker) {
-            picker.$emit('pick', tools.getBeforeDate(7));
-          }
-        }]
-      },
+      deliveryOptions: tools.getDeliveryOptions(this),
       whetherOptions: [],//是否
 
 
@@ -1059,7 +969,7 @@ export default {
     if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
       this.channelOptions = window['channelOptions'];
     } else {
-      let pwdStr = tools.encrypt(JSON.stringify({}));
+      let pwdStr = tools.encryptSy({});
       this.getNameOpen(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         window['channelOptions'] = jsonObj.data;
@@ -1081,8 +991,20 @@ export default {
 
 
     this.getTreeselect();
-
-    this.queryParams.type = "0";
+    if(tools.isNull(str)==true && tools.isNull(str.pwdStr)==true){
+      let jsonObj = JSON.parse(tools.Decrypt(str.pwdStr));
+      if(tools.isNull(jsonObj.value)){
+        this.queryParams.value = jsonObj.value;
+        this.queryParams.type = jsonObj.type;
+      }
+      if(tools.isNull(jsonObj.selTime)){
+        this.queryParams.dateType = jsonObj.dateType;
+        this.selTime = jsonObj.selTime;
+        this.queryParams.advancedSearch = true;
+      }
+    }else {
+      this.queryParams.type = "0";
+    }
     this.getList();
 
 
@@ -1097,8 +1019,8 @@ export default {
           map.dept_id = this.$refs.dept.getCheckedKeys();
         }
       }
-      let Pwd_Str = tools.encrypt(JSON.stringify(map));
-      getGrouping(Pwd_Str).then(response => {
+      let pwdStr = tools.encryptSy(map);
+      getGrouping(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
             window['cardGroupingOptions'] = jsonObj.data;
@@ -1137,6 +1059,9 @@ export default {
     setObj(Key, obj) {
       //console.log(obj);
       switch (Key) {
+        case 'setShowDs':
+          this.show_ds = obj;//设置  更新卡列表  是否已经加载
+          break;
         case 'setRenew_wExecute':
           this.renew_wExecute = obj;//设置  更新卡列表  是否已经加载
           break;
@@ -1169,7 +1094,9 @@ export default {
           this.wUpdBatch = false;
           this.updForm = obj;
           break;
-
+        case 'setEditShow':
+          this.edit_show = obj;
+          break;
       }
     },
 
@@ -1284,7 +1211,7 @@ export default {
     getList() {
       this.loading = true;
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listCard(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -1337,7 +1264,7 @@ export default {
       this.sel.c_no = row.c_no;
       this.sel.c_left = row.c_left;
       this.sel.c_used = row.c_used;
-
+      this.sel.channel_id = row.channel_id;
 
     },
 
@@ -1353,7 +1280,7 @@ export default {
     handleExport() {
       this.loading = true;
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listCard(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -1381,7 +1308,7 @@ export default {
 
     cardExportFun(){
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       cardExport(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         let msg = jsonObj.msg;
@@ -1443,7 +1370,7 @@ export default {
         let map = this.queryParams;
         map.set_dept_id = this.formDivide.dept_id;
         map.set_dept_name = this.formDivide.dept_name;
-        let pwdStr = tools.encrypt(JSON.stringify(map));
+        let pwdStr = tools.encryptSy(map);
         tools.openAsk(this, 'warning', this.$t("common.ask.ask")+" [ " + this.total + " ] "+this.$t("card_index.ask.cardDivid_2")+"  [ " + this.formDivide.dept_name + " ] ？", this.divideSave, pwdStr);
       }
     },
@@ -1550,74 +1477,9 @@ export default {
     synCommonParameter(row){
       let map = {};
       map.iccid = row.iccid;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       return pwdStr;
     },
-
-    //批量编辑
-    edidBatch(){},
-    //编辑
-    edidOn(){
-      let _this = this;
-      if(tools.VerificationsText(_this, _this.updForm.iccid, this.$t("card_index.rs.updIccid")) == true){
-        let  updateNotFilled = this.updForm.updateNotFilled;
-        let bool = false;
-        let title = "";
-
-        if(updateNotFilled=='1'){
-          bool = true;
-          this.updForm.remarks = tools.isNull(this.updForm.remarks)?this.updForm.remarks:'';
-          this.updForm.imei = tools.isNull(this.updForm.imei)?this.updForm.imei:'';
-          this.updForm.delivery_date = tools.isNull(this.updForm.delivery_date)?this.updForm.delivery_date:'';
-          this.updForm.customize_grouping = tools.isNull(this.updForm.customize_grouping)?this.updForm.customize_grouping:'';
-
-          title += this.$t('card_index.updForm.remarks')+" ["+this.updForm.remarks+"]";
-          title += "IMEI: ["+this.updForm.imei+"]";
-          title += this.$t('card_index.updForm.delivery_date')+" ["+this.updForm.delivery_date+"]";
-          title += this.$t('card_index.updForm.customize_grouping')+" ["+this.updForm.customize_grouping+"]";
-
-        }else {
-          if(tools.isNull(this.updForm.remarks)){
-            bool = true;
-            title += this.$t('card_index.updForm.remarks')+" ["+this.updForm.remarks+"]";
-          }
-          if(tools.isNull(this.updForm.imei)){
-            bool = true;
-            title += "IMEI: ["+this.updForm.imei+"]";
-          }
-          if(tools.isNull(this.updForm.delivery_date)){
-            bool = true;
-            title += this.$t('card_index.updForm.delivery_date')+" ["+this.updForm.delivery_date+"]";
-          }
-          if(tools.isNull(this.updForm.customize_grouping)){
-            bool = true;
-            title += this.$t('card_index.updForm.customize_grouping')+" ["+this.updForm.customize_grouping+"]";
-          }
-
-        }
-
-        if(bool){
-          let pwdStr = tools.encrypt(JSON.stringify(this.updForm));
-          tools.openAsk(this,'warning', this.$t("card_index.ask.upd")+title+' ?', this.editCardSub,pwdStr,null);
-        }else {
-          this.$message.error(this.$t("card_index.rs.unfilled"));
-        }
-      }
-    },
-
-
-  editCardSub(pwdStr){
-    editCardPublic(pwdStr).then(response => {
-      let jsonObj = JSON.parse(tools.Decrypt(response));
-      let msg = jsonObj.msg;
-      if (jsonObj.code == 200) {
-        this.$message.success(msg);
-        this.edit_show = false;
-      } else {
-        this.$message.error(msg);
-      }
-    })
-  },
 
 
 

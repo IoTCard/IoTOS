@@ -2,14 +2,14 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.2.1
+# IoTOS v1.5.2
 
 ## An efficient and practical IoTCard management & operation system.
 
 > IoTOS is currently named too broadly, and it is mainly used for IoTCard management business with efficient, robust, and flexible design of SaaS, multi-language, robot push, automatic management, and data synchronization multi-type algorithms as the main business.
 
 
-中文 / [English](README.en.md)
+English / [中文](README.md)
 
 <div class="shields-wrapper">
 <a target="_blank" class="shields-wrapper-image" href='https://github.com/IoTCard/IoTOS'><img  alt="GitHub license" src="https://img.shields.io/github/license/IoTCard/IoTOS?style=flat-square&logo=github&color=616ae5"></a>
@@ -24,7 +24,8 @@
 
 - [IoTOS](https://gitee.com/chinaiot/iotos) is developed based on [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue?_from=gitee_search) for international multilingual use The IoTCard management business focuses on efficient, robust, and flexible design of SaaS, multilingual, robot push, automated management, and data synchronization multi-type algorithms.
 - [IoTOS-App](https://gitee.com/chinaiot/iotos-app) developed based on [RuoYi-App](https://gitee.com/y_project/RuoYi-App?_from=gitee_search) Use [uView](https://gitee.com/umicro/uView) to optimize multilingual UI
-- [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) Based on [J-IM](https://gitee.com/xchao/j-im?_from=gitee_search)([t- io](https://gitee.com/tywo45/t-io?_from=gitee_search) network framework Tan chat prototype core) extension development
+- [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) Based on [J-IM](https://gitee.com/xchao/j-im?_from=gitee_search)([t- io](https://gitee.com/tywo45/t-io?_from=gitee_search) Network Framework Tanchat Prototype Core) Extended Development**
+
 
 
 # 1. About IoTOS
@@ -95,7 +96,7 @@ This project is based on the background development framework of [RuoYi-Vue](htt
 
 ## 2.4 Project structure
 
-**Backend structure**
+**Backend Structure**
 
 ```
 ├── iotos-admin // background service main program
@@ -105,7 +106,7 @@ This project is based on the background development framework of [RuoYi-Vue](htt
 ├── iotos-consumer-task // Timing task-consumer
 ├── iotos-framework // framework core
 ├── iotos-generator // code generation
-├── iotos-quartz // Timing tasks
+├── iotos-quartz // Timing task
 ├── iotos-system // system code
 
 ```
@@ -166,10 +167,19 @@ Click the link below to enter the help manual to view the description of common 
 ## V1.2.1 update log
 
 - [x] Added a modifiable data carousel to the login page;
-- [x] The login page adds the domestic commonly used operator platform website, the international platform operator website, and about-IoTOS link;
+- [x] The login page adds the domestic commonly used operator platform website, the international platform operator website, and about-IoTOS links;
 - [x] The login page adds platform capability descriptions, open protocol descriptions, and product series descriptions;
-- [x] Added notifications for adapting the mobile terminal system to issue announcements through [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) after logging in;
+- [x] Add the system notification of adapting to the mobile terminal and pass [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) issued an announcement notice;
 - [x] Optimize the default language of the login interface to 'Chinese';
+
+## V1.5.3 update log
+
+- [x] channel data statistics increase card number, total flow, used flow, remaining flow statistics;
+- [x] Add session information query session records (paging query) and export history records for card details;
+- [x] Newly added smart diagnosis card status, freezing status, downtime reason, regional restriction status, regional restriction area, device status, business change history, APN query already opened, diagnosis suggestion prompt; (perfect restoration of OneLink smart diagnosis);
+- [x] Optimize the card number synchronization algorithm bug;
+- [x] Optimize card number comparison, add card number algorithm timing task trigger interval, etc.;
+- [x] Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);
 
 # 5. Contact us
 
@@ -192,40 +202,47 @@ If you are a business owner and have plans to use `IoTOS` in your company's busi
 * The company name, logo and official website link will be displayed in the open source warehouse, `IoTOS` official website and publicity materials for a long time;
 * The donation amount will be deducted from the price of paid products of `IoTOS` in the same proportion.
 
-If you are interested in long-term sponsorship of the `IoTOS` team, or have other good ideas, please contact the development team on WeChat `iotos_top`, or send an email to `card@iotos.top`.
+If you are interested in sponsoring the `IoTOS` team for a long time, or have other good ideas, please contact the development team on WeChat `iotos_top`, or send an email to `card@iotos.top`.
 
 # Seven, project display
-
 
 ![index login 1](readme-pic/en/cr1.png)
 
 ![index login 2](readme-pic/en/cr2.png)
 
-![index login 3](readme-pic/cn/cr3.png)
+![index login 3](readme-pic/en/cr3.png)
 
 ![index login 4](readme-pic/en/cr4.png)
 
 ![index home page](readme-pic/en/index.png)
 
-![channel](readme-pic/en/channel.png)
+![channel channel](readme-pic/en/channel.png)
 
 ![card list](readme-pic/en/card.png)
 
+![diagnosis intelligent diagnosis gif](readme-pic/cn/diagnosis.gif)
+
+![diagnosis intelligent diagnosis png](readme-pic/cn/diagnosis.png)
+
+![sessionOut session record export](readme-pic/cn/sessionOut.png)
+
+
 ![cardInfoUsed card number details](readme-pic/en/cardInfoUsed.png)
 
-![businessHandling business handling](readme-pic/en/businessHandling.png)
+![businessHandling Business Handling](readme-pic/en/businessHandling.png)
 
 ![task execute task](readme-pic/en/task.png)
 
 ![taskFile execute task-file](readme-pic/en/taskFile.png)
 
-![taskFileDownload execution task-file-download record](readme-pic/en/taskFileDownload.png)
+![taskFileDownload execute task-file-download record](readme-pic/en/taskFileDownload.png)
 
 ![divisionWithdrawn Division Withdrawn](readme-pic/cn/divisionWithdrawn.png)
 
 ![language internationalization language](readme-pic/cn/language.png)
 
-![IoTOS about IoTOS](readme-pic/en/IoTOS.png)
+![IoTOS About IoTOS](readme-pic/en/IoTOS.png)
+
 
 
 

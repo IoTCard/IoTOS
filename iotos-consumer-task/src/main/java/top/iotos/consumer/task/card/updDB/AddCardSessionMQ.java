@@ -73,12 +73,12 @@ public class AddCardSessionMQ {
                     return_data.put("dept_id",addMap.get("dept_id"));
                    if(return_data.get("ip")!=null){
                        if(template.equalsIgnoreCase("oneLink_ECV5")){
-                           return_data = GetMapUtil.getMap(return_data,"apn_id",null);
+                           return_data = GetMapUtil.getMap(return_data,"apnId",null);
                            return_data = GetMapUtil.getMap(return_data,"status",null);
                            return_data = GetMapUtil.getMap(return_data,"ip",null);
-                           return_data = GetMapUtil.getMap(return_data,"ipv6_prefix",null);
+                           return_data = GetMapUtil.getMap(return_data,"ipv6Prefix",null);
                            return_data = GetMapUtil.getMap(return_data,"ipv6",null);
-                           return_data = GetMapUtil.getMap(return_data,"create_date",null);
+                           return_data = GetMapUtil.getMap(return_data,"createDate",null);
                            return_data = GetMapUtil.getMap(return_data,"rat",null);
 
                            addDetailsCount = oneLinkEcV5SessionMapper.save(return_data);

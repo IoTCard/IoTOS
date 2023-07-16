@@ -139,7 +139,9 @@
         delete from os_onelink_ecv5_group <where> channel_id = #{channel_id}</where>
     </delete>
 
-
+    <delete id="deleteAll" parameterType="java.util.HashMap" >
+        delete from os_onelink_ecv5_group
+    </delete>
     
     
 

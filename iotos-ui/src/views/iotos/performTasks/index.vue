@@ -473,7 +473,7 @@ export default {
     },
     findDownloadList() {
       this.downloadLoading = true;
-      let pwdStr = tools.encrypt(JSON.stringify(this.downloadParams));
+      let pwdStr = tools.encryptSy(this.downloadParams);
       downloadList(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -561,7 +561,7 @@ export default {
     getList() {
       this.loading = true;
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listPerformTasks(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -607,7 +607,7 @@ export default {
       this.flieList = [];//清空数据
       let map = {};
       map.t_no = row.t_no;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       findFile(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         if (jsonObj.code == 200) {
@@ -628,7 +628,7 @@ export default {
     //撤销划卡
     revokeCardDivid(row){
       let map = {"t_no":row.t_no};
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       tools.openAsk(this, 'warning', this.$t("common.ask.ask")+" "+this.$t("performTasks_index.ask.revokeCardDivid_1")+" [ " + row.dept_name + " ] "+this.$t("performTasks_index.ask.revokeCardDivid_2"), this.revokeDivid, pwdStr);
 
     },

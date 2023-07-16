@@ -101,6 +101,32 @@ export const constantRoutes = [
         meta: { icon: 'download', tcode: 'performTasks' }
       }
     ]
+  },
+  {
+    path: '/connect',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'cardList/:pwdStr(.*)',
+        component: () => import('@/views/iotos/connect/card/index'),
+        name: 'card',
+        meta: { icon: '', tcode: 'card_list' }
+      },
+      {
+        path: 'diagnosis/:pwdStr(.*)',
+        component: () => import('@/views/iotos/connect/card/diagnosis'),
+        name: 'diagnosis',
+        meta: { icon: '', tcode: 'diagnosis' }
+      },
+      {
+        path: 'channel/:pwdStr(.*)',
+        component: () => import('@/views/iotos/connect/channel/index'),
+        name: 'channel',
+        meta: { icon: '', tcode: 'aisle' }
+      }
+    ]
   }
 
 

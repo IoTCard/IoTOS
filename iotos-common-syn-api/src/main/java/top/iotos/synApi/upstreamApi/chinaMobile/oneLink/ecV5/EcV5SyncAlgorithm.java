@@ -4,10 +4,10 @@ import com.alibaba.fastjson2.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import top.iotos.synApi.upstreamApi.config.RedisUtil;
 import top.iotos.synApi.utils.iotos.common.Arith;
 import top.iotos.synApi.utils.iotos.common.GetMapUtil;
 import top.iotos.synApi.utils.iotos.common.ListCompare;
-import top.iotos.synApi.utils.iotos.time.VeDate;
 import top.iotos.synApi.utils.sync.CardStateTransition;
 import top.iotos.synApi.utils.sync.MQSyncSend;
 
@@ -24,7 +24,8 @@ import java.util.concurrent.*;
 @Component
 public class EcV5SyncAlgorithm {
 
-
+    @Resource
+    private RedisUtil redisUtil;
     @Resource
     private CardStateTransition cardStateTransition;
 
@@ -79,6 +80,11 @@ public class EcV5SyncAlgorithm {
         List<String> fNameList = new ArrayList<>();
         fNameList.add(functionName);
         return ecV5CPU(channel,cardMap,fNameList,null,null,"inquire",null);
+    }
+    public List<Map<String, Object>> ecV5CPU(Map<String, Object> channel,Map<String, Object> cardMap,String functionName,Map<String, Object> pMap){
+        List<String> fNameList = new ArrayList<>();
+        fNameList.add(functionName);
+        return ecV5CPU(channel,cardMap,fNameList,null,null,"inquire",pMap);
     }
     public List<Map<String, Object>> ecV5CPUChange(Map<String, Object> channel,Map<String, Object> cardMap,String functionName,Map<String, Object> pMap){
         List<String> fNameList = new ArrayList<>();
@@ -222,6 +228,7 @@ public class EcV5SyncAlgorithm {
                                 if(used>=0){
                                     mQSyncSend.sendUsedResultProcessing(cardMap_i,used,executionDate,starting_time);
                                 }
+                                rData.put("result",result);
                             }else if(functionName.equals("querySimDataUsage")){
                                 double kb = Double.parseDouble(index1.get("dataAmount").toString());
                                 double used = Arith.div(kb,1024,2);//KB 转换 MB
@@ -263,7 +270,31 @@ public class EcV5SyncAlgorithm {
                                 rData.put("source_data",source_data);
                                 rData.put("pMap",pMap_i);
                                 rData.put("bool",true);
+                            }else if(functionName.equals("querySimRegionLimitArea")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("querySimCommunicationFunctionStatus")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("regionLimitStatus")){
+                                //（同一卡号 1 小时内仅可调用一次 【所以调用成功后缓存60分钟】
+                                rData.put("result",result);
+                                setCache(functionName,iccid,result,60);//缓存数据
+                            }else if(functionName.equals("querySimManageStopRestartStatus")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("querySimStopReason")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("queryCardBindStatus")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("queryOrderedOfferings")){
+                                //资费订购实时查询 [待完善 做表存储]
+                                rData.put("result",result);
+                            }else if(functionName.equals("querySimChangeHistory")){
+                                rData.put("result",result);
+                            }else if(functionName.equals("queryOnOffStatus")){
+                                rData.put("result",result);
                             }
+
+
+
 
                             if(ListCompare.Is_existence(updArr,functionName)){// 需修改同步的函数 才放入
                                 exList.add(updCardMap);
@@ -277,6 +308,16 @@ public class EcV5SyncAlgorithm {
                                     rData.put("source_data",source_data);
                                     rData.put("pMap",pMap_i);
                                     rData.put("bool",true);
+                                }
+                            }
+                            if(functionName.equals("regionLimitStatus")){//该卡未订购/开通区域限制或订购失效
+                                if(status.equals("12199")){
+                                    success = true;
+                                    List<Map<String, Object>> result = obj.get("result")!=null?(List<Map<String, Object>>) obj.get("result"):null;
+                                    if(result!=null){
+                                        setCache(functionName,iccid,result,60);//缓存数据
+                                        rData.put("result",result);
+                                    }
                                 }
                             }
                         }
@@ -336,6 +377,22 @@ public class EcV5SyncAlgorithm {
         return retuenList;
     }
 
+    /**
+     * 缓存结果
+     * @param functionName
+     * @param iccid
+     * @param result
+     * @param timeout
+     */
+    private void setCache(String functionName,String iccid,List<Map<String, Object>> result,int timeout){
+        try {
+            if(redisUtil!=null){
+                redisUtil.redisTemplate.opsForValue().set(functionName+":"+iccid, JSON.toJSONString(result), timeout, TimeUnit.MINUTES);
+            }
+        }catch (Exception e){
+
+        }
+    }
 
 
 }

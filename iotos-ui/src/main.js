@@ -95,13 +95,6 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
-function rewriteLog() {
-  console.log = (function (log) {
-    return process.env.NODE_ENV == 'production' ? function () { } : log
-  }(console.log))
-}
-
-
 
 new Vue({
   el: '#app',

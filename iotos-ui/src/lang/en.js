@@ -1,5 +1,3 @@
-import tools from "@/utils/iotos/tools";
-
 export default {
   common:{//Common
     success: "The operation was successful",
@@ -73,7 +71,7 @@ export default {
     data: 'article data',
     moreOperations: "More",
     noDataFound: "No matching data found!",
-
+    notNull:'Cannot be empty!',
     today: "today",
     yesterday: "Yesterday",
     weekAgo: "A week ago",
@@ -93,15 +91,15 @@ export default {
     lastWeek: 'The last week',
     lastRecentMonth:'The last month',
     lastThreeMonths:'The last three months',
-
+    empty: 'No data found',
     open:'Zhang',
     individual: 'one',
     share:'share',
     yuan: 'Yuan',
-
+    sum: 'total',
     month:'month',
     day:'day',
-
+    copy: "Copy",
 
     ask:{//General inquiry
       wDelName: "Are you sure [Delete] 'Name' is:",
@@ -118,7 +116,57 @@ export default {
     }
   },
 
+  diagnosis:{//Smart diagnosis
+    cardMatching: "card number matching",
+    oneDiagnosis: "One-key diagnosis",
+    diagnosis: "Diagnosis",
+    empty:'The query card number was not found, please check the card number or use card number matching to search! ',
+    rs: {
+      value:'Query card number',
+      length: 'Please enter a matching card number greater than 4 digits! ',
+    },
+    referenceNumber:'reference number',
+    prefixMatching: 'prefix match',
+  },
+  dsEcV5: {
+    dTitle: {
+      i_1:'diagnosing',
+      i_2:'Diagnosis completed',
+    },
+    table: {
+      i_1:'service type',
+      i_2:'APN',
 
+      i_3:'Status',
+      i_4:'Status change time',
+    },
+    te1:{
+      title:'SIM card status',
+      i_1:'SIM card status',
+      i_2: 'Downtime reason',
+      i_3:'Device status',
+      i_3top: 'Power on means the device is connected and attached to the base station',
+      i_4: 'Whether to freeze',
+      solution: 'The status of the SIM card is testable, to be activated, activated and can communicate normally',
+    },
+    te2:{
+      title:'Communication Service',
+      titletop: 'Due to network fluctuations and delays, there may be some errors in the results, for reference only, it is recommended to refer to the actual status of the terminal',
+    },
+    te3:{
+      title: 'Policy Restrictions',
+      i_1: 'Exceeding the area limit',
+      i_2: 'Machine card separation status',
+      i_3: 'restricted area',
+    },
+    te4:{
+      title:'Status Change Record',
+    },
+    suggestedSolution: 'Suggested solution:',
+
+
+
+  },
 
 
   index: {
@@ -131,7 +179,7 @@ export default {
     activationCount: "Activation card number this month",
     onlineUser: "Online User",
     basic: {
-      basicInfo: "Basic information",
+      basicInfo: "Basic Information",
       statisticalDeadline: "Statistical Deadline:",
       ps: "The default time difference between the statistical time and the current time is 15 minutes (PS: the data will not change within 15 minutes)",
 
@@ -203,11 +251,11 @@ export default {
     gprsReset: "network reset",
     shutdown: "disconnect network",
     stop: "Stop and resume machine",
-    flexibleChange: "flexible change state",
+    flexibleChange: "flexible change status",
     tip:{
       reset: "When the Internet access function is abnormal, you can reset and restore the GPRS Internet access function by calling this interface; (execute when you select 'Yes')",
-      openStop: "Stop and restart: execute the shutdown and restart operation on the card number; (PS: Long-term shutdown may result in a shutdown insurance fee, and may cancel the account card number! It depends on the upstream operator!)",
-      openClose: "Disconnect from the network: perform the operation of closing the network connection and opening the network connection for the card number; (PS: this function is similar to opening and closing mobile phone data traffic.)",
+      openStop: "Stop and restart: perform shutdown and restart operations on the card number; (PS: long-term shutdown canThere may be a downtime insurance fee, and the account number may be canceled! It depends on the upstream operator! )",
+      openClose: "Disconnect from the network: execute the operation of closing the network connection and opening the network connection for the card number; (PS: this function is similar to opening and closing mobile phone data traffic.)",
       flexibleChange: "Flexibly change the status of the card: adapt to some upstream APIs, (PS: and the reason for the downtime is an active application for downtime, you can only resume the machine. For other reasons, you need to contact the account manager to deal with it!)",
     },
     ask:{//ask
@@ -283,7 +331,7 @@ export default {
     cbefore: "before the change",
     cafterward: "after the change",
     source: "source",
-
+    onlyCreateDate: "Filter recurring session time",
     last30Days: "The last 30 days",
     flowRecord: "flow usage",
     session: {
@@ -294,18 +342,28 @@ export default {
       hint1: "Please check the API information (there will be no online records if there is no usage generated!)",
       hint2: "Only supports upstream open query session information API acquisition",
       error1: "The session information has not been obtained yet",
-    }
+    },
+    oneLink_ECV5: {
+      label_0:'APN',
+      label_1:'online status',
+      label_2:'IP',
+      label_3:'IPV6 address prefix',
+      label_4:'IPV6 address interface',
+      label_5: 'Session creation time',
+      label_6:'Access method',
+      label_7:'Platform record time',
+    },
+
+
+
+
 
   },
 
 
 
-
   cardInfoDetails:{//card basic information
-
     copyCardInfo: "Copy basic information",
-
-
 
     tFrom: {
       operator: "operator",
@@ -345,12 +403,6 @@ export default {
       create_time: "Creation time",
       storage_date: "Storage date",
       delivery_date: "Delivery date",
-
-
-
-
-
-
 
     }
 
@@ -406,12 +458,14 @@ export default {
     table: {
       i_1:'Number',
       i_2:'Template',
-      i_3:'name',
+      i_3:'Name',
       i_4:'nickname',
       i_5:'Status',
       i_6: 'Polling',
       i_7: 'Total number of cards',
-      i_8:'Total usage',
+      i_8:'Total flow',
+      i_9:'Total usage',
+      i_10:'total surplus',
     },
     form:{//form
       template:'template',
@@ -455,7 +509,7 @@ export default {
     loginImgList:[
       {
         title: "IoTOS Open Source Series",
-        describe: "Based on multi-API open capability integration, extremely efficient synchronization algorithm; multi-language internationalization, automatic management, providing convenient management and control of mobile App, ready to use",
+        describe: "Based on multi-API open capability integration, extremely efficient synchronization algorithm; multi-language internationalization, automatic management, providing convenient management and control of mobile apps, ready to use",
         btn1Title: "Special Introduction",
         btn2Title: "Get source code",
       },
@@ -478,6 +532,8 @@ export default {
         btn2Title: "Get source code",
       }
     ],
+
+
   },
   tagsView: {
     refresh: 'Refresh the page',
@@ -519,7 +575,7 @@ export default {
     User_Management: 'User Management',
     role_management: 'role management',
     menu_management: 'menu management',
-    department_management: 'Department Management',
+    department_management: 'Enterprise Management',
     job_management: 'job management',
     dictionary_management: 'dictionary management',
     parameter_settings: 'parameter settings',
@@ -533,7 +589,7 @@ export default {
     cache_list: 'cache list',
     form_building: 'form construction',
     code_generation: 'code generation',
-    system_interface: 'system interfacemouth',
+    system_interface: 'system interface',
     operation_log: 'operation log',
     login_log: 'login log',
     user_query: 'User query',
@@ -552,10 +608,10 @@ export default {
     New_menu: 'New Menu',
     menu_modification: 'menu modification',
     menu_delete: 'menu delete',
-    Department_inquiry: 'Department inquiry',
-    new_department: 'New department',
-    department_modification: 'department modification',
-    department_delete: 'department delete',
+    Department_inquiry: 'Enterprise inquiry',
+    new_department: 'Enterprise new',
+    department_modification: 'Enterprise modification',
+    department_delete: 'Enterprise delete',
     job_search: 'job search',
     new_jobs: 'New jobs',
     job_modification: 'job modification',
@@ -614,9 +670,12 @@ export default {
     schedulingLog: 'scheduling log',
     modifyGeneration: 'Modify the generation configuration',
     accountCenter:'Account Center',
+    diagnosis: 'Smart diagnosis',
   },
+
+
   IoTOS: {
-    introduce:'IoTOS is based on the open capabilities of multiple IoT management system APIs (such as: China Mobile oneLink and other follow-up access APIs), which not only integrates powerful upstream API management and basic data synchronization algorithm functions, but also provides multi-language internationalization plan. And through flexible and efficient data operation modules such as efficient and flexible synchronization algorithms and system architecture business separation, a strong link between the enterprise and the upstream can be established, so as to further help enterprises improve the operational efficiency of the Internet of Things card through diversified management and operation solutions, and strengthen Operational capacity, expand the profitable space. ',
+    introduce:'IoTOS is based on the open capabilities of multiple IoT management system APIs (such as: China Mobile oneLink and other follow-up access APIs), which not only integrates powerful upstream API management and basic data synchronization algorithm functions, but also provides multi-language internationalization plan. And through flexible and efficient data operation modules such as efficient and flexible synchronization algorithms and system architecture business separation, it allows enterprises to establish a strong link with the upstream, so as to further help enterprises improve the operation efficiency of IoT cards through diversified management and operation solutions, and strengthen Operational capacity, expand the profitable space. ',
     currentVersion: 'Current version:',
     gitEE:'Gitee address',
     gitHub:'GitHub address',
@@ -637,7 +696,7 @@ export default {
       l02:'Channel, card list, usage record, basic business;',
       l03:'Card number automatic synchronization loading strategy;',
       l04: 'The API currently only supports the OneLink EcV5 interface (will eventually rely on this interface as a comprehensive docking display business, so stay tuned!);',
-      l05:'OneLink EcV5 synchronization algorithm strategy uses java multi-thread nesting dolls in queue multi-threading to significantly improve algorithm synchronization efficiency;',
+      l05:'OneLink EcV5. Synchronization Algorithm Strategy Using java multi-thread nesting dolls in queue multi-threading can significantly improve algorithm synchronization efficiency;',
       l06: 'Usage, life cycle compensation algorithm is perfect;',
       l07: 'The statistics on the homepage are perfect;',
     },
@@ -648,10 +707,16 @@ export default {
       l03: 'Add the notification of the adapted mobile terminal system and send the announcement notification through IoTOS-IM after logging in;',
       l04: 'The default language of the optimized login interface is Chinese;',
     },
+    v153: {
+      l00:'Channel data statistics increase the number of cards, total traffic, used traffic, remaining traffic statistics;',
+      l01:'Card details add session information query session records (paging query), export history records;',
+      l02:'New intelligent diagnosis card status, freezing status, downtime reason, area restriction status, area restriction area, device status, business change history, APN query already opened, diagnosis suggestion prompt; (perfect restoration of OneLink intelligent diagnosis);',
+      l03: 'Optimize card number synchronization algorithm bug;',
+      l04:'Optimize card number comparison and add card number algorithm timing task trigger interval, etc.;',
+      l05: 'Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);',
+    },
     visitMainSite: 'Visit the main site',
-  },
-
-
+   },
 
 
 }

@@ -115,4 +115,11 @@ public class IoTOSTools {
     }
 
 
+    public static boolean isNull(List<Map<String, Object>> list){
+        boolean bool = list!=null && list.size()>0?true:false;
+        return bool;
+    }
+
+
+
 }

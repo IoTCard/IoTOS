@@ -155,4 +155,100 @@ export function editCardPublic(map) {
   })
 }
 
+export function querySession(map) {
+  return request({
+    url: '/iotos/card/querySession',
+    method: 'post',
+    data: map
+  })
+}
 
+export function exportSession(map) {
+  return request({
+    url: '/iotos/card/exportSession',
+    method: 'post',
+    data: map
+  })
+}
+
+export function findCard(map) {
+  return request({
+    url: '/iotos/card/getCard',
+    method: 'post',
+    data: map
+  })
+}
+
+export function queryFStatus(map) {
+  return request({
+    url: '/iotos/card/queryFStatus',
+    method: 'post',
+    data: map
+  })
+}
+
+export function querySimStopReason(map) {
+  return request({
+    url: '/iotos/card/querySimStopReason',
+    method: 'post',
+    data: map
+  })
+}
+export function querySimProduct(map) {
+  return request({
+    url: '/iotos/card/querySimProduct',
+    method: 'post',
+    data: map
+  })
+}
+export function querySimRLStatus(map) {
+  return request({
+    url: '/iotos/card/querySimRLStatus',
+    method: 'post',
+    data: map
+  })
+}
+export function querySimRLArea(map) {
+  return request({
+    url: '/iotos/card/querySimRLArea',
+    method: 'post',
+    data: map
+  })
+}
+export function queryOnOffStatus(map) {
+  return request({
+    url: '/iotos/card/queryOnOffStatus',
+    method: 'post',
+    data: map
+  })
+}
+export function queryApiTariff(map) {
+  return request({
+    url: '/iotos/card/queryApiTariff',
+    method: 'post',
+    data: map
+  })
+}
+
+export function queryCardBindStatus(map) {
+  return request({
+    url: '/iotos/card/queryCardBindStatus',
+    method: 'post',
+    data: map
+  })
+}
+
+export function querySimChangeHistory(map) {
+  return request({
+    url: '/iotos/card/querySimChangeHistory',
+    method: 'post',
+    data: map
+  })
+}
+export function cardMatch(map) {
+  return request({
+    url: '/iotos/card/cardMatch',
+    method: 'post',
+    data: map
+  })
+}

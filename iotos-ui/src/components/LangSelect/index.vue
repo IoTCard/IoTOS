@@ -49,7 +49,7 @@ export default {
         }else {
           map.lgCode = "en";
         }
-        let pwdStr = tools.encrypt(JSON.stringify(map));
+        let pwdStr = tools.encryptSy(map);
         setLg(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {

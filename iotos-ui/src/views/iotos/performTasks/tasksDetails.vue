@@ -258,7 +258,7 @@ export default {
 
     getSuccess(map) {
       map.t_no = this.sel.t_no;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       tasksDetailsList(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -310,7 +310,7 @@ export default {
 
     export(map){
       map.t_no = this.sel.t_no;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       tasksDetailsExport(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         let msg =  jsonObj.msg;

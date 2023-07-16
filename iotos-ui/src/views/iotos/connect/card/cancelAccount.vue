@@ -966,7 +966,7 @@ export default {
       edit_show: false,//编辑卡信息 展示
 
 
-      wUpdBatch: false,//是够批量操作
+      wUpdBatch: false,//是否批量操作
       updForm:{
         remarks:null,
         updateNotFilled:'0',
@@ -1061,7 +1061,7 @@ export default {
     if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
       this.channelOptions = window['channelOptions'];
     } else {
-      let pwdStr = tools.encrypt(JSON.stringify({}));
+      let pwdStr = tools.encryptSy({});
       this.getNameOpen(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         window['channelOptions'] = jsonObj.data;
@@ -1099,8 +1099,8 @@ export default {
           map.dept_id = this.$refs.dept.getCheckedKeys();
         }
       }
-      let Pwd_Str = tools.encrypt(JSON.stringify(map));
-      getGrouping(Pwd_Str).then(response => {
+      let pwdStr = tools.encryptSy(map);
+      getGrouping(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
             window['cardGroupingOptions'] = jsonObj.data;
@@ -1285,7 +1285,7 @@ export default {
     getList() {
       this.loading = true;
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listCard(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -1354,7 +1354,7 @@ export default {
     handleExport() {
       this.loading = true;
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       listCard(pwdStr).then(response => {
           let jsonObj = JSON.parse(tools.Decrypt(response));
           if (jsonObj.code == 200) {
@@ -1382,7 +1382,7 @@ export default {
 
     cardExportFun(){
       this.getParams();
-      let pwdStr = tools.encrypt(JSON.stringify(this.queryParams));
+      let pwdStr = tools.encryptSy(this.queryParams);
       cardExport(pwdStr).then(response => {
         let jsonObj = JSON.parse(tools.Decrypt(response));
         let msg = jsonObj.msg;
@@ -1444,7 +1444,7 @@ export default {
         let map = this.queryParams;
         map.set_dept_id = this.formDivide.dept_id;
         map.set_dept_name = this.formDivide.dept_name;
-        let pwdStr = tools.encrypt(JSON.stringify(map));
+        let pwdStr = tools.encryptSy(map);
         tools.openAsk(this, 'warning', this.$t("common.ask.ask")+" [ " + this.total + " ] "+this.$t("card_index.ask.cardDivid_2")+"  [ " + this.formDivide.dept_name + " ] ？", this.divideSave, pwdStr);
       }
     },
@@ -1551,7 +1551,7 @@ export default {
     synCommonParameter(row){
       let map = {};
       map.iccid = row.iccid;
-      let pwdStr = tools.encrypt(JSON.stringify(map));
+      let pwdStr = tools.encryptSy(map);
       return pwdStr;
     },
 
@@ -1598,7 +1598,7 @@ export default {
         }
 
         if(bool){
-          let pwdStr = tools.encrypt(JSON.stringify(this.updForm));
+          let pwdStr = tools.encryptSy(this.updForm);
           tools.openAsk(this,'warning', this.$t("card_index.ask.upd")+title+' ?', this.editCardSub,pwdStr,null);
         }else {
           this.$message.error(this.$t("card_index.rs.unfilled"));

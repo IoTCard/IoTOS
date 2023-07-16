@@ -1,8 +1,3 @@
-import tools from "@/utils/iotos/tools";
-import carousel_1 from "@/assets/images/carousel/1.png";
-import carousel_2 from "@/assets/images/carousel/2.png";
-import carousel_3 from "@/assets/images/carousel/3.png";
-import carousel_4 from "@/assets/images/carousel/4.png";
 
 export default {
   common:{//通用
@@ -77,7 +72,7 @@ export default {
     data:'条 数据',
     moreOperations:"更多",
     noDataFound:"未找到匹对数据！",
-
+    notNull:'不能为空!',
     today:"今天",
     yesterday:"昨天",
     weekAgo:"一周前",
@@ -97,15 +92,15 @@ export default {
     lastWeek:'最近一周',
     lastRecentMonth:'最近一个月',
     lastThreeMonths:'最近三个月',
-
+    empty:'未找到数据',
     open:'张',
     indivual:'个',
     share:'份',
     yuan:'元',
-
+    sum:'共',
     month:'月',
     day:'日',
-
+    copy:"复制",
 
     ask:{//通用询问
       wDelName:"是否确认 [删除] ‘名称‘ 为：",
@@ -122,7 +117,57 @@ export default {
     }
   },
 
+  diagnosis:{//智能诊断
+    cardMatching:"卡号匹对",
+    oneDiagnosis:"一键诊断",
+    diagnosis:"诊断",
+    empty:'未找到查询卡号，请核对卡号 或使用 ‘卡号匹对’ 查找！',
+    rs:{
+      value:'查询卡号 ',
+      length:'请输入大于4位数的匹对卡号 ！',
+    },
+    referenceNumber:'参考号码',
+    prefixMatching:'前缀匹对',
+  },
+  dsEcV5:{
+    dTitle:{
+      i_1:'诊断中',
+      i_2:'诊断完成',
+    },
+    table:{
+      i_1:'服务类型',
+      i_2:'APN',
 
+      i_3:'状态',
+      i_4:'状态变更时间',
+    },
+    te1:{
+      title:'SIM卡状态',
+      i_1:'SIM卡状态',
+      i_2:'停机原因',
+      i_3:'设备状态',
+      i_3top:'开机表示设备连接并附着基站',
+      i_4:'是否冻结',
+      solution:'SIM卡状态为可测试、待激活、已激活状态可以正常通讯',
+    },
+    te2:{
+      title:'通信服务',
+      titletop:'由于网络波动和延迟，该结果可能存在一定误差，仅供参考，建议以终端的实际状态为准',
+    },
+    te3:{
+      title:'策略限制',
+      i_1:'超出区域限制',
+      i_2:'机卡分离状态',
+      i_3:'限制区域',
+    },
+    te4:{
+      title:'状态变更记录',
+    },
+    suggestedSolution:'建议解决方案：',
+
+
+
+},
 
 
   index:{
@@ -287,7 +332,7 @@ export default {
     cbefore:" 变更前 ",
     cafterward:" 变更后 ",
     source:" 来源 ",
-
+    onlyCreateDate:" 过滤重复会话时间 ",
     last30Days:"最近30天",
     flowRecord:"流量使用",
     session:{
@@ -298,18 +343,28 @@ export default {
       hint1:"请核对API信息（未产生用量不会有在线记录！）",
       hint2:"仅支持 上游开放查询会话信息API获取",
       error1:"暂未获取到会话信息",
-    }
+    },
+    oneLink_ECV5: {
+      label_0:'APN',
+      label_1:'在线状态',
+      label_2:'IP',
+      label_3:'IPV6 地址前缀',
+      label_4:'IPV6 地址接口',
+      label_5:'会话创建时间',
+      label_6:'接入方式',
+      label_7:'平台记录时间',
+    },
+
+
+
+
 
   },
 
 
 
-
-    cardInfoDetails:{//卡基础信息
-
+  cardInfoDetails:{//卡基础信息
     copyCardInfo:"复制 基础信息",
-
-
 
     tFrom:{
       operator:"运营商",
@@ -349,12 +404,6 @@ export default {
       create_time:"创建时间",
       storage_date:"入库日期",
       delivery_date:"出库日期",
-
-
-
-
-
-
 
     }
 
@@ -415,7 +464,9 @@ channel_index:{// channel
     i_5:'状态',
     i_6:'轮询',
     i_7:'卡总数',
-    i_8:'总用量',
+    i_8:'总流量',
+    i_9:'总用量',
+    i_10:'总剩余',
   },
   form:{//表单
       template:'模板',
@@ -620,6 +671,7 @@ channel_index:{// channel
     schedulingLog:'调度日志',
     modifyGeneration:'修改生成配置',
     accountCenter:'账号中心',
+    diagnosis:'智能诊断',
   },
 
 
@@ -656,19 +708,16 @@ channel_index:{// channel
       l03:'增加适配移动端系统通知登录后通过IoTOS-IM下发公告通知；',
       l04:'优化登录界面默认语言为 ‘中文’；',
     },
+    v153:{
+      l00:'通道数据统计增加 卡数量、总流量 已用流量 剩余流量 统计；',
+      l01:'卡详情增加会话信息查询会话记录（分页查询）、导出历史记录；',
+      l02:'新增智能诊断 卡状态、冻结状态、停机原因、区域限制状态、区域限制地区、设备状态、业务变更历史、已开通APN查询、诊断建议提示；（完美还原OneLink智能诊断）；',
+      l03:'优化卡号同步算法bug；',
+      l04:'优化卡号比对新增卡号算法定时任务触发间隔等；',
+      l05:'优化定时清理上游同步卡号缓存（确保上游卡号变动时更新新的卡号或已销户卡号不再同步）；',
+    },
     visitMainSite:'访问主站点',
-    a:'<p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);"><img src="https://gitee.com/chinaiot/iotos/raw/master/readme-pic/cn/logo.png" alt="IoTOS logo.png"></strong></p><h1>IoTOS v1.0.0</h1><h2>一款高效实用 IoTCard 管理 &amp; 运营系统。</h2><blockquote>IoTOS 目前取名范围过大，其主要用于IoTCard 管理业务以高效、健壮、灵活设计 SaaS、多语言、机器人推送、自动化管理、数据同步多类型算法为主要业务。</blockquote><p>中文 /&nbsp;<a href="https://gitee.com/chinaiot/iotos/blob/master/README.en.md" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">English</a></p><p><a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FIoTCard%2FIoTOS" rel="noopener noreferrer" target="_blank" class="ql-size-huge" style="color: rgb(9, 94, 171); background-color: transparent;"><strong><img src="https://img.shields.io/github/license/IoTCard/IoTOS?style=flat-square&amp;logo=github&amp;color=616ae5" alt="GitHub license"></strong></a>&nbsp;<a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FIoTCard%2FIoTOS" rel="noopener noreferrer" target="_blank" class="ql-size-huge" style="color: rgb(9, 94, 171); background-color: transparent;"><strong><img src="https://img.shields.io/github/stars/IoTCard/IoTOS?style=flat-square&amp;logo=github&amp;color=616ae5" alt="GitHub stars"></strong></a>&nbsp;<a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FIoTCard%2FIoTOS" rel="noopener noreferrer" target="_blank" class="ql-size-huge" style="color: rgb(9, 94, 171); background-color: transparent;"><strong><img src="https://img.shields.io/github/forks/IoTCard/IoTOS?style=flat-square&amp;logo=github&amp;color=616ae5" alt="GitHub forks"></strong></a>&nbsp;<a href="https://gitee.com/chinaiot/iotos/stargazers" rel="noopener noreferrer" target="_blank" class="ql-size-huge" style="color: rgb(9, 94, 171); background-color: transparent;"><strong><img src="https://gitee.com/chinaiot/iotos/badge/star.svg?theme=dark" alt="star"></strong></a>&nbsp;<a href="https://gitee.com/chinaiot/iotos/members" rel="noopener noreferrer" target="_blank" class="ql-size-huge" style="color: rgb(9, 94, 171); background-color: transparent;"><strong><img src="https://gitee.com/chinaiot/iotos/badge/fork.svg?theme=dark" alt="fork"></strong></a></p><p><br></p><h1>一、 关于 IoTOS</h1><h2>1.1 介绍</h2><p>IoTOS 是基于 SpringBoot、Vue、Mybatis、RabbitMq、Mysql、Redis 的开源 IoTCard（物联卡管理） 系统，是企业私域管理与运营的综合解决方案。</p><p>IoTOS 基于多个物联网管理系统API（如:中国移动 oneLink 等 后续接入API） 开放能力，不仅集成了上游强大的API管理及基础的 数据同步算法 功能，而且提供了多语言国际化方案。并通过 高效灵活的同步算法、系统构架业务分离 等灵活高效的数据运营模块，让企业与上游之间建立强链接，从而进一步通过多元化的管理运营方案，帮助企业提高物联网卡运营效率，强化运营能力，拓展科盈利空间。</p><p>目前主要运用于 物联网卡 服务行业领域。</p><h2>1.2 能力</h2><p>IoTOS-IoTCard 基于物联网多上游API接口综合业务管理，遵从高效数据同步并维护运营，再到建立系统套餐分发进行资费营销，最后在营销、运营 等服务提供 过程中再次创造价值的流程。</p><p>整个系统暂且 分为五大模块：</p><ul><li>首页&nbsp;：统计分析展板；</li><li>连接&nbsp;：流量卡、设备、通道 运营管理 配置查看；</li><li>账号中心&nbsp;：企业、用户、角色 管理分配权限 账号；</li><li>自动化&nbsp;：自动化管理规则、模板、推送配置、触发条件 等；</li><li>系统管理&nbsp;：菜单、参数、字典、系统监控、系统工具、定时任务 等；</li></ul><p>欢迎有兴趣的 开发者、商业合作、业务探讨 等 通过下方的联系方式联系</p><h2>1.3 优势</h2><p>IoTOS 基于多个上游运营商能力接口 开放能力平台综合业务管理运营物联网卡 但不仅限于物联网卡，可为 物联卡运营、多个第三方接口对接需求 等垂直场景提供API对接管理基础架构，主要优势有：</p><ul><li>多语言国际化操作(UI界面、后台回复、单用户喜好语言)、机器人推送（国内主流机器人、国际主流社交软件）</li><li>高效API同步能力采用队列多线程实例开启接口多线程（队列多线程中再增加java多线程）更具不同运营商接口独立特定同步算法体系</li><li>自动化规则定义 规则触发模板 通知配置 触发条件等</li><li>开源协议采用 Apache-2.0 (使用者可以自由修改，进行商业使用，没有开源要求)</li><li>采用主流 Java 架构，具备高拓展性、灵活性</li><li>对外提供内部 API，低成本二次开发</li></ul><h2>1.4 愿景</h2><p>IoTOS 不做物联网专家，而是通过开源让每个企业、每个开发者 都是自己的物联网专家：</p><ul><li>集成上游多API基础能力，拿来即用</li><li>针对垂直行业提供一站式服务运营解决方案</li><li>开放自身平台能力，让更多的开发者参与进来</li><li>与企业、开发者 共同助力 物联网行业共建发展未来</li></ul><h1>二、关于项目</h1><h2>2.1 在线体验</h2><p>开源演示地址：<a href="https://gitee.com/link?target=http%3A%2F%2Fdemo.iotos.top%2F" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">http://demo.iotos.top/</a></p><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);">默认账号密码：iotos，iotos.top</strong></p><p><em>（注意：演示环境已屏蔽管理权限和相关操作）</em></p><h2>2.2 系统架构</h2><p>IoTOS V1.0.0 整体系统架构如下：</p><h2>2.3 技术栈</h2><p>本项目基于&nbsp;<a href="https://gitee.com/y_project/RuoYi-Vue" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">RuoYi-Vue</a>&nbsp;后台开发框架，感谢&nbsp;<a href="https://gitee.com/y_project/RuoYi-Vue" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">RuoYi-Vue</a>&nbsp;的开源。</p><ul><li>前端技术栈：ES6、Vue、Vue-router、Vue-cli、Axios、Element-ui；</li><li>后端技术栈：Spring Boot、Mybatis-plus、Mybatis、RabbitMQ；</li></ul><h2>2.4 项目结构</h2><p>后端结构</p><pre class="ql-syntax" spellcheck="false">├── iotos-admin              // 后台服务主程序\n' +
-      '├── iotos-common             // 公共组件模块\n' +
-      '├── iotos-common-syn-ap      // API请求配置中心\n' +
-      '├── iotos-consumer-admin\t // 后台主程序-消费者\n' +
-      '├── iotos-consumer-task      // 定时任务-消费者\n' +
-      '├── iotos-framework\t         // 框架核心\n' +
-      '├── iotos-generator          // 代码生成\n' +
-      '├── iotos-quartz             // 定时任务\n' +
-      '├── iotos-system             // 系统代码\n' +
-      '</pre><p>前端结构</p><pre class="ql-syntax" spellcheck="false">├── iotos-ui\t\t\t     // 后台项目\n' +
-      '</pre><h2>2.5 项目部署</h2><p>点击下方链接进入查看项目部署方式：</p><p><a href="https://gitee.com/link?target=http%3A%2F%2Fwww.iotos.top%2F" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">如何快速部署 IoTOS</a></p><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);">建议服务器最低配置：</strong></p><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);">类型配置操作系统CentOS8CPU4核内存8G带宽5M硬盘50G</strong></p><h1>三、常见问题</h1><p>点击下方链接进入帮助手册查看常见问题的相关描述及更多帮助：</p><p><a href="https://gitee.com/link?target=http%3A%2F%2Fwww.iotos.top%2F" rel="noopener noreferrer" target="_blank" style="color: rgb(9, 94, 171); background-color: transparent;">常见问题</a></p><h1>四、最近更新&amp;后续开发方向</h1><h2>后续开发方向</h2><ul><li>&nbsp;完善教程、按文档、视频 等资料文件形式 深入讲解 快速使用、了解运营、二次开发拓展、可发展方向等</li><li>&nbsp;移动端适配企业查询、用户绑定、同样适配国际化；</li><li>&nbsp;OneLink EcV5接口业务继续延展：<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">智能诊断</code>&nbsp;定义为平台数据诊断 API接口诊断且更具不同上游会展示出更多可诊断项界面等；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">自动化</code>&nbsp;业务模块定义完善、包括机器人对接等；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">支付配置</code>&nbsp;支付收款 国内主流支付接入、国际支付接入等；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">套餐定义</code>&nbsp;套餐包含多类型 多配置 多组合等方式实现；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">企业预存</code>、<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">用户预存</code>&nbsp;企业预存金额、订单返佣、用户充值预存 自主设置预付费扣费等；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">充值续费</code>&nbsp;企业或用户 充值、续费、预存 等业务延展；</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">中控分析</code>&nbsp;包含但不限于 分析 企业、用户 充值数据（按时间、金额、交易类型、复购率、活性、数据同步成功率、交易订单时间区间 套餐结余 等）</li><li>&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">商城</code>&nbsp;发售商品 购买下单流程、分销、物流</li></ul><h2>V1.0.0 更新日志</h2><ul><li>&nbsp;多语言国际化；</li><li>&nbsp;通道、卡列表、用量记录、基础业务；</li><li>&nbsp;卡号自动同步载入策略；</li><li>&nbsp;API目前仅支持 OneLink EcV5 接口(最终会依赖该接口作为一个全面对接的展示业务 敬请期待！)；</li><li>&nbsp;OneLink EcV5同步算法策略 队列多线程中使用java多线程套娃式显著提升算法同步效率；</li><li>&nbsp;用量、生命周期补偿算法完善；</li><li>&nbsp;首页统计数据完善；</li></ul><h1>五、联系我们</h1><p>如果你想加入我们的开源交流群、有任何 IoTOS 产品上的想法、意见或建议，或商务上的合作需求，请扫码添加 IoTOS 项目作者，加入群聊：</p><ul><li>微信</li></ul><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);"><img src="https://gitee.com/chinaiot/iotos/raw/master/readme-pic/cn/contact1.jpg" alt="WeChat"></strong></p><ul><li>微信公众号</li></ul><p><strong class="ql-size-huge" style="color: rgb(230, 0, 0);"><img src="https://gitee.com/chinaiot/iotos/raw/master/readme-pic/cn/gzhewm.gif" alt="WeChatPublicAccount"></strong></p><h1>六、捐赠支持</h1><p>如果您是企业的经营者并且有计划将&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">IoTOS</code>&nbsp;用在公司的经营产品中，欢迎进行长期捐赠。长期捐赠有商业上的益处有：</p><ul><li>积极响应，快速维护，及时更新；</li><li>企业名称、Logo 及官网链接将长期展示在开源仓库、<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">IoTOS</code>&nbsp;官网及宣发材料中；</li><li>捐赠金额同比例抵扣未来&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">IoTOS</code>&nbsp;的付费产品价格。</li></ul><p>如果您对长期赞助&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">IoTOS</code>&nbsp;团队感兴趣，或者有其他好想法，欢迎联系开发团队微信&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">iotos_top</code>，或发送邮件到&nbsp;<code style="color: rgba(0, 0, 0, 0.8); background-color: rgb(247, 247, 249);">card@iotos.top</code>。</p>',
-  },
+ },
 
 
 }

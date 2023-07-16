@@ -1,0 +1,44 @@
+/**
+* 通用css样式布局处理
+* Copyright (c) 2023 iotos
+*/
+
+
+.myGreen {
+  color: #4CAF50;
+  font-weight:900;
+}
+.lightGreen{
+  color: #00ba26;
+}
+
+
+
+.mygRed {
+  color: #E91E63;
+  font-weight:900;
+}
+.mygBrown {
+  color: #9E9E9E;
+  font-weight:900;
+}
+.myBold{
+  font-weight: bold;
+}
+
+.myDivider{
+  margin: 8px 0;
+}
+.el-collapse-item__content{
+  padding-bottom: 10px !important;
+}
+.iotosBlue{
+  color:rgb(59, 164, 255);
+}
+.orgColor{
+  color:#fd883c;
+}
+.header-icon{
+  font-size: 15px;
+  margin-right: 8px;
+}
