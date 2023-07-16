@@ -2,7 +2,7 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.5.2
+# IoTOS v1.5.3
 
 ## An efficient and practical IoTCard management & operation system.
 

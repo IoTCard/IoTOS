@@ -3,7 +3,7 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.5.2
+# IoTOS v1.5.3
 
 ## 一款高效实用 IoTCard 管理 & 运营系统。
 
