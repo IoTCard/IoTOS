@@ -25,11 +25,11 @@
     </el-input>
 
     <el-button style="margin-left: 10px;" type="primary"  size="mini" @click="oneDiagnosis" :disabled="diagnosisLoading">
-      <svg-icon icon-class="diagnosis"  class-name="font-icon"/>
+      <svg-icon icon-class="diagnosis"  />
       {{ lgCode.oneDiagnosis }}
     </el-button>
     <el-button type="primary"  size="mini" @click="cardMatching" :disabled="diagnosisLoading">
-      <svg-icon icon-class="match"  class-name="font-icon"/>
+      <svg-icon icon-class="match"  />
       {{ lgCode.cardMatching }}
     </el-button>
 
