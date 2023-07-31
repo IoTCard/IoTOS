@@ -1838,3 +1838,5 @@ INSERT INTO `iotos_top`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_
 INSERT INTO `iotos_top`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `tcode`) VALUES (2049, '冻结状态查询', 2038, 10, '', NULL, NULL, 1, 0, 'F', '0', '0', 'iotos:card:queryFStatus', '#', 'admin', '2023-07-16 18:38:08', '', NULL, '', NULL);
 UPDATE `iotos_top`.`sys_menu` SET `menu_name` = '单卡状态变更历史查询', `parent_id` = 2038, `order_num` = 8, `path` = '', `component` = NULL, `query` = NULL, `is_frame` = 1, `is_cache` = 0, `menu_type` = 'F', `visible` = '0', `status` = '0', `perms` = 'iotos:card:querySimChangeHistory', `icon` = '#', `create_by` = 'admin', `create_time` = '2023-07-16 13:52:47', `update_by` = 'admin', `update_time` = '2023-07-16 18:36:38', `remark` = '', `tcode` = NULL WHERE `menu_id` = 2047;
 
+# [sys_user]-[2023-07-31]-[iotos]-[admin账号密码修改为 iotos.top]
+UPDATE `sys_user` SET`password` = '$2a$10$P65LRXMz9GJ7xQB5WiHohuyGOnZ7DxwbxJPWI.pr1nFTdDrebR.NG' WHERE `user_id` = 1;
