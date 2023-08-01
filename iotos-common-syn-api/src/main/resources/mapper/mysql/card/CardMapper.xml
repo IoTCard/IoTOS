@@ -83,7 +83,8 @@
                 <if test="type==0">
                     and ( c_no = #{value} or
                     msisdn = #{value} or
-                    iccid = #{value} )
+                    iccid = #{value} or
+                    imsi = #{value} )
                 </if>
                 <if test="type==1">
                     and c_no LIKE CONCAT('%',#{value})

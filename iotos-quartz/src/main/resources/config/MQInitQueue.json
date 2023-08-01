@@ -134,6 +134,10 @@
   "exchangeName": "task_exchange",
   "queueName":    "task_upstreamCardClearUp_queue",
   "routingKey":   "task.upstreamCardClearUp.queue"
+},{
+  "exchangeName": "admin_exchange",
+  "queueName":    "admin_textFieldHandling_queue",
+  "routingKey":   "admin.textFieldHandling.queue"
 }
 
 

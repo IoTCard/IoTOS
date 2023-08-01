@@ -23,6 +23,7 @@ import top.iotos.synApi.utils.sync.CardStateTransition;
 import top.iotos.synApi.utils.sync.MQSyncSend;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,9 +76,25 @@ public class BusinessHandlingCard {
 
     @RabbitHandler
     @RabbitListener(queues = "dlx_admin_cardBusinessHandling_queue")
-    public void dlx_CardBusinessHandling(String msg) {
+    public void dlxCardBusinessHandling(String msg) {
         execute(msg);
     }
+
+
+    //文本域业务操作
+    @RabbitHandler
+    @RabbitListener(queues = "admin_textFieldHandling_queue")
+    public void textFieldHandling(String msg) {
+        tfExecute(msg);
+    }
+
+    @RabbitHandler
+    @RabbitListener(queues = "dlx_admin_textFieldHandling_queue")
+    public void dlxTextFieldHandling(String msg) {
+        tfExecute(msg);
+    }
+
+
 
 
 
@@ -92,29 +109,56 @@ public class BusinessHandlingCard {
             Map<String,Object> pMap =  ( Map<String,Object>)map.get("pMap");//参数
             Map<String,Object> user =  ( Map<String,Object>)pMap.get("user");//登录用户信息
             String newName = map.get("newName").toString();//
-            String prefix = "admin_cardUpdate_queue";
+            String key = "admin_cardBusinessHandling_queue"+":"+ readName;
             //执行前判断 redis 是否存在 执行数据 存在时 不执行
-            Object  wExecute = redisCache.getCacheObject(prefix+":"+ readName);
+            Object  wExecute = redisCache.getCacheObject(key);
             if(wExecute==null){
-                redisCache.setCacheObject(prefix+":"+ readName, msg, 3, TimeUnit.SECONDS);//3 秒缓存 避免 重复消费
+                redisCache.setCacheObject(key, msg, 3, TimeUnit.SECONDS);//3 秒缓存 避免 重复消费
                 execution(filePath,readName,pMap,user,null,newName);
             }
         } catch (Exception e) {
-            log.error(">>错误 - 卡列表修改 消费者:{}<<", e.getMessage());
+            log.error(">>错误 - 批量API业务办理 消费者:{}<<", e.getMessage());
+        }
+    }
+
+    private void tfExecute(String msg){
+        try {
+            if (StringUtils.isEmpty(msg)) {
+                return;
+            }
+            Map<String,Object> map = MQAide.getParameter(msg);
+            Map<String,Object> pMap =  ( Map<String,Object>)map.get("pMap");//参数
+            Map<String,Object> user =  ( Map<String,Object>)pMap.get("user");//登录用户信息
+            List<Map<String, Object>> list = (List<Map<String, Object>>) pMap.get("iccidList");
+            String newName = map.get("newName").toString();//
+            String key = "admin_textFieldHandling_queue"+":"+ newName;
+            //执行前判断 redis 是否存在 执行数据 存在时 不执行
+            Object  wExecute = redisCache.getCacheObject(key);
+            if(wExecute==null){
+                redisCache.setCacheObject(key, msg, 3, TimeUnit.SECONDS);//3 秒缓存 避免 重复消费
+
+                execution(list,pMap,user,null,newName);
+            }
+        } catch (Exception e) {
+            log.error(">>错误 - 批量API业务办理[文本域] 消费者:{}<<", e.getMessage());
         }
     }
 
 
+    public void execution(String filePath,String readName,Map<String,Object> pMap,Map<String,Object> user,Map<String,Object> pTaskMap,String newName) {
+        //1.读取 上传文件
+        String path = filePath +  readName;
+        String columns[] = {"iccid"};
+        ExcelConfig excelConfig = new ExcelConfig();
+        List<Map<String, Object>> list = excelConfig.getExcelListMap(path,columns);
+        execution(list,pMap,user,null,newName);
+    }
 
     /**
      * 变更 执行
      */
-    public void execution(String filePath,String readName,Map<String,Object> pMap,Map<String,Object> user,Map<String,Object> pTaskMap,String newName){
-        //1.读取 上传文件
-        String path = filePath +  readName;
-        ExcelConfig excelConfig = new ExcelConfig();
-        String columns[] = {"iccid"};
-        List<Map<String, Object>> list = excelConfig.getExcelListMap(path,columns);
+    public void execution(List<Map<String, Object>> list,Map<String,Object> pMap,Map<String,Object> user,Map<String,Object> pTaskMap,String newName){
+
         Map<String, String> dept = (Map<String, String>)user.get("dept");
         String  create_by = " [ "+dept.get("deptName")+" ] - "+" [ "+user.get("userName")+" ] ";
         String deptId  = user.get("deptId").toString();
@@ -334,8 +378,9 @@ public class BusinessHandlingCard {
                                             }
                                             if(rMap!=null){//拿到返回结果
                                                 addList.add(rMap);
-                                                if(addList.size()%dbWSize==0 || (i+1)==addList.size()){//达到一定数量时进行处理
+                                                if(addList.size()%dbWSize==0 || (j+1)==list.size()){//达到一定数量时进行处理
                                                     storageDB(addList,newName,create_by,t_no,type,flexibleChangeValue,cardConnectionStatusOptions,cardStatusShowIdOptions);
+                                                    addList = new ArrayList<>();//清空
                                                 }
                                             }
                                         }
@@ -413,10 +458,10 @@ public class BusinessHandlingCard {
             if(status.equals("200") && rMap.get("retuenList")!=null){
                 try {
                     List<Map<String, Object>> retuenList = (List<Map<String, Object>>) rMap.get("retuenList");
-                    if(retuenList.size()>0){
+                    if(retuenList!=null && retuenList.size()>0){
                         Map<String, Object> retuenMap = retuenList.get(0);
                         //String fName = retuenMap.get("functionName").toString();
-                        starting_time = retuenMap.get("starting_time").toString();//请求执行 开始 时间
+                        starting_time =  retuenMap.get("starting_time")!=null?retuenMap.get("starting_time").toString():VeDate.getStringDate();//请求执行 开始 时间
 
                         String iccid_i = retuenMap.get("iccid").toString();
                         Map<String, Object> rData = (Map<String, Object>) retuenMap.get("rData");
@@ -466,16 +511,19 @@ public class BusinessHandlingCard {
 
                         }
                     }else {
-                        updMap.put("iccid",iccid);
+                        //updMap.put("iccid",iccid);
                     }
                 }catch (Exception e){
                     log.error(" retuenList 解析  异常 {}",e.getMessage());
                 }
             } else {
                 //放入失败队列 批量新增 失败信息
-                updMap.put("iccid",iccid);
+                //updMap.put("iccid",iccid);
             }
             try {
+                if(updMap.get("iccid")==null){
+                    updMap.put("iccid",iccid);
+                }
                 updMap.put("starting_time",starting_time);
                 updMap.put("end_time",end_time);
                 updMap.put("state",state);

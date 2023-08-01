@@ -2,7 +2,9 @@ package top.iotos.synApi.utils.sync;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**

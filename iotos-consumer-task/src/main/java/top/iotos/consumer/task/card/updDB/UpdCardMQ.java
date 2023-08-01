@@ -6,6 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
+import top.iotos.synApi.mapper.mysql.card.CardMapper;
+import top.iotos.synApi.utils.iotos.common.DbFieldArr;
+import top.iotos.synApi.utils.iotos.common.ListCompare;
 import top.iotos.synApi.utils.iotos.service.CardUpdate;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 

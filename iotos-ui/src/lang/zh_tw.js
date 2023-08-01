@@ -424,7 +424,7 @@ export default {
     updForm:{
       remarks:"備註：",
       updateNotFilled:"更新未填寫屬性：",
-      delivery_date:"發貨日期：",
+      deliver_date:"發貨日期：",
       customize_grouping:"自定義分組：",
     },
 

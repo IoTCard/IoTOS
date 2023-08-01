@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import top.iotos.common.core.redis.RedisCache;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
+import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.common.utils.iotos.service.PageUtil;
 import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.upstreamApi.chinaMobile.oneLink.ecV5.InquireEcV5;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 同步上游卡号 消费者

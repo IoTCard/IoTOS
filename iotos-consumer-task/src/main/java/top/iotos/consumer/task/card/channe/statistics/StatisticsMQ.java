@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.mapper.mysql.card.CardMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelMapper;
+import top.iotos.synApi.utils.iotos.service.CardUpdate;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;

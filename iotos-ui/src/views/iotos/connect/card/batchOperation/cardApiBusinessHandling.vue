@@ -4,7 +4,7 @@
               <el-form  label-width="120px">
 
 
-                <el-form-item>
+                <el-form-item v-if="subForm.executionType=='fileUpload'">
                   <el-upload
                     ref="upload"
                     :limit="1"
@@ -29,7 +29,22 @@
                     <div class="el-upload__tip" style="color:red" slot="tip">{{ $t('common.uploadTip') }}</div>
                   </el-upload>
                 </el-form-item>
-
+                <el-form-item v-if="subForm.executionType=='textField'">
+                  <el-input  v-model="subForm.iccids" @blur="vICCIDS" type="textarea" :placeholder="$t('cardApiBusinessHandling.tip.textareaP')"></el-input>
+                </el-form-item>
+                  <el-form-item  :label="$t('cardApiBusinessHandling.gprsReset')">
+                    <el-radio-group>
+                      <label class="el-radio " v-for="(item,index) in executionTypeOptions">
+                                        <span class="el-radio__input my_checkbox__inner">
+                                        <input type="radio" v-model="subForm.executionType"
+                                               name="executionType"
+                                               @change="changeExecutionType"
+                                               :value="item.dictValue"/>
+                                         </span>
+                        <span class="el-radio__label ">{{item.dictLabel}}</span>
+                      </label>
+                    </el-radio-group>
+                  </el-form-item>
                 <el-tabs v-model="activeName"  @tab-click="handleClick">
 
                   <el-tab-pane :label="$t('cardApiBusinessHandling.openClose')" name="openClose">
@@ -120,7 +135,6 @@
                       <el-select
                         v-model="subForm.flexibleChange"
                         :placeholder="$t('common.pleaseChoose')"
-                        clearable
                         @change="formChange()"
                         size="small"
                         style="width: 150px"
@@ -156,6 +170,10 @@
 <script>
 import { getToken } from "@/utils/auth";
 import tools from "@/utils/iotos/tools";
+import {textFieldHandling} from "@/api/iotos/connect/card";
+
+
+
 
 export default {
   props: {
@@ -173,6 +191,8 @@ export default {
         w_openClose:'0',
         w_reset:'0',
         flexibleChange:'0',
+        iccids:'',
+        executionType:'textField'
       },
       // 导入参数
       upload: {
@@ -194,6 +214,7 @@ export default {
 
       cardOpenStopOptions:[],
       cardOpenCloseOptions:[],
+      executionTypeOptions:[],
       activeName: "openClose",//默认选择
       whetherOptions:[],//自定义是否
       flexibleChangeOptions:[],//灵活变更
@@ -203,8 +224,22 @@ export default {
 
   created() {
 
+
+    //加载 执行类型
+    if (tools.isNull(window['executionTypeOptions'])) {
+      this.executionTypeOptions = window['executionTypeOptions'];
+    } else {
+      this.getDicts("execution_type").then(response => {
+        window['executionTypeOptions'] = response.data;
+        this.executionTypeOptions = window['executionTypeOptions'];
+      });
+    }
+
+
+
+
     //加载 断开网操作
-    if (window['cardOpenCloseOptions'] != undefined && window['cardOpenCloseOptions'] != null && window['cardOpenCloseOptions'] != '') {
+    if (tools.isNull(window['cardOpenCloseOptions'])) {
       this.cardOpenCloseOptions = window['cardOpenCloseOptions'];
     } else {
       this.getDicts("card_openclose").then(response => {
@@ -214,7 +249,7 @@ export default {
     }
 
     //加载 停复机操作
-    if (window['cardOpenStopOptions'] != undefined && window['cardOpenStopOptions'] != null && window['cardOpenStopOptions'] != '') {
+    if (tools.isNull(window['cardOpenStopOptions'])) {
       this.cardOpenStopOptions = window['cardOpenStopOptions'];
     } else {
       this.getDicts("card_openstop").then(response => {
@@ -224,7 +259,7 @@ export default {
     }
 
     //加载 是否
-    if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+    if (tools.isNull(window['whetherOptions'])) {
       this.whetherOptions = window['whetherOptions'];
     } else {
       this.getDicts("iotos_whether").then(response => {
@@ -234,7 +269,7 @@ export default {
     }
 
     //加载 灵活变更
-    if (window['flexibleChangeOptions'] != undefined && window['flexibleChangeOptions'] != null && window['flexibleChangeOptions'] != '') {
+    if (tools.isNull(window['flexibleChangeOptions'])) {
       this.flexibleChangeOptions = window['flexibleChangeOptions'];
     } else {
       this.getDicts("card_flexiblechange").then(response => {
@@ -246,6 +281,16 @@ export default {
 
   },
   methods: {
+
+    vICCIDS(){
+      this.subForm.iccids = this.subForm.iccids.replace(/[^a-zA-Z0-9\n]/g, '');
+    },
+
+
+    changeExecutionType(e){
+      //console.log(e.target.value)
+    },
+
 
     handleClick(tab, event) {
 
@@ -289,6 +334,7 @@ export default {
       //console.log(map)
       let pwdStr = tools.encryptSy(map);
       this.upload.pwdStr = pwdStr;
+      return map;
     },
 
 
@@ -316,9 +362,10 @@ export default {
     // 提交上传文件
     submitFileForm() {
       let _this = this;
-      this.getPwdStr();
-      var files = this.$refs.upload.uploadFiles;//判断files数组的长度是否大于0，不大于0 则未选择附件
-      if(files.length>0){
+      let eType = this.subForm.executionType;
+
+      let sMap = this.getPwdStr();
+
         let bool = false;
         switch (this.activeName) {
           case 'openClose':
@@ -344,16 +391,55 @@ export default {
             break;
         }
         if(bool){
-          tools.openAsk(_this,'warning', this.$t("cardApiBusinessHandling.ask.upd"), this.uploadUp,_this, this.FalseFun,null);
+          if(eType=='textField'){
+            if(tools.VerificationsText(_this, this.subForm.iccids, this.$t("cardApiBusinessHandling.rs.iccids"))){
+              let onList = tools.textareaGet(_this.subForm.iccids);
+              const newList = [...new Set(onList)];
+              let repeatCount = onList.length>newList.length?tools.numberSub(onList.length,newList.length):0;
+              if(repeatCount>0){
+                this.$message.error(this.$t("common.repeat")+" [ "+repeatCount+" ] "+this.$t("common.articleData"));
+              }
+              if(tools.VerificationsText(_this, newList, this.$t("cardApiBusinessHandling.rs.iccids"))){
+                let iccidList =[];
+                for (let i = 0; i < newList.length; i++) {
+                  iccidList.push({"iccid":newList[i]});
+                }
+                sMap.iccidList = iccidList;
+                let pwdStr = tools.encryptSy(sMap);
+                tools.openAsk(_this,'warning', this.$t("cardApiBusinessHandling.ask.txUpd"), this.subTextField,pwdStr, null,null);
+              }
+            }
+          }else {
+          var files = this.$refs.upload.uploadFiles;//判断files数组的长度是否大于0，不大于0 则未选择附件
+            if(files.length>0){
+              tools.openAsk(_this,'warning', this.$t("cardApiBusinessHandling.ask.upd"), this.uploadUp,_this, this.FalseFun,null);
+            }else{
+              tools.open(this,this.$t("cardApiBusinessHandling.rs.file"));
+            }
+          }
         }
-      }else{
-        tools.open(this,this.$t("cardApiBusinessHandling.rs.file"));
-      }
+
     },
 
-
+    //文本域操作提交
+    subTextField(pwdStr){
+      this.submitFileFormBtn = false;
+      textFieldHandling(pwdStr).then(response => {
+        let jsonObj = JSON.parse(tools.Decrypt(response));
+        let msg = jsonObj.msg;
+        if (jsonObj.code == 200) {
+          this.$message.success(msg);
+          this.upload.open = false;
+          this.submitFileFormBtn = true;
+          this.$emit("setObj", "setApiBH_show", false);//成功后 关闭界面
+        } else {
+          this.$message.error(msg);
+        }
+      })
+    },
 
     uploadUp(_this){
+      this.submitFileFormBtn = false;
       _this.$refs.upload.submit();
     },
 

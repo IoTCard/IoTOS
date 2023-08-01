@@ -136,7 +136,7 @@
 
 
       //加载 卡类型
-      if (window['cardTypeOptions'] != undefined && window['cardTypeOptions'] != null && window['cardTypeOptions'] != '') {
+      if (tools.isNull(window['cardTypeOptions'])) {
         this.cardTypeOptions = window['cardTypeOptions'];
       } else {
         this.getDicts("card_type").then(response => {
@@ -146,7 +146,7 @@
       }
 
       //加载 卡网络类型
-      if (window['cardNetworkTypeOptions'] != undefined && window['cardNetworkTypeOptions'] != null && window['cardNetworkTypeOptions'] != '') {
+      if (tools.isNull(window['cardNetworkTypeOptions'])) {
         this.cardNetworkTypeOptions = window['cardNetworkTypeOptions'];
       } else {
         this.getDicts("card_network_type").then(response => {
@@ -156,7 +156,7 @@
       }
 
       //加载 是否
-      if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+      if (tools.isNull(window['whetherOptions'])) {
         this.whetherOptions = window['whetherOptions'];
       } else {
         this.getDicts("iotos_whether").then(response => {
@@ -166,7 +166,7 @@
       }
 
       //加载 断开网状态
-      if (window['cardConnectionStatusOptions'] != undefined && window['cardConnectionStatusOptions'] != null && window['cardConnectionStatusOptions'] != '') {
+      if (tools.isNull(window['cardConnectionStatusOptions'])) {
         this.cardConnectionStatusOptions = window['cardConnectionStatusOptions'];
       } else {
         this.getDicts("card_connection_status").then(response => {
@@ -178,7 +178,7 @@
 
 
       //加载 卡状态描述
-      if (window['cardStatusOptions'] != undefined && window['cardStatusOptions'] != null && window['cardStatusOptions'] != '') {
+      if (tools.isNull(window['cardStatusOptions'])) {
         this.cardStatusOptions = window['cardStatusOptions'];
       } else {
         this.getDicts("card_status_id").then(response => {

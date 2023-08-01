@@ -117,6 +117,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
 
                 .antMatchers("/iotos/performTasks/download","/iotos/performTasks/downloadConversion","/iotos/performTasks/downloadTemplate").permitAll()//放行下载
+                .antMatchers("/iotos/im/**").permitAll()//放行IM 请求
+
 
 
                 // 除上面外的所有请求全部需要鉴权认证

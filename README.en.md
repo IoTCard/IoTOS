@@ -181,6 +181,13 @@ Click the link below to enter the help manual to view the description of common 
 - [x] Optimize card number comparison, add card number algorithm timing task trigger interval, etc.;
 - [x] Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);
 
+## V1.6.3 update log
+
+- [x] Added batch business processing and added text field batch card number entry;
+- [x] Fix language encoding format parsing issues;
+- [x] Fix the problem of wrong delivery time modification;
+- [x] Optimize the intelligent diagnosis status and time display problem;
+
 # 5. Contact us
 
 If you want to join our open source exchange group, have any ideas, opinions or suggestions on IoTOS products, or business cooperation needs, please scan the QR code to add IoTOS project authors and join the group chat:

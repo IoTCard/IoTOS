@@ -1,9 +1,6 @@
 package top.iotos.web.controller.iotos.im;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.iotos.common.core.domain.entity.SysUser;
 import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.utils.iotos.service.MQAide;
@@ -12,7 +9,12 @@ import top.iotos.web.core.config.MyBaseController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
+import java.io.IOException;
 import java.util.HashMap;
+import java.net.URI;
 import java.util.Map;
 
 /**
@@ -53,7 +55,7 @@ public class IMController extends MyBaseController
                             System.out.println(e.getMessage());
                         }
 
-                        return RetunnSuccess(user,token,null);
+                        return retunnSuccess(user,token,null);
                     }
                 } else {
                     logger.info("<br/> pwdStr = {} ip =  {} token 为空 ",pwdStr,ip);
@@ -64,7 +66,7 @@ public class IMController extends MyBaseController
         }else {
             logger.error("<br/> /iotos/im/imLogin  <br/>  <br/> ip = {} <br/> e = {} <br/>", ip,"访问超频！！");
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 

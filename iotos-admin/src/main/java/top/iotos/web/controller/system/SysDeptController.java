@@ -137,11 +137,11 @@ public class SysDeptController extends MyBaseController
     public String getDeptName()
     {
         try {
-            return RetunnSuccess(deptService.getDeptName(),null);
+            return retunnSuccess(deptService.getDeptName(),null);
         }catch (Exception e){
             logger.error("<br/> /system/dept/getDeptName  <br/><br/> ip = {} <br/> e = {} <br/>",getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 }

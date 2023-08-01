@@ -447,7 +447,7 @@ export default {
     let str = this.$route.params;
 
 
-    if (window['channel_sel_type'] != undefined && window['channel_sel_type'] != null && window['channel_sel_type'] != '') {
+    if (tools.isNull(window['channel_sel_type'])) {
       this.typeOptions = window['channel_sel_type'];
     } else {
       this.getDicts("iotos_channel_sel_type").then(response => {
@@ -458,7 +458,7 @@ export default {
 
 
     //加载 是否
-    if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+    if (tools.isNull(window['whetherOptions'])) {
       this.whetherOptions = window['whetherOptions'];
     } else {
       this.getDicts("iotos_whether").then(response => {
@@ -469,7 +469,7 @@ export default {
 
 
     //加载 状态
-    if (window['statusOptions'] != undefined && window['statusOptions'] != null && window['statusOptions'] != '') {
+    if (tools.isNull(window['statusOptions'])) {
       this.statusOptions = window['statusOptions'];
     } else {
       this.getDicts("sys_job_status").then(response => {
@@ -480,7 +480,7 @@ export default {
 
 
     //加载 同步类型
-    if(window['syncDataTypeOptions']!=undefined &&  window['syncDataTypeOptions']!=null && window['syncDataTypeOptions']!=''){
+    if (tools.isNull(window['syncDataTypeOptions'])){
       this.syncDataTypeOptions = window['syncDataTypeOptions'];
     }else{
       this.getDicts("up_sync_type").then(response => {
@@ -491,7 +491,7 @@ export default {
 
 
     //加载 同步字段
-    if (window['channel_syn_field'] != undefined && window['channel_syn_field'] != null && window['channel_syn_field'] != '') {
+    if (tools.isNull(window['channel_syn_field'])) {
       this.channel_syn_field = window['channel_syn_field'];
     } else {
       this.getDicts("channel_syn_field").then(response => {
@@ -501,7 +501,7 @@ export default {
     }
 
     //加载 模板
-    if (window['templateOptions'] != undefined && window['templateOptions'] != null && window['templateOptions'] != '') {
+    if (tools.isNull(window['templateOptions'])) {
       this.templateOptions = window['templateOptions'];
     } else {
       this.getDicts("channel_template").then(response => {

@@ -8,17 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import top.iotos.common.core.domain.entity.SysDept;
 import top.iotos.common.core.domain.entity.SysDictData;
 import top.iotos.common.core.domain.entity.SysUser;
-import top.iotos.common.utils.file.FileUtils;
-import top.iotos.common.utils.iotos.service.PageUtil;
-import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.synApi.mapper.mysql.card.CardApiBusinessMapper;
 import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.synApi.mapper.mysql.card.CardMapper;
+import top.iotos.common.utils.file.FileUtils;
 import top.iotos.synApi.mapper.mysql.card.OneLinkEcV5SessionMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelMapper;
 import top.iotos.synApi.utils.iotos.common.DbFieldArr;
 import top.iotos.synApi.utils.iotos.common.GetMapUtil;
 import top.iotos.synApi.utils.iotos.service.MQAide;
+import top.iotos.common.utils.iotos.service.PageUtil;
+import top.iotos.common.utils.iotos.web.IoTOSTools;
 import top.iotos.system.service.ISysDictTypeService;
 import top.iotos.system.service.impl.SysDeptServiceImpl;
 import top.iotos.system.service.impl.iotos.connect.ChannelServiceimpl;
@@ -26,10 +26,7 @@ import top.iotos.system.service.iotos.card.ICardService;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CardServiceimpl implements ICardService {
@@ -390,6 +387,33 @@ public class CardServiceimpl implements ICardService {
     }
 
     @Override
+    public boolean textFieldHandling(SysUser user, Map<String, Object> map) {
+        boolean bool = false;
+        try {
+            String newName  = UUID.randomUUID().toString().replace("-", "") + "_cardBusinessHandling";
+
+            try {
+                //发送消息
+                String queueName  = "admin_textFieldHandling_queue";
+                String routingKey = "admin.textFieldHandling.queue";
+                String exchangeName = "admin_exchange";//路由
+
+                Map<String, Object> sendMap = new HashMap<>();
+                sendMap.put("user", user);//登录用户信息
+                sendMap.put("pMap", map);//参数
+                sendMap.put("newName", newName);//输出文件名
+
+                bool = mQAide.send(exchangeName,routingKey,30,sendMap);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (Exception e) {
+
+        }
+        return bool;
+    }
+
+    @Override
     public List<Map<String, Object>> getApiBusinessList(Map map) {
         return cardApiBusinessMapper.getList(map);
     }
@@ -400,7 +424,7 @@ public class CardServiceimpl implements ICardService {
         Map<String, Object> updMap = new HashMap<>();
         updMap.put("iccid",map.get("iccid"));
         updMap.put("remarks",map.get("remarks"));
-        updMap.put("delivery_date",map.get("delivery_date"));
+        updMap.put("deliver_date",map.get("deliver_date"));
         updMap.put("imei",map.get("imei"));
         updMap.put("customize_grouping",map.get("customize_grouping"));
 

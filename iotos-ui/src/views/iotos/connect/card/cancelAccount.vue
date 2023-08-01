@@ -736,7 +736,7 @@ export default {
     'queryParams.advancedSearch'(val){
       if(val){//展开高级查询时 触发获取对应字典数据 [减少用不到的系统请求，优化界面加载速度]
         //加载 排序规则
-        if (window['orderByRuleOptions'] != undefined && window['orderByRuleOptions'] != null && window['orderByRuleOptions'] != '') {
+        if (tools.isNull(window['orderByRuleOptions'])) {
           this.orderByRuleOptions = window['orderByRuleOptions'];
         } else {
           this.getDicts("order_by_rule").then(response => {
@@ -745,7 +745,7 @@ export default {
           });
         }
         //加载 排序依据
-        if (window['orderByTypeOptions'] != undefined && window['orderByTypeOptions'] != null && window['orderByTypeOptions'] != '') {
+        if (tools.isNull(window['orderByTypeOptions'])) {
           this.orderByTypeOptions = window['orderByTypeOptions'];
         } else {
           this.getDicts("card_order_by_type").then(response => {
@@ -754,7 +754,7 @@ export default {
           });
         }
         //加载 维度条件
-        if (window['compareTypeOptions'] != undefined && window['compareTypeOptions'] != null && window['compareTypeOptions'] != '') {
+        if (tools.isNull(window['compareTypeOptions'])) {
           this.compareTypeOptions = window['compareTypeOptions'];
         } else {
           this.getDicts("compare_type").then(response => {
@@ -763,7 +763,7 @@ export default {
           });
         }
         //加载 多维度字段
-        if (window['dimensionFieldOptions'] != undefined && window['dimensionFieldOptions'] != null && window['dimensionFieldOptions'] != '') {
+        if (tools.isNull(window['dimensionFieldOptions'])) {
           this.dimensionFieldOptions = window['dimensionFieldOptions'];
         } else {
           this.getDicts("card_dimension_field").then(response => {
@@ -773,7 +773,7 @@ export default {
         }
 
         //加载 起止条件类型
-        if (window['betweenTypeOptions'] != undefined && window['betweenTypeOptions'] != null && window['betweenTypeOptions'] != '') {
+        if (tools.isNull(window['betweenTypeOptions'])) {
           this.betweenTypeOptions = window['betweenTypeOptions'];
         } else {
           this.getDicts("card_sel_between_type").then(response => {
@@ -784,7 +784,7 @@ export default {
 
 
         //加载 时间查询类型
-        if (window['dateTypeOptions'] != undefined && window['dateTypeOptions'] != null && window['dateTypeOptions'] != '') {
+        if (tools.isNull(window['dateTypeOptions'])) {
           this.dateTypeOptions = window['dateTypeOptions'];
         } else {
           this.getDicts("card_sel_date_type").then(response => {
@@ -793,7 +793,7 @@ export default {
           });
         }
 
-        if (window['cardGroupingOptions'] != undefined && window['cardGroupingOptions'] != null && window['cardGroupingOptions'] != '') {
+       if (tools.isNull(window['cardGroupingOptions'])) {
           this.cardGroupingOptions = window['cardGroupingOptions'];
         } else {
           this.loadCardGrouping();//加载 分组
@@ -1005,7 +1005,7 @@ export default {
 
 
     //加载 是否
-    if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+    if (tools.isNull(window['whetherOptions'])) {
       this.whetherOptions = window['whetherOptions'];
     } else {
       this.getDicts("iotos_whether").then(response => {
@@ -1015,7 +1015,7 @@ export default {
     }
 
     //加载 卡状态描述
-    if (window['cardStatusOptions'] != undefined && window['cardStatusOptions'] != null && window['cardStatusOptions'] != '') {
+    if (tools.isNull(window['cardStatusOptions'])) {
       this.cardStatusOptions = window['cardStatusOptions'];
     } else {
       this.getDicts("card_status_id").then(response => {
@@ -1025,7 +1025,7 @@ export default {
     }
 
     //加载 企业名称
-    if (window['deptsOptions'] != undefined && window['deptsOptions'] != null && window['deptsOptions'] != '') {
+    if (tools.isNull(window['deptsOptions'])) {
       this.deptsOptions = window['deptsOptions'];
     } else {
       getDeptName().then(response => {
@@ -1037,7 +1037,7 @@ export default {
 
 
     //加载 卡号类型
-    if(window['numberTypeOptions']!=undefined &&  window['numberTypeOptions']!=null && window['numberTypeOptions']!=''){
+    if (tools.isNull(window['numberTypeOptions'])){
       this.numberTypeOptions = window['numberTypeOptions'];
     }else{
       this.getDicts("number_type").then(response => {
@@ -1047,7 +1047,7 @@ export default {
     }
 
 
-    if (window['card_sel_type'] != undefined && window['card_sel_type'] != null && window['card_sel_type'] != '') {
+    if (tools.isNull(window['card_sel_type'])) {
       this.typeOptions = window['card_sel_type'];
     } else {
       this.getDicts("iotos_card_sel_type").then(response => {
@@ -1058,7 +1058,7 @@ export default {
 
 
     //加载 通道
-    if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
+    if (tools.isNull(window['channelOptions'])) {
       this.channelOptions = window['channelOptions'];
     } else {
       let pwdStr = tools.encryptSy({});
@@ -1071,7 +1071,7 @@ export default {
 
 
     //加载 卡状态
-    if (window['cardStatusShowOptions'] != undefined && window['cardStatusShowOptions'] != null && window['cardStatusShowOptions'] != '') {
+    if (tools.isNull(window['cardStatusShowOptions'])) {
       this.cardStatusShowOptions = window['cardStatusShowOptions'];
     } else {
       this.getDicts("card_status_show_id").then(response => {

@@ -446,7 +446,7 @@ export default {
   },
   created() {
     //加载 卡状态
-    if (window['cardStatusShowOptions'] != undefined && window['cardStatusShowOptions'] != null && window['cardStatusShowOptions'] != '') {
+    if (tools.isNull(window['cardStatusShowOptions'])) {
       this.cardStatusShowOptions = window['cardStatusShowOptions'];
     } else {
       this.getDicts("card_status_show_id").then(response => {
@@ -455,7 +455,7 @@ export default {
       });
     }
     //加载 企业名称
-    if (window['deptsOptions'] != undefined && window['deptsOptions'] != null && window['deptsOptions'] != '') {
+    if (tools.isNull(window['deptsOptions'])) {
       this.deptsOptions = window['deptsOptions'];
     } else {
       getDeptName().then(response => {
@@ -466,7 +466,7 @@ export default {
     }
 
     //加载 通道
-    if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
+    if (tools.isNull(window['channelOptions'])) {
       this.channelOptions = window['channelOptions'];
     } else {
       let pwdStr = tools.encryptSy({});

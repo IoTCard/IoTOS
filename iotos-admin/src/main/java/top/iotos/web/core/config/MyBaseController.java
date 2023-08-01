@@ -1,20 +1,20 @@
 package top.iotos.web.core.config;
 
 import com.alibaba.fastjson2.JSON;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import top.iotos.common.config.LanguageConvert;
 import top.iotos.common.constant.HttpStatus;
 import top.iotos.common.core.controller.BaseController;
 import top.iotos.common.core.domain.entity.SysUser;
 import top.iotos.common.core.domain.model.LoginUser;
+import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
 import top.iotos.common.utils.ServletUtils;
+import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.common.utils.ip.IpUtils;
 import top.iotos.common.utils.spring.SpringUtils;
-import top.iotos.framework.web.service.TokenService;
-import top.iotos.synApi.mapper.mysql.card.CardInfoMapper;
-import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.synApi.utils.iotos.web.AesEncryptUtil;
+import top.iotos.framework.web.service.TokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -28,11 +28,11 @@ public class MyBaseController extends BaseController
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public String RetunnIfStr(boolean bool,String sMsg,String eMsg,Object obj){
+    public String retunnIfStr(boolean bool,String sMsg,String eMsg,Object obj){
         if(bool){
-            return RetunnSuccess(obj,sMsg);
+            return retunnSuccess(obj,sMsg);
         }else {
-            return RetunnError(eMsg);
+            return retunnError(eMsg);
         }
     }
 
@@ -210,7 +210,7 @@ public class MyBaseController extends BaseController
      * my 成功返回函数
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String RetunnSuccess(Object obj,String msg)
+    protected String retunnSuccess(Object obj,String msg)
     {
         try {
             return AesEncryptUtil.encrypt(JSON.toJSONString(RSuccess(obj,msg)));
@@ -220,7 +220,7 @@ public class MyBaseController extends BaseController
         }
     }
 
-    protected String RetunnSuccess(Object obj,String token,String msg)
+    protected String retunnSuccess(Object obj,String token,String msg)
     {
         try {
             return AesEncryptUtil.encrypt(JSON.toJSONString(RSuccess(obj,token,msg)));
@@ -250,7 +250,7 @@ public class MyBaseController extends BaseController
 
 
 
-    protected String RetunnError(String msg)
+    protected String retunnError(String msg)
     {
         try {
             return AesEncryptUtil.encrypt(JSON.toJSONString(RError(msg)));

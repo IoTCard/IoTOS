@@ -424,7 +424,7 @@ export default {
     updForm: {
       remarks: "Remarks:",
       updateNotFilled: "Update unfilled attributes:",
-      delivery_date: "Delivery date:",
+      deliver_date: "Delivery date:",
       customize_grouping: "Customize grouping:",
     },
 
@@ -712,6 +712,14 @@ export default {
       l01:'Card details add session information query session records (paging query), export history records;',
       l02:'New intelligent diagnosis card status, freezing status, downtime reason, area restriction status, area restriction area, device status, business change history, APN query already opened, diagnosis suggestion prompt; (perfect restoration of OneLink intelligent diagnosis);',
       l03: 'Optimize card number synchronization algorithm bug;',
+      l04:'Optimize card number comparison and add card number algorithm timing task trigger interval, etc.;',
+      l05: 'Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);',
+    },
+    v163: {
+      l00: 'New batch business processing, add text field batch card number entry;',
+      l01: 'Fix language encoding format parsing problem;',
+      l02:'Fix the problem of modifying the delivery time;',
+      l03: 'Optimize the intelligent diagnosis status to display the problem with time;',
       l04:'Optimize card number comparison and add card number algorithm timing task trigger interval, etc.;',
       l05: 'Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);',
     },

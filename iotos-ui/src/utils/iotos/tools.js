@@ -243,15 +243,20 @@ tools.toFixed = function (number, decimal) {
  * 针对文本域 换行符切割 过滤前后空格获取数组
  * @param lets
  */
-tools.textareaGet = function (vars) {
-  vars = vars.split(/[\s\n]/);
-  //console.log(vars);
-  vars = $.grep(vars, function (x) {
-    return $.trim(x).length > 0;
+tools.textareaGet = function (str) {
+  // 通过换行符 '\n' 将字符串切割成数组
+  var lines = str.split('\n');
+  // 使用map函数处理每个元素，去除前后空格
+  var trimmedLines = lines.map(function(line) {
+    return line.trim();
   });
-  //console.log(vars);
-  return vars;
+  // 使用filter函数过滤掉空字符串
+  var nonEmptyLines = trimmedLines.filter(function(line) {
+    return line !== "";
+  });
+  return nonEmptyLines;
 }
+
 
 
 //-----[获取当前时间]
@@ -432,11 +437,11 @@ tools.formatNum = function (str) {
 tools.getPercentage = function (val1, val2) {
   let map = {};
 
-  //let percentage = tools.NumberMul(tools.NumberSub((val1/val2),'1'),'100');
-  //let percentage = tools.NumberMul(((val1/val2)-1),'100');
+  //let percentage = tools.numberMul(tools.numberSub((val1/val2),'1'),'100');
+  //let percentage = tools.numberMul(((val1/val2)-1),'100');
   //let percentage = ((val1/val2)-1)*100;
 
-  let percentage = tools.NumberMul(tools.NumberSub(tools.NumberDiv(val1, val2, 4), '1'), '100');
+  let percentage = tools.numberMul(tools.numberSub(tools.numberDiv(val1, val2, 4), '1'), '100');
   //console.log("percentage   = "+percentage);
   //let percentage = ((180/80)-1)*100;
   //console.log(percentage>0);
@@ -463,7 +468,7 @@ tools.getPercentage = function (val1, val2) {
  * @returns {number}
  * @constructor
  */
-tools.NumberMul = function (arg1, arg2) {
+tools.numberMul = function (arg1, arg2) {
   var m = 0;
   var s1 = arg1.toString();
   var s2 = arg2.toString();
@@ -486,7 +491,7 @@ tools.NumberMul = function (arg1, arg2) {
  * @returns {string}
  * @constructor
  */
-tools.NumberAdd = function (arg1, arg2) {
+tools.numberAdd = function (arg1, arg2) {
   var r1, r2, m, n;
   arg1 = arg1 + "";
   arg2 = arg2 + "";
@@ -513,7 +518,7 @@ tools.NumberAdd = function (arg1, arg2) {
  * @returns {string}
  * @constructor
  */
-tools.NumberSub = function (arg1, arg2) {
+tools.numberSub = function (arg1, arg2) {
   var re1, re2, m, n;
   arg1 = arg1 + "";
   arg2 = arg2 + "";
@@ -541,7 +546,7 @@ tools.NumberSub = function (arg1, arg2) {
  * @returns {number}
  * @constructor
  */
-tools.NumberDiv = function (arg1, arg2, digit) {
+tools.numberDiv = function (arg1, arg2, digit) {
   arg1 = arg1 + "";
   arg2 = arg2 + "";
   var t1 = 0, t2 = 0, r1, r2;

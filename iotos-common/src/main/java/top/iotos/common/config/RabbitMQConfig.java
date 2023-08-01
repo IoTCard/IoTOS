@@ -155,8 +155,8 @@ public class RabbitMQConfig {
         if(del_exchangeName!=null && del_queueName!=null && del_routingKey!=null ){
             //创建死信队列 绑定到 信交换机
             try {
-                com.rabbitmq.client.AMQP.Queue.DeclareOk del_queueDeclare = channel.queueDeclare(del_queueName, true, false, false,null);
-                com.rabbitmq.client.AMQP.Queue.BindOk del_queueBind = channel.queueBind(del_queueName, del_exchangeName, del_routingKey);
+                AMQP.Queue.DeclareOk del_queueDeclare = channel.queueDeclare(del_queueName, true, false, false,null);
+                AMQP.Queue.BindOk del_queueBind = channel.queueBind(del_queueName, del_exchangeName, del_routingKey);
             }catch (IOException e){
                 log.error("以存在死信 队列"+del_queueName);
                 channel = connection.createChannel();
@@ -168,12 +168,12 @@ public class RabbitMQConfig {
                 Map<String, Object> arguments = new HashMap<>(2);
                 arguments.put("x-dead-letter-exchange", del_exchangeName);
                 arguments.put("x-dead-letter-routing-key", del_routingKey);
-                com.rabbitmq.client.AMQP.Queue.DeclareOk queueDeclare = channel.queueDeclare(queueName, true, false, false,arguments);
+                AMQP.Queue.DeclareOk queueDeclare = channel.queueDeclare(queueName, true, false, false,arguments);
                 //这个才是将queue绑定到exchange上面,注意这里的routingKey不能为null
-                com.rabbitmq.client.AMQP.Queue.BindOk queueBind = channel.queueBind(queueName, exchangeName, routingKey);
+                AMQP.Queue.BindOk queueBind = channel.queueBind(queueName, exchangeName, routingKey);
             }else{
-                com.rabbitmq.client.AMQP.Queue.DeclareOk queueDeclare = channel.queueDeclare(queueName, true, false, false,null);
-                com.rabbitmq.client.AMQP.Queue.BindOk queueBind = channel.queueBind(queueName, exchangeName, routingKey);
+                AMQP.Queue.DeclareOk queueDeclare = channel.queueDeclare(queueName, true, false, false,null);
+                AMQP.Queue.BindOk queueBind = channel.queueBind(queueName, exchangeName, routingKey);
             }
         }catch (IOException e){
             log.error("以存在 队列"+del_queueName);

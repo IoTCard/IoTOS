@@ -3,6 +3,7 @@ package top.iotos.consumer.task.card.channe.polling;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;

@@ -1,14 +1,14 @@
 package top.iotos.web.controller.iotos.connect;
 
+import top.iotos.common.annotation.Log;
+import top.iotos.common.enums.BusinessType;
+import top.iotos.system.service.iotos.connect.IChannelService;
+import top.iotos.web.core.config.MyBaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.iotos.common.annotation.Log;
-import top.iotos.common.enums.BusinessType;
-import top.iotos.system.service.iotos.connect.IChannelService;
-import top.iotos.web.core.config.MyBaseController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -31,11 +31,11 @@ public class ChannelController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
-            return RetunnSuccess(iChannelSercice.getList(parameter),null);
+            return retunnSuccess(iChannelSercice.getList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/list  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -47,11 +47,11 @@ public class ChannelController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
-            return RetunnSuccess(iChannelSercice.find(parameter),null);
+            return retunnSuccess(iChannelSercice.find(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/find  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -65,11 +65,11 @@ public class ChannelController extends MyBaseController
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
             parameter.put("dept_id",getDeptId());
-            return RetunnIfStr(iChannelSercice.save(parameter),null,null,null);
+            return retunnIfStr(iChannelSercice.save(parameter),null,null,null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/save  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -83,11 +83,11 @@ public class ChannelController extends MyBaseController
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
             parameter.put("dept_id",getDeptId());
-            return RetunnIfStr(iChannelSercice.update(parameter),null,null,null);
+            return retunnIfStr(iChannelSercice.update(parameter),null,null,null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/edit  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
    
@@ -99,11 +99,11 @@ public class ChannelController extends MyBaseController
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
             parameter.put("dept_id",getDeptId());
-            return RetunnIfStr(iChannelSercice.delete(parameter),null,null,null);
+            return retunnIfStr(iChannelSercice.delete(parameter),null,null,null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/delRoute  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -119,11 +119,11 @@ public class ChannelController extends MyBaseController
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
             boolean headquarters = getDeptID().equals("100")?true:false;
-            return RetunnSuccess(iChannelSercice.getNameOpen(parameter,headquarters),null);
+            return retunnSuccess(iChannelSercice.getNameOpen(parameter,headquarters),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/getNameOpen  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -138,11 +138,11 @@ public class ChannelController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
-            return RetunnSuccess(iChannelSercice.getName(parameter),null);
+            return retunnSuccess(iChannelSercice.getName(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/channel/getName  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 

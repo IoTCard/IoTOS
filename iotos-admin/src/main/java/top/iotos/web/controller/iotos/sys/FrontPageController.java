@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.iotos.system.service.iotos.card.IUsedRecordService;
 import top.iotos.system.service.iotos.sys.IFrontPageService;
 import top.iotos.web.core.config.MyBaseController;
 
@@ -30,11 +31,11 @@ public class FrontPageController extends MyBaseController
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
             parameter.put("dept_id",getDeptID());
-            return RetunnSuccess(iFrontPageService.find(parameter),null);
+            return retunnSuccess(iFrontPageService.find(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/frontPage/find  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 

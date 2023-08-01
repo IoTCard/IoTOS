@@ -30,7 +30,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天的文件日志 -->
             <fileNamePattern>${LOG_PATH}/${LOG_FILE}/${LOG_FILE}-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 日志文件保存 30 天，超过 30 天的自动删除 -->
+            <!-- 日志文件保存 30 天，超过 30 天的自动删除-->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>

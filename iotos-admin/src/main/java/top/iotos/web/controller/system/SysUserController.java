@@ -261,15 +261,15 @@ public class SysUserController extends MyBaseController
             setLoginLgCode(lgCode);
             boolean bool = userService.setLg(getUser());
             if(bool){
-                return RetunnSuccess(bool,null);
+                return retunnSuccess(bool,null);
             }else {
-                return RetunnError(null);
+                return retunnError(null);
             }
 
         }catch (Exception e){
             logger.error("<br/> /system/user/setLg  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -280,11 +280,11 @@ public class SysUserController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameter(pwdStr);
-            return RetunnSuccess(userService.findDeptUser(parameter),null);
+            return retunnSuccess(userService.findDeptUser(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /system/user/findDeptUser  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 }

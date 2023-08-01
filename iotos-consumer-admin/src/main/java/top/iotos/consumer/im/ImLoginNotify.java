@@ -12,9 +12,7 @@ import top.iotos.common.utils.iotos.web.IMUtils;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**

@@ -29,11 +29,11 @@ public class UsedRecordController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iUsedRecordService.getList(parameter),null);
+            return retunnSuccess(iUsedRecordService.getList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/usedRecord/list  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 

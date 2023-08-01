@@ -351,7 +351,7 @@ export default {
   created() {
 
     //加载 企业名称
-    if (window['deptsOptions'] != undefined && window['deptsOptions'] != null && window['deptsOptions'] != '') {
+    if (tools.isNull(window['deptsOptions'])) {
       this.deptsOptions = window['deptsOptions'];
     } else {
       getDeptName().then(response => {
@@ -361,7 +361,7 @@ export default {
       });
     }
 
-    if (window['task_sel_type'] != undefined && window['task_sel_type'] != null && window['task_sel_type'] != '') {
+    if (tools.isNull(window['task_sel_type'])) {
       this.typeOptions = window['task_sel_type'];
     } else {
       this.getDicts("iotos_task_sel_type").then(response => {
@@ -372,7 +372,7 @@ export default {
 
 
     //加载 执行任务类别
-    if (window['taskTypeOptions'] != undefined && window['taskTypeOptions'] != null && window['taskTypeOptions'] != '') {
+    if (tools.isNull(window['taskTypeOptions'])) {
       this.taskTypeOptions = window['taskTypeOptions'];
     } else {
       this.getDicts("iotos_task_type").then(response => {
@@ -383,7 +383,7 @@ export default {
 
 
     //加载 任务文件名
-    if (window['taskNameOptions'] != undefined && window['taskNameOptions'] != null && window['taskNameOptions'] != '') {
+    if (tools.isNull(window['taskNameOptions'])) {
       this.taskNameOptions = window['taskNameOptions'];
     } else {
       this.getDicts("iotos_task_name").then(response => {
@@ -393,7 +393,7 @@ export default {
     }
 
     //加载 任务文件名
-    if (window['flieTypeOptions'] != undefined && window['flieTypeOptions'] != null && window['flieTypeOptions'] != '') {
+    if (tools.isNull(window['flieTypeOptions'])) {
       this.flieTypeOptions = window['flieTypeOptions'];
     } else {
       this.getDicts("task_flie_type").then(response => {

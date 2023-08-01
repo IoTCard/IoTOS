@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width: 100%;font-size: 30px;height: 50px;padding:10px;pborder: 1px solid red">
+    <div style="width: 100%;font-size: 30px;height: 50px;padding:10px;">
       <i  :style="{color: dgForm.iColor}" :class="dgForm.iClass"/>
       <span style="margin-left:10px;font-size: 25px">{{ dgForm.iTitle }}</span>
     </div>
@@ -105,7 +105,7 @@
           </template>
 
           <el-steps align-center :active="dgForm.cardApiBusinessList.length" >
-            <el-step :title="item.create_time" :description="'['+tools.getDkeyValue(ecv5ChangeStatusOptions, item.descStatus)+']'+$t('cardInfoModule.cafterward')+'['+tools.getDkeyValue(ecv5ChangeStatusOptions, item.targetStatus)+']'"
+            <el-step :title="item.changeDate" :description="'['+tools.getDkeyValue(ecv5ChangeStatusOptions, item.descStatus)+']'+$t('cardInfoModule.cafterward')+'['+tools.getDkeyValue(ecv5ChangeStatusOptions, item.targetStatus)+']'"
                      v-for="item in  dgForm.cardApiBusinessList">
             </el-step>
           </el-steps>
@@ -222,7 +222,7 @@ import {
     },
     created() {
       //加载 是否
-      if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+      if (tools.isNull(window['whetherOptions'])) {
         this.whetherOptions = window['whetherOptions'];
       } else {
         this.getDicts("iotos_whether").then(response => {
@@ -231,7 +231,7 @@ import {
         });
       }
       //加载 卡状态描述
-      if (window['cardStatusOptions'] != undefined && window['cardStatusOptions'] != null && window['cardStatusOptions'] != '') {
+      if (tools.isNull(window['cardStatusOptions'])) {
         this.cardStatusOptions = window['cardStatusOptions'];
       } else {
         this.getDicts("card_status_id").then(response => {
@@ -240,7 +240,7 @@ import {
         });
       }
       //加载 卡状态
-      if (window['cardStatusShowOptions'] != undefined && window['cardStatusShowOptions'] != null && window['cardStatusShowOptions'] != '') {
+      if (tools.isNull(window['cardStatusShowOptions'])) {
         this.cardStatusShowOptions = window['cardStatusShowOptions'];
       } else {
         this.getDicts("card_status_show_id").then(response => {
@@ -249,7 +249,7 @@ import {
         });
       }
       //加载 ECV5服务状态
-      if (window['ecv5ServiceStatusOptions'] != undefined && window['ecv5ServiceStatusOptions'] != null && window['ecv5ServiceStatusOptions'] != '') {
+      if (tools.isNull(window['ecv5ServiceStatusOptions'])) {
         this.ecv5ServiceStatusOptions = window['ecv5ServiceStatusOptions'];
       } else {
         this.getDicts("ecv5_service_status").then(response => {
@@ -258,7 +258,7 @@ import {
         });
       }
       //加载 ECV5通信功能服务类型
-      if (window['ecv5ServiceTypeOptions'] != undefined && window['ecv5ServiceTypeOptions'] != null && window['ecv5ServiceTypeOptions'] != '') {
+      if (tools.isNull(window['ecv5ServiceTypeOptions'])) {
         this.ecv5ServiceTypeOptions = window['ecv5ServiceTypeOptions'];
       } else {
         this.getDicts("ecv5_service_type").then(response => {
@@ -267,7 +267,7 @@ import {
         });
       }
       //加载 ECV5限制区域
-      if (window['restrictedAreaOptions'] != undefined && window['restrictedAreaOptions'] != null && window['restrictedAreaOptions'] != '') {
+      if (tools.isNull(window['restrictedAreaOptions'])) {
         this.restrictedAreaOptions = window['restrictedAreaOptions'];
       } else {
         this.getDicts("ecv5_restricted_area").then(response => {
@@ -276,7 +276,7 @@ import {
         });
       }
       //加载 ECV5变更状态类型
-      if (window['ecv5ChangeStatusOptions'] != undefined && window['ecv5ChangeStatusOptions'] != null && window['ecv5ChangeStatusOptions'] != '') {
+      if (tools.isNull(window['ecv5ChangeStatusOptions'])) {
         this.ecv5ChangeStatusOptions = window['ecv5ChangeStatusOptions'];
       } else {
         this.getDicts("ecv5_change_status").then(response => {
@@ -285,7 +285,7 @@ import {
         });
       }
       //加载 ECV5开关机状态
-      if (window['ecv5OnoffStatusOptions'] != undefined && window['ecv5OnoffStatusOptions'] != null && window['ecv5OnoffStatusOptions'] != '') {
+      if (tools.isNull(window['ecv5OnoffStatusOptions'])) {
         this.ecv5OnoffStatusOptions = window['ecv5OnoffStatusOptions'];
       } else {
         this.getDicts("ecv5_onoff_status").then(response => {
@@ -294,7 +294,7 @@ import {
         });
       }
       //加载 ECV5开关机状态
-      if (window['ecv5BindStatus'] != undefined && window['ecv5BindStatus'] != null && window['ecv5BindStatus'] != '') {
+      if (tools.isNull(window['ecv5BindStatus'])) {
         this.ecv5BindStatus = window['ecv5BindStatus'];
       } else {
         this.getDicts("ecv5_bind_status").then(response => {
@@ -483,7 +483,7 @@ import {
             let result= retuenList[0].rData.result;
             if(tools.isNull(result)==true && result.length>0){
               let restrictedArea = result[0].restrictedArea;
-              if(tools.install(restrictedArea)){
+              if(tools.isNull(restrictedArea)){
                 this.restrictedArea = restrictedArea;
               }
             }
@@ -527,6 +527,8 @@ import {
                   return dateA - dateB;
                 });
                 this.dgForm.cardApiBusinessList = changeHistoryList;
+
+
                 if(changeHistoryList[changeHistoryList.length-1].targetStatus=='4'){
                   this.addActiveNames("4","te4");
                 }

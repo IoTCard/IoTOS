@@ -223,7 +223,7 @@ export default {
   },
   created() {
     //加载 执行任务详情类型
-    if (window['tasksDetailsTypeOptions'] != undefined && window['tasksDetailsTypeOptions'] != null && window['tasksDetailsTypeOptions'] != '') {
+    if (tools.isNull(window['tasksDetailsTypeOptions'])){
       this.tasksDetailsTypeOptions = window['tasksDetailsTypeOptions'];
     } else {
       this.getDicts("tasks_details_type").then(response => {
@@ -232,7 +232,7 @@ export default {
       });
     }
     //加载 通用结果状态
-    if (window['resultStatusOptions'] != undefined && window['resultStatusOptions'] != null && window['resultStatusOptions'] != '') {
+    if (tools.isNull(window['resultStatusOptions'])) {
       this.resultStatusOptions = window['resultStatusOptions'];
     } else {
       this.getDicts("result_status").then(response => {

@@ -4,9 +4,9 @@ package top.iotos.quartz.task.iotos.card.synData;
 import org.springframework.stereotype.Component;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
-import top.iotos.common.mapper.mysql.sys.DictTypeMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelInfoMapper;
 import top.iotos.synApi.mapper.mysql.channel.ChannelMapper;
+import top.iotos.common.mapper.mysql.sys.DictTypeMapper;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;

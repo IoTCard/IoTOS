@@ -34,11 +34,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iCardService.getList(parameter),null);
+            return retunnSuccess(iCardService.getList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/card/list  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -50,11 +50,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iCardService.find(parameter),null);
+            return retunnSuccess(iCardService.find(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/card/find  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -96,11 +96,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iCardService.delete(parameter),null,null,null);
+            return retunnIfStr(iCardService.delete(parameter),null,null,null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/delRoute  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -111,11 +111,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iCardService.divideCard(parameter),"common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iCardService.divideCard(parameter),"common.cmdSuccess","common.cmdFailed",null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/divideCard  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -127,11 +127,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iCardService.rollbackDivid(parameter),"common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iCardService.rollbackDivid(parameter),"common.cmdSuccess","common.cmdFailed",null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/rollbackDivid  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -141,11 +141,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iCardService.export(parameter),"common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iCardService.export(parameter),"common.cmdSuccess","common.cmdFailed",null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/export  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -160,11 +160,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iCardService.getGrouping(parameter),null);
+            return retunnSuccess(iCardService.getGrouping(parameter),null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/getGrouping  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -184,7 +184,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synInfo  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -205,7 +205,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synFlow  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -221,7 +221,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -237,7 +237,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synRealName  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -253,7 +253,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synSession  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -269,7 +269,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synActivateDate  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -285,7 +285,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/synImei  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -310,6 +310,22 @@ public class CardController extends MyBaseController
         return RError(null);
     }
 
+    @PreAuthorize("@ss.hasPermi('iotos:card:businessHandling')")
+    @PostMapping(value = "/textFieldHandling", produces = {"application/json;charset=utf-8"})
+    public String textFieldHandling(@RequestBody String pwdStr) {
+        try {
+            HashMap<String, Object> parameter = getParameter(pwdStr);
+            SysUser user = getUser();
+            parameter.put("user", user);
+            parameter.put("deptId", user.getDeptId());
+            return retunnIfStr(iCardService.textFieldHandling(user,parameter), "common.cmdSuccess","common.cmdFailed",null);
+        } catch (Exception e) {
+            logger.error("<br/> /iotos/card/textFieldHandling  <br/> ip = {} <br/> e = {} <br/>", getIP(), e.getCause().toString());
+        }
+        return retunnError(null);
+    }
+
+
 
     /**
      * 查询API业务办理记录
@@ -321,11 +337,11 @@ public class CardController extends MyBaseController
     public String getApiBusinessList(@RequestBody String pwdStr) {
         try {
             HashMap<String, Object> parameter = getParameter(pwdStr);
-            return RetunnSuccess(iCardService.getApiBusinessList(parameter), null);
+            return retunnSuccess(iCardService.getApiBusinessList(parameter), null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/businessHandling  <br/> ip = {} <br/> e = {} <br/>", getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -339,11 +355,11 @@ public class CardController extends MyBaseController
     public String editCardPublic(@RequestBody String pwdStr) {
         try {
             HashMap<String, Object> parameter = getParameter(pwdStr);
-            return RetunnIfStr(iCardService.editCardPublic(parameter), "common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iCardService.editCardPublic(parameter), "common.cmdSuccess","common.cmdFailed",null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/editCardPublic  <br/> ip = {} <br/> e = {} <br/>", getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -361,10 +377,10 @@ public class CardController extends MyBaseController
             Map<String, Object> retMap = new HashMap<>();
             retMap.put("retuenList",rMap.get("retuenList"));
             retMap.put("template",rMap.get("template"));
-            return RetunnSuccess(retMap,"common.cmdSuccess");
+            return retunnSuccess(retMap,"common.cmdSuccess");
         }else {
             String msg = rMap.get("msg").toString();
-            return RetunnError(msg);
+            return retunnError(msg);
         }
     }
 
@@ -379,11 +395,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iCardService.querySession(parameter),null);
+            return retunnSuccess(iCardService.querySession(parameter),null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySession  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -397,12 +413,12 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iCardService.exportSession(parameter),"common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iCardService.exportSession(parameter),"common.cmdSuccess","common.cmdFailed",null);
 
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/exportSession  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -417,11 +433,11 @@ public class CardController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter = getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iCardService.getCard(parameter),null);
+            return retunnSuccess(iCardService.getCard(parameter),null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/getCard  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -442,7 +458,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/queryFStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -462,7 +478,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/queryApiTariff  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -482,7 +498,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimStopReason  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -503,7 +519,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimProduct  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -523,7 +539,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimRLStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -543,7 +559,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimRLArea  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -563,7 +579,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/queryOnOffStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -584,7 +600,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/queryCardBindStatus  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -604,7 +620,7 @@ public class CardController extends MyBaseController
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimChangeHistory  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     @PreAuthorize("@ss.hasPermi('iotos:card:cardMatch')")
@@ -614,11 +630,11 @@ public class CardController extends MyBaseController
         try {
             HashMap<String, Object> parameter = getParameter(pwdStr);
 
-            return RetunnSuccess(iCardService.cardMatch(parameter),null);
+            return retunnSuccess(iCardService.cardMatch(parameter),null);
         } catch (Exception e) {
             logger.error("<br/> /iotos/card/querySimChangeHistory  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>", pwdStr, getIP(), e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 

@@ -252,3 +252,11 @@ export function cardMatch(map) {
     data: map
   })
 }
+
+export function textFieldHandling(map) {
+  return request({
+    url: '/iotos/card/textFieldHandling',
+    method: 'post',
+    data: map
+  })
+}

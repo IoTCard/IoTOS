@@ -15,9 +15,9 @@
       </el-row>
 
       <!--  发货日期-->
-      <el-form-item :label="$t('card_index.updForm.delivery_date')"  >
+      <el-form-item :label="$t('card_index.updForm.deliver_date')"  >
         <el-date-picker
-          v-model="updForm.delivery_date"
+          v-model="updForm.deliver_date"
           :placeholder="$t('common.pleaseChoose')"
           size="small"
           type="date"
@@ -89,12 +89,12 @@ export default {
           bool = true;
           this.updForm.remarks = tools.isNull(this.updForm.remarks)?this.updForm.remarks:'';
           this.updForm.imei = tools.isNull(this.updForm.imei)?this.updForm.imei:'';
-          this.updForm.delivery_date = tools.isNull(this.updForm.delivery_date)?this.updForm.delivery_date:'';
+          this.updForm.deliver_date = tools.isNull(this.updForm.deliver_date)?this.updForm.deliver_date:'';
           this.updForm.customize_grouping = tools.isNull(this.updForm.customize_grouping)?this.updForm.customize_grouping:'';
 
           title += this.$t('card_index.updForm.remarks')+" ["+this.updForm.remarks+"]";
           title += "IMEI: ["+this.updForm.imei+"]";
-          title += this.$t('card_index.updForm.delivery_date')+" ["+this.updForm.delivery_date+"]";
+          title += this.$t('card_index.updForm.deliver_date')+" ["+this.updForm.deliver_date+"]";
           title += this.$t('card_index.updForm.customize_grouping')+" ["+this.updForm.customize_grouping+"]";
 
         }else {
@@ -106,9 +106,9 @@ export default {
             bool = true;
             title += "IMEI: ["+this.updForm.imei+"]";
           }
-          if(tools.isNull(this.updForm.delivery_date)){
+          if(tools.isNull(this.updForm.deliver_date)){
             bool = true;
-            title += this.$t('card_index.updForm.delivery_date')+" ["+this.updForm.delivery_date+"]";
+            title += this.$t('card_index.updForm.deliver_date')+" ["+this.updForm.deliver_date+"]";
           }
           if(tools.isNull(this.updForm.customize_grouping)){
             bool = true;

@@ -59,7 +59,7 @@
 
     <el-tabs tab-position="left" style="" v-model="activeTabs" v-show="show_tabs"  @tab-click="handleClick">
           <el-tab-pane label="API诊断" name="apiDs">
-              <dsEcV5 :v-if="cnTemplate=='oneLink_ECV5'" ref="cardInfoModule" @setObj="setObj"  :dsEditexecute="dsEditexecute" :show_Details="show_apiDs"   :sel="sel" />
+              <dsEcV5 :v-if="cnTemplate=='oneLink_ECV5'" ref="dsEcV5" @setObj="setObj"  :dsEditexecute="dsEditexecute" :show_Details="show_apiDs"   :sel="sel" />
           </el-tab-pane>
           <el-tab-pane label="平台信息" name="iMe">
             <!-- 拓展模块 信息 子组件-->
@@ -171,7 +171,7 @@ import {
       //console.log(str)
 
       //加载 通道
-      if (window['channelOptions'] != undefined && window['channelOptions'] != null && window['channelOptions'] != '') {
+      if (tools.isNull(window['channelOptions'])) {
         this.channelOptions = window['channelOptions'];
       } else {
         let pwdStr = tools.encryptSy({});
@@ -182,7 +182,7 @@ import {
         });
       }
       //加载 卡状态
-      if (window['cardStatusShowOptions'] != undefined && window['cardStatusShowOptions'] != null && window['cardStatusShowOptions'] != '') {
+      if (tools.isNull(window['cardStatusShowOptions'])) {
         this.cardStatusShowOptions = window['cardStatusShowOptions'];
       } else {
         this.getDicts("card_status_show_id").then(response => {
@@ -191,7 +191,7 @@ import {
         });
       }
       //加载 是否
-      if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+      if (tools.isNull(window['whetherOptions'])) {
         this.whetherOptions = window['whetherOptions'];
       } else {
         this.getDicts("iotos_whether").then(response => {
@@ -200,7 +200,7 @@ import {
         });
       }
       //加载 企业名称
-      if (window['deptsOptions'] != undefined && window['deptsOptions'] != null && window['deptsOptions'] != '') {
+      if (tools.isNull(window['deptsOptions'])) {
         this.deptsOptions = window['deptsOptions'];
       } else {
         getDeptName().then(response => {
@@ -210,7 +210,7 @@ import {
         });
       }
       //加载 智能诊断查询条件
-      if (window['diagnosisOptions'] != undefined && window['diagnosisOptions'] != null && window['diagnosisOptions'] != '') {
+      if (tools.isNull(window['diagnosisOptions'])) {
         this.typeOptions = window['diagnosisOptions'];
       } else {
         this.getDicts("diagnosis_sel_type").then(response => {

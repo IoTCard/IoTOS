@@ -268,6 +268,11 @@ public class ApiProcessor {
                             parameter.put("key","msisdn");
                             parameter.put("value",cardMap.get("msisdn"));
                             retuenList = ecV5SyncAlgorithm.ecV5CPUChange(channel,cardMap,functionName,parameter);
+                        }else if(functionName.equals(simGprsStatusReset)){
+                            parameter = parameter!=null?parameter:new HashMap<>();
+                            parameter.put("key","msisdn");
+                            parameter.put("value",cardMap.get("msisdn"));
+                            retuenList = ecV5SyncAlgorithm.ecV5CPUChange(channel,cardMap,functionName,parameter);
                         }else {
                             boolean req = true;
                             JSONObject json = null;
@@ -297,16 +302,6 @@ public class ApiProcessor {
                     }
 
 
-                   /* public final String queryOfferingsDetail = "queryOfferingsDetail";//资费详情实时查询
-                    public final String querySimManageStopRestartStatus = "querySimManageStopRestartStatus";//物联卡管理停复机冻结状态查询
-                    public final String queryLocationSavedCards = "queryLocationSavedCards";//查询物联卡轨迹存储
-                    public final String queryHistoricalLocation = "queryHistoricalLocation";//物联卡历史轨迹信息查询
-                    public final String queryLocationMonitorAlarm = "queryLocationMonitorAlarm";//物联卡位置变动告警记录查询
-                    public final String querySimStopReason = "querySimStopReason";//单卡停机原因查询
-                    public final String querySimCommunicationFunctionStatus = "querySimCommunicationFunctionStatus";//单卡通信功能开通查询
-                    public final String regionLimitStatus = "regionLimitStatus";//物联卡区域限制状态查询
-                    public final String querySimRegionLimitArea = "querySimRegionLimitArea";//物联卡区域限制区域查询
-                    public final String queryOnOffStatus = "queryOnOffStatus";//单卡开关机状态实时查询*/
 
 
 

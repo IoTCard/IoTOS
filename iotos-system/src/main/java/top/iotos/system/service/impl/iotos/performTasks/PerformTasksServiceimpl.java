@@ -2,7 +2,9 @@ package top.iotos.system.service.impl.iotos.performTasks;
 
 
 import org.springframework.stereotype.Service;
+import top.iotos.common.core.domain.entity.SysDept;
 import top.iotos.common.core.domain.entity.SysDictData;
+import top.iotos.common.core.domain.entity.SysUser;
 import top.iotos.common.mapper.mysql.performTasks.PerformTasksMapper;
 import top.iotos.common.mapper.mysql.performTasks.TaskFlieDownloadMapper;
 import top.iotos.common.mapper.mysql.performTasks.TaskFlieMapper;
@@ -10,6 +12,7 @@ import top.iotos.common.mapper.mysql.performTasks.TasksDetailsMapper;
 import top.iotos.common.utils.iotos.service.PageUtil;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 import top.iotos.system.service.ISysDictTypeService;
+import top.iotos.system.service.impl.SysDeptServiceImpl;
 import top.iotos.system.service.iotos.performTasks.IPerformTasksService;
 
 import javax.annotation.Resource;

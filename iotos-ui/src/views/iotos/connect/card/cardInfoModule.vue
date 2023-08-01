@@ -274,7 +274,7 @@ export default {
   created() {
 
     //加载 oneLink在线状态
-    if (window['onelinkSessionStatusOptions'] != undefined && window['onelinkSessionStatusOptions'] != null && window['onelinkSessionStatusOptions'] != '') {
+    if (tools.isNull(window['onelinkSessionStatusOptions'])) {
       this.onelinkSessionStatusOptions = window['onelinkSessionStatusOptions'];
     } else {
       this.getDicts("onelink_session_status").then(response => {
@@ -284,7 +284,7 @@ export default {
     }
 
     //加载 onelink_rat接入方式
-    if (window['onelinkRatTypeOptions'] != undefined && window['onelinkRatTypeOptions'] != null && window['onelinkRatTypeOptions'] != '') {
+    if (tools.isNull(window['onelinkRatTypeOptions'])) {
       this.onelinkRatTypeOptions = window['onelinkRatTypeOptions'];
     } else {
       this.getDicts("onelink_rat_type").then(response => {
@@ -296,7 +296,7 @@ export default {
 
 
     //API业务变更来源
-    if (window['apiSourceTypeOptions'] != undefined && window['apiSourceTypeOptions'] != null && window['apiSourceTypeOptions'] != '') {
+    if (tools.isNull(window['apiSourceTypeOptions'])) {
       this.apiSourceTypeOptions = window['apiSourceTypeOptions'];
     } else {
       this.getDicts("api_source_type").then(response => {
@@ -306,7 +306,7 @@ export default {
     }
 
     //执行任务详情类型
-    if (window['tasksDetailsTypeOptions'] != undefined && window['tasksDetailsTypeOptions'] != null && window['tasksDetailsTypeOptions'] != '') {
+    if (tools.isNull(window['tasksDetailsTypeOptions'])){
       this.tasksDetailsTypeOptions = window['tasksDetailsTypeOptions'];
     } else {
       this.getDicts("tasks_details_type").then(response => {
@@ -316,7 +316,7 @@ export default {
     }
 
     //通用结果状态
-    if (window['resultStatusOptions'] != undefined && window['resultStatusOptions'] != null && window['resultStatusOptions'] != '') {
+    if (tools.isNull(window['resultStatusOptions'])) {
       this.resultStatusOptions = window['resultStatusOptions'];
     } else {
       this.getDicts("result_status").then(response => {
@@ -325,7 +325,7 @@ export default {
       });
     }
     //加载 是否
-    if (window['whetherOptions'] != undefined && window['whetherOptions'] != null && window['whetherOptions'] != '') {
+    if (tools.isNull(window['whetherOptions'])) {
       this.whetherOptions = window['whetherOptions'];
     } else {
       this.getDicts("iotos_whether").then(response => {
@@ -532,6 +532,7 @@ export default {
                 p_xAxis.push(data.MMdd);
                 expectedData.push(data.reveal_day_used);
               }
+
               this.recordData.expectedData = expectedData;
               this.p_xAxis = p_xAxis;
               this.flowRecord_load = true;

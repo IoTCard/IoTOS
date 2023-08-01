@@ -80,13 +80,13 @@ public class LanguageConvert {
 
 
     private static Map<String,Object> getMaps(Locale locale) {
-        switch (locale.toString()) {
-            case "zh_CN":
-                return ZH_CN_MAP;
-            case "zh_TW":
-                return ZH_TW_MAP;
-            default:
-                return EN_MAP;
+        String lc = locale.toString();
+        if(lc.equalsIgnoreCase("zh-CN") || lc.equalsIgnoreCase("zh_CN")){
+            return ZH_CN_MAP;
+        } else if (lc.equalsIgnoreCase("zh-TW") || lc.equalsIgnoreCase("zh_TW")) {
+            return ZH_TW_MAP;
+        }else {
+            return EN_MAP;
         }
     }
 

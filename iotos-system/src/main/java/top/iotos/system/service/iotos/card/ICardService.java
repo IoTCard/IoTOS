@@ -74,6 +74,10 @@ public interface ICardService {
     public boolean businessHandling(MultipartFile file, SysUser user,Map<String, Object> map);
 
 
+    public boolean textFieldHandling(SysUser user,Map<String, Object> map);
+
+
+
     /**
      * 获取API 业务变更记录
      * @param map

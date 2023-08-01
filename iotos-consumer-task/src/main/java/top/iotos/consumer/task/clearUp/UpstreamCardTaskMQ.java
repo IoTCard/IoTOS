@@ -8,6 +8,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import top.iotos.common.mapper.mysql.card.synData.UpstreamCardMapper;
 import top.iotos.common.mapper.mysql.card.synData.oneLink.Ecv5GroupMapper;
+import top.iotos.synApi.mapper.mysql.card.CardSessionMapper;
+import top.iotos.synApi.mapper.mysql.card.OneLinkEcV5SessionMapper;
 import top.iotos.synApi.utils.iotos.service.MQAide;
 
 import javax.annotation.Resource;

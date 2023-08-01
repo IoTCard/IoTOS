@@ -46,11 +46,11 @@ public class PerformTasksController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iPerformTasksService.getList(parameter),null);
+            return retunnSuccess(iPerformTasksService.getList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/performTasks/list  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -62,11 +62,11 @@ public class PerformTasksController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iPerformTasksService.findFile(parameter),null);
+            return retunnSuccess(iPerformTasksService.findFile(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/performTasks/find  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -81,11 +81,11 @@ public class PerformTasksController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iPerformTasksService.downloadList(parameter),null);
+            return retunnSuccess(iPerformTasksService.downloadList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/performTasks/downloadList  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
@@ -100,11 +100,11 @@ public class PerformTasksController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnSuccess(iPerformTasksService.tasksDetailsList(parameter),null);
+            return retunnSuccess(iPerformTasksService.tasksDetailsList(parameter),null);
         }catch (Exception e){
             logger.error("<br/> /iotos/performTasks/tasksDetailsList  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
     /**
@@ -118,11 +118,11 @@ public class PerformTasksController extends MyBaseController
     {
         try {
             HashMap<String, Object> parameter =  getParameterAddPermissions(pwdStr);
-            return RetunnIfStr(iPerformTasksService.tasksDetailsExport(parameter),"common.cmdSuccess","common.cmdFailed",null);
+            return retunnIfStr(iPerformTasksService.tasksDetailsExport(parameter),"common.cmdSuccess","common.cmdFailed",null);
         }catch (Exception e){
             logger.error("<br/> /iotos/performTasks/tasksDetailsExport  <br/> pwdStr = {} <br/> ip = {} <br/> e = {} <br/>",pwdStr,getIP(),e.getCause().toString());
         }
-        return RetunnError(null);
+        return retunnError(null);
     }
 
 
