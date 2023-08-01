@@ -127,6 +127,14 @@
           </div>
           <el-collapse accordion v-model="version">
 
+            <el-collapse-item title="v1.6.3 - 2023-08-01"  name="v1.6.3">
+              <ol>
+                <li>{{ $t("IoTOS.v163.l00") }}</li>
+                <li>{{ $t("IoTOS.v163.l01") }}</li>
+                <li>{{ $t("IoTOS.v163.l02") }}</li>
+                <li>{{ $t("IoTOS.v163.l03") }}</li>
+              </ol>
+            </el-collapse-item>
 
             <el-collapse-item title="v1.5.3 - 2023-07-17"  name="v1.5.3">
               <ol>
@@ -186,7 +194,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "v1.5.3",
+      version: "v1.6.3",
 
     };
   },
