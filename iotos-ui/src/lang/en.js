@@ -100,7 +100,7 @@ export default {
     month:'month',
     day:'day',
     copy: "Copy",
-
+    repeat: "Filtered duplicate data",
     ask:{//General inquiry
       wDelName: "Are you sure [Delete] 'Name' is:",
       ask: "OK",
@@ -126,7 +126,7 @@ export default {
       length: 'Please enter a matching card number greater than 4 digits! ',
     },
     referenceNumber:'reference number',
-    prefixMatching: 'prefix match',
+    prefixMatching: 'prefix matching',
   },
   dsEcV5: {
     dTitle: {
@@ -163,11 +163,59 @@ export default {
       title:'Status Change Record',
     },
     suggestedSolution: 'Suggested solution:',
-
-
-
   },
-
+  dsCmp5G:{
+    dTitle: {
+      i_1: "diagnosing",
+      i_2: "Diagnosis completed",
+    },
+    table: {
+      i_1: "Customer Name",
+      i_2: "Sales Unit",
+      i_3: "main product",
+      i_4: "Network Status",
+      i_5: "Card opening time",
+      i_6: "Activation time"
+    },
+    table_1: {
+      i_1: "Package Name",
+      i_2: "Package number",
+      i_3: "Status",
+      i_4: "effective time",
+      i_5: "Expiration time",
+    },
+    te1:{
+      title: "SIM card status",
+      titletop: "According to the status of the SIM card on the connection management platform, display the status of the SIM card on the CMP side and the status defined by the operator",
+      i_1: "SIM card status",
+      i_2: "Exception description",
+      i_3: "SIM card connection",
+      i_3top: "According to the 2G, 3G, 4G network activation status and usage status, diagnose whether the SIM card can be used to use the network",
+      i_4: "Area restriction",
+      solution: "For example: the reason for the abnormality is (stopping in violation of the real-name system), please use the real-name first, and for other reasons, please contact your account manager for assistance",
+    },
+    te2:{
+      title: "Upstream basic information",
+      titletop: "Display the basic information obtained by the upstream official",
+      solution: ""
+    },
+    te3:{
+      title: "Products & Attributes",
+      titletop: "Query product and attribute capabilities according to the interface capabilities provided by the upstream"
+    },
+    te4:{
+      title: "Upstream package information",
+      titletop: "Query product and attribute capabilities according to the interface capabilities provided by the upstream"
+    },
+    te5:{
+      title: "Functional Products",
+      titletop: "Friendly reminder: the product name contains excess traffic limit Internet access means that this number has been disconnected from the Internet, and Internet of Things basic business-traffic-cancel/restore Internet access means that this number has been disconnected from the Internet alone!"
+    },
+    te6:{
+      title: "Status Change Record",
+      titletop: "According to the capability query provided by the upstream"
+    }
+  },
 
   index: {
     cardCount: "total number of cards",
@@ -179,7 +227,7 @@ export default {
     activationCount: "Activation card number this month",
     onlineUser: "Online User",
     basic: {
-      basicInfo: "Basic Information",
+      basicInfo: "Basic information",
       statisticalDeadline: "Statistical Deadline:",
       ps: "The default time difference between the statistical time and the current time is 15 minutes (PS: the data will not change within 15 minutes)",
 
@@ -196,7 +244,7 @@ export default {
 
     hint: {
       daily: "The daily data shows yesterday's usage leaderboard [MB], and the line chart usage specification is [GB].",
-      month: "The monthly data shows the current month's usage leaderboard [MB], and the line chart usage specification is [GB].",
+      month: "Month data shows the current month's usage ranking The line chart is [MB], and the usage specification for the line chart is [GB]. ",
     },
     cardNumberBulletinBoard: 'card number board',
     LoginBulletinBoard: 'Login Kanban',
@@ -251,21 +299,25 @@ export default {
     gprsReset: "network reset",
     shutdown: "disconnect network",
     stop: "Stop and resume machine",
-    flexibleChange: "flexible change status",
+    flexibleChange: "flexible change state",
     tip:{
       reset: "When the Internet access function is abnormal, you can reset and restore the GPRS Internet access function by calling this interface; (execute when you select 'Yes')",
-      openStop: "Stop and restart: perform shutdown and restart operations on the card number; (PS: long-term shutdown canThere may be a downtime insurance fee, and the account number may be canceled! It depends on the upstream operator! )",
+      openStop: "Stop and restart: perform shutdown and restart operations on the card number; (PS: Long-term shutdown may incur a shutdown insurance fee, and the account card number may be canceled! It depends on the upstream operator!)",
       openClose: "Disconnect from the network: execute the operation of closing the network connection and opening the network connection for the card number; (PS: this function is similar to opening and closing mobile phone data traffic.)",
       flexibleChange: "Flexibly change the status of the card: adapt to some upstream APIs, (PS: and the reason for the downtime is an active application for downtime, you can only resume the machine. For other reasons, you need to contact the account manager to deal with it!)",
+      textareaP: "Please enter multiple ICCID card numbers separated by newlines! For more than 100 pieces of data, please use the file upload mode!",
     },
     ask:{//ask
       upd: "Whether to confirm the execution of the uploaded card number",
+      txUpd: "Whether to confirm the card number execution",
     },
     rs: {
       flexibleChange: "Please select the state that needs to be changed flexibly!",
       file: "Please choose to upload a file!",
       openClose: "Please select the type of operation that requires shutdown or disconnection!",
       gprsReset: "Please choose whether to perform network reset!",
+      iccids: "Please enter the card number to be operated",
+
     }
 
   },
@@ -273,7 +325,7 @@ export default {
 
   cardInfoRenew:{//Card information update
     dividerTitle: "Card information batch update",
-    tip:{
+    tip: {
       number: "For example: if you select [ICCID] for the number type, the ICCID is required! And the modification and update operation will be performed according to the matching ICCID",
     },
     ask:{//General inquiry
@@ -353,7 +405,18 @@ export default {
       label_6:'Access method',
       label_7:'Platform record time',
     },
-
+    ctwing_CMP5G: {
+      label_0:'APN',
+      label_1:'online status',
+      label_2:'IP',
+      label_3:'IPV6',
+      label_4:'IMEI',
+      label_5:'Recent online time',
+      label_6:'Recent offline time',
+      label_7:'Access method',
+      label_8:'Province',
+      label_9:'Platform record time',
+    },
 
 
 
@@ -439,9 +502,7 @@ export default {
       i_8: 'Enterprise',
       i_9:'Used (MB)',
       i_10: 'remaining (MB)',
-    },
-
-    rs:{//form validation
+    },rs:{//form validation
       dept_id: 'Please select the company you belong to! ',
       radio:'Single selection operation, please do not select multiple selections! ',
       updIccid: 'The operation parameter is missing! Please refresh and try again! ',
@@ -458,7 +519,7 @@ export default {
     table: {
       i_1:'Number',
       i_2:'Template',
-      i_3:'Name',
+      i_3:'name',
       i_4:'nickname',
       i_5:'Status',
       i_6: 'Polling',
@@ -471,7 +532,7 @@ export default {
       template:'template',
       polling: 'polling',
       basicConfiguration: 'basic configuration',
-      synchronizationStrategy: 'Synchronization Strategy',
+      synchronizationStrategy: 'Synchronization strategy',
       auxiliaryRegistration: 'auxiliary registration',
       requestAddress: 'request address',
       configurationOne: 'configuration one',
@@ -675,8 +736,9 @@ export default {
 
 
   IoTOS: {
-    introduce:'IoTOS is based on the open capabilities of multiple IoT management system APIs (such as: China Mobile oneLink and other follow-up access APIs), which not only integrates powerful upstream API management and basic data synchronization algorithm functions, but also provides multi-language internationalization plan. And through flexible and efficient data operation modules such as efficient and flexible synchronization algorithms and system architecture business separation, it allows enterprises to establish a strong link with the upstream, so as to further help enterprises improve the operation efficiency of IoT cards through diversified management and operation solutions, and strengthen Operational capacity, expand the profitable space. ',
+    introduce:'Comprehensive platform for IoT card operation; multi-interface capability integration, extreme synchronization algorithm, tens of millions of data carrying capacity, and international solutions. Multi-terminal system, direct charging and internal charging, built-in mall, package packaging, automatic management, pre-deposit and deduction. Diversify management and operation, improve the efficiency of IoT card operations, strengthen operational capabilities, and expand profitable space. ',
     currentVersion: 'Current version:',
+    videoIntroduction:'Video Introduction',
     gitEE:'Gitee address',
     gitHub:'GitHub address',
     free:'￥free open source',
@@ -696,7 +758,7 @@ export default {
       l02:'Channel, card list, usage record, basic business;',
       l03:'Card number automatic synchronization loading strategy;',
       l04: 'The API currently only supports the OneLink EcV5 interface (will eventually rely on this interface as a comprehensive docking display business, so stay tuned!);',
-      l05:'OneLink EcV5. Synchronization Algorithm Strategy Using java multi-thread nesting dolls in queue multi-threading can significantly improve algorithm synchronization efficiency;',
+      l05:'OneLink EcV5 synchronization algorithm strategy uses java multi-thread nesting dolls in queue multi-threading to significantly improve algorithm synchronization efficiency;',
       l06: 'Usage, life cycle compensation algorithm is perfect;',
       l07: 'The statistics on the homepage are perfect;',
     },
@@ -724,7 +786,7 @@ export default {
       l05: 'Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);',
     },
     visitMainSite: 'Visit the main site',
-   },
+  },
 
 
 }

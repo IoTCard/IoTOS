@@ -1,7 +1,7 @@
 <template>
   <div class="app-container home">
     <el-row :gutter="20">
-      <el-col :sm="24" :lg="12" style="padding-left: 20px">
+      <el-col :sm="24" :lg="8" style="padding-left: 20px">
         <div class="shields-wrapper">
           <h2>IoTOS</h2>
           <a target="_blank" class="shields-wrapper-image" href='https://github.com/IoTCard/IoTOS'><img  alt="GitHub license" src="https://img.shields.io/github/license/IoTCard/IoTOS?style=flat-square&logo=github&color=616ae5"></a>
@@ -33,7 +33,7 @@
             size="mini"
             plain
             @click="goTarget('https://gitee.com/chinaiot/iotos')"
-            >{{ $t("IoTOS.gitEE") }}</el-button>
+          >{{ $t("IoTOS.gitEE") }}</el-button>
           <el-button
             type="primary"
             size="mini"
@@ -46,48 +46,38 @@
             icon="el-icon-notebook-1"
             plain
             @click="goTarget('http://www.iotos.top/')"
-            >{{ $t("IoTOS.doc") }}</el-button>
+          >{{ $t("IoTOS.doc") }}</el-button>
           <el-button
             size="mini"
             icon="el-icon-paperclip"
             plain
             @click="goTarget('http://demo.iotos.top')"
           >{{ $t("IoTOS.visitMainSite") }}</el-button>
-
+          <el-button
+            size="mini"
+            icon="el-icon-video-camera-solid"
+            type="primary"
+            @click="goTarget('https://www.bilibili.com/video/BV1mV41157Rh/?vd_source=dd1ff5f9b766b029147919f86e238c99')"
+          >{{ $t("IoTOS.videoIntroduction") }}</el-button>
         </p>
+        <iframe width="540px;" height="220px;" src="//player.bilibili.com/player.html?aid=404206915&bvid=BV1mV41157Rh&cid=1218976608&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
       </el-col>
 
-      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+      <el-col :sm="24" :lg="16" style="padding-left: 50px">
         <el-row>
           <el-col :span="12">
-            <h2>{{ $t("IoTOS.technologySelection") }}</h2>
+            <a href="https://gitee.com/chinaiot/iotos" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
+          </el-col>
+          <el-col :span="12">
+            <a href="https://gitee.com/chinaiot/iotos-app" target="_blank"><img class="giteeImg"  src="https://gitee.com/chinaiot/iotos-app/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
           </el-col>
         </el-row>
         <el-row>
-
-          <el-col :span="6">
-            <h4>{{ $t("IoTOS.backendTechnology") }}</h4>
-            <ul>
-              <li>SpringBoot</li>
-              <li>Spring Security</li>
-              <li>JWT</li>
-              <li>MyBatis</li>
-              <li>Druid</li>
-              <li>RabbitMQ</li>
-              <li>...</li>
-            </ul>
+          <el-col :span="12">
+            <a href="https://gitee.com/chinaiot/iotos-im" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos-im/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
           </el-col>
-          <el-col :span="6">
-            <h4>{{ $t("IoTOS.frontEndTechnology") }}</h4>
-            <ul>
-              <li>Vue</li>
-              <li>Vuex</li>
-              <li>Element-ui</li>
-              <li>Axios</li>
-              <li>Sass</li>
-              <li>Quill</li>
-              <li>...</li>
-            </ul>
+          <el-col :span="12">
+            <a href="https://gitee.com/chinaiot/iotos-docs" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos-docs/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
           </el-col>
         </el-row>
       </el-col>
@@ -102,10 +92,10 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> {{ $t("IoTOS.officialWebsite") }}：<el-link
-                href="http://www.iotos.top"
-                target="_blank"
-                >http://www.iotos.top</el-link
-              >
+              href="http://www.iotos.top"
+              target="_blank"
+            >http://www.iotos.top</el-link
+            >
             </p>
             <div>
               <i class="el-icon-chat-dot-round"></i> {{ $t("IoTOS.weChat") }}：iotos_top
@@ -177,7 +167,7 @@
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
-       <el-card class="update-log">
+        <el-card class="update-log">
           <div slot="header" class="clearfix">
             <img style="width: 530px;float: left;" src="../assets/images/gzhewm.gif"/>
 
@@ -207,6 +197,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.giteeImg{
+  width: 500px;
+  margin-top: 10px;
+}
+
 .shields-wrapper-image{
   margin-right: 5px;
 }
