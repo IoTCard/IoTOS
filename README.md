@@ -7,7 +7,7 @@
 
 ## 一款高效实用 IoTCard 管理 & 运营系统。
 
-> 物联网卡运营综合平台；多接口能力集成，极致同步算法、千万数据承载量、国际化方案。多端系统、直充内充、内置商城、套餐打包、自动化管理、预存扣费 
+> 物联网卡运营综合平台；多接口能力集成，极致同步算法、千万数据承载量、国际化方案。多端系统、直充内充、内置商城、套餐打包、自动化管理、预存扣费
 
 
 中文 / [English](README.en.md)
@@ -23,7 +23,7 @@
 # 相关开源系列
 
 - [IoTOS](https://gitee.com/chinaiot/iotos) 基于[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue?_from=gitee_search) 开发 适配国际化多语言 用于IoTCard 管理业务以高效、健壮、灵活设计 SaaS、多语言、机器人推送、自动化管理、数据同步多类型算法为主要业务
-- [IoTOS-App](https://gitee.com/chinaiot/iotos-app) 基于[RuoYi-App](https://gitee.com/y_project/RuoYi-App?_from=gitee_search) 开发 适配国际化多语言 UI 使用 [uView](https://gitee.com/umicro/uView) 
+- [IoTOS-App](https://gitee.com/chinaiot/iotos-app) 基于[RuoYi-App](https://gitee.com/y_project/RuoYi-App?_from=gitee_search) 开发 适配国际化多语言 UI 使用 [uView](https://gitee.com/umicro/uView)
 - [IoTOS-IM](https://gitee.com/chinaiot/iotos-im)  基于 [J-IM](https://gitee.com/xchao/j-im?_from=gitee_search)([t-io](https://gitee.com/tywo45/t-io?_from=gitee_search) 网络框架 谭聊原型核心) 延展开发**
 
 
@@ -34,11 +34,11 @@
 
 IoTOS 是基于 SpringBoot、Vue、Mybatis、RabbitMq、Mysql、Redis 的开源 IoTCard（物联卡管理） 系统，是企业私域管理与运营的综合解决方案。
 
-IoTOS 基于多物联网管理API（如:中国移动 oneLink 等） 开放能力，集成上游API管理及数据同步算法，提供国际化解决方案。
-并通过 极致同步算法、系统构架业务分离 灵活高效的数据运营模块， 让企业与上游建立强链接；
+IoTOS 基于多物联网API开放能力（如:中国移动 oneLink 等） ，集成上游API 数据同步算法，提供国际化解决方案。
+通过 多端系统平台、极致同步算法、系统构架业务分离 灵活高效的数据运营模块， 让企业与上游建立强链接；
 进一步多元化管理运营，提高物联网卡运营效率、强化运营能力，拓展可营利空间。
 
-目前主要运用于 物联网卡 服务行业领域。
+目前主要运用于 物联网通信服务 行业领域。
 
 ## 1.2 能力
 
@@ -75,15 +75,33 @@ IoTOS 不做物联网专家，而是通过开源让每个企业、每个开发�
 
 ## 2.1 在线体验
 
+### PC端
+
 开源演示地址：[http://demo.iotos.top/](http://demo.iotos.top/)
 
 默认账号密码：iotos，iotos.top
 
 _（注意：演示环境已屏蔽管理权限和相关操作）_
 
+### 移动端-安卓apk
+
+['apk' 目录下 iotos-app_v0.6.0.apk 【安卓版本】](https://gitee.com/chinaiot/iotos-app/blob/master/apk/iotos-app_v0.6.0.apk)
+['apk' 目录下 iotos-app_v0.1.0.apk 【安卓版本】](https://gitee.com/chinaiot/iotos-app/blob/master/apk/iotos-app_v0.1.0.apk)
+
+### H5网页版
+
+开源演示地址：[http://h5.iotos.top/](http://h5.iotos.top/)
+
+默认账号密码：iotos，iotos.top
+
+
+
+
 ## 2.2 系统架构
 
-IoTOS V1.2.1 整体系统架构如下：
+IoTOS 开源系列 整体系统架构如下 IoTOSSystem23-08 设计概念版：
+
+![IoTOSSystem2308](readme-pic/cn/IoTOSSystem.png)
 
 ## 2.3 技术栈
 
@@ -211,6 +229,8 @@ IoTOS V1.2.1 整体系统架构如下：
 
 # 七、项目展示
 
+## 登录
+
 ![index 登录1](readme-pic/cn/cr1.png)
 
 ![index 登录2](readme-pic/cn/cr2.png)
@@ -219,35 +239,113 @@ IoTOS V1.2.1 整体系统架构如下：
 
 ![index 登录4](readme-pic/cn/cr4.png)
 
+## 首页
+
 ![index 首页](readme-pic/cn/index.png)
+
+## 通道
 
 ![channel 通道](readme-pic/cn/channel.png)
 
+## 卡列表
+
 ![card 卡列表](readme-pic/cn/card.png)
+
+## 智能诊断gif
 
 ![diagnosis 智能诊断gif](readme-pic/cn/diagnosis.gif)
 
 ![diagnosis 智能诊断png](readme-pic/cn/diagnosis.png)
 
+## 会话记录导出
+
 ![sessionOut 会话记录导出](readme-pic/cn/sessionOut.png)
 
+## 卡号详情
 
 ![cardInfoUsed 卡号详情](readme-pic/cn/cardInfoUsed.png)
 
+## 业务办理
+
 ![businessHandling 业务办理](readme-pic/cn/businessHandling.png)
+
+## 执行任务
 
 ![task 执行任务](readme-pic/cn/task.png)
 
+## 执行任务-文件
+
 ![taskFile 执行任务-文件](readme-pic/cn/taskFile.png)
+
+## 执行任务-文件-下载记录
 
 ![taskFileDownload 执行任务-文件-下载记录](readme-pic/cn/taskFileDownload.png)
 
+## 划分撤回
+
 ![divisionWithdrawn 划分撤回](readme-pic/cn/divisionWithdrawn.png)
+
+## 国际化语言
 
 ![language 国际化语言](readme-pic/cn/language.png)
 
+## 关于IoTOS
+
 ![IoTOS 关于 IoTOS](readme-pic/cn/IoTOS.png)
 
+# 移动端
+
+## 登录页
+
+![loginLgChange](readme-pic/cn/loginLgChange.jpg)
+
+## 工作台
+
+![workIndex](readme-pic/cn/work_index_app.png)
+
+## 我的
+
+![my](readme-pic/cn/my.png)
+
+## 语言切换
+
+![lgChange](readme-pic/cn/lgChange.jpg)
+
+## 登录公告与通知
+
+![notify](readme-pic/cn/notify.jpg)
+
+## 卡信息查询
+
+![cardInfo_app](readme-pic/cn/cardInfo_app.png)
+
+## 会话记录
+
+![cardSession_app](readme-pic/cn/cardSession_app.png)
+
+## 智能诊断
+
+![diagnosis_app](readme-pic/cn/diagnosis_app.png)
+
+## 用量记录
+
+![usedRecord_app](readme-pic/cn/usedRecord_app.png)
+
+## 业务办理
+
+![cardApiBuinessHandIing_app](readme-pic/cn/cardApiBuinessHandIing_app.png)
+
+## 通知消息
+
+> 查看更新日志页面
+
+![iotos_app](readme-pic/cn/iotos_app.png)
+
+## 通知消息
+
+> 暂未实现 仅完善了单界面ui
+
+![notify_app](readme-pic/cn/notify_app.png)
 
 
 

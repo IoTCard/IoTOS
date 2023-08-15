@@ -2,11 +2,11 @@
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
-# IoTOS v1.5.3
+# IoTOS v1.6.3
 
 ## An efficient and practical IoTCard management & operation system.
 
-> IoTOS is currently named too broadly, and it is mainly used for IoTCard management business with efficient, robust, and flexible design of SaaS, multi-language, robot push, automatic management, and data synchronization multi-type algorithms as the main business.
+> Integrated platform for IoT card operation; multi-interface capability integration, extreme synchronization algorithm, tens of millions of data carrying capacity, and international solutions. Multi-terminal system, direct charging and internal charging, built-in mall, package packaging, automatic management, pre-deposit and deduction
 
 
 English / [中文](README.md)
@@ -18,7 +18,6 @@ English / [中文](README.md)
           <a target="_blank" class="shields-wrapper-image" href='https://gitee.com/chinaiot/iotos/stargazers'><img src='https://gitee.com/chinaiot/iotos/badge/star.svg?theme=dark' alt='star'></a>
           <a target="_blank" class="shields-wrapper-image" href='https://gitee.com/chinaiot/iotos/members'><img src='https://gitee.com/chinaiot/iotos/badge/fork.svg?theme=dark' alt='fork'></a>
 </div>
-
 
 # Related open source series
 
@@ -32,16 +31,15 @@ English / [中文](README.md)
 
 ## 1.1 Introduction
 
-IoTOS is an open source IoTCard (IoT card management) system based on SpringBoot, Vue, Mybatis, RabbitMq, Mysql, and Redis. It is a comprehensive solution for enterprise private domain management and operation.
+IoTOS is an open source IoTCard (IoT card management) system based on SpringBoot, Vue, Mybatis, RabbitMq, Mysql, and Redis, and is a comprehensive solution for enterprise private domain management and operation.
 
-Based on the open capabilities of multiple IoT management system APIs (such as China Mobile oneLink and other subsequent access APIs), IoTOS not only integrates powerful upstream API management and basic data synchronization algorithm functions, but also provides multi-language internationalization solutions. And through flexible and efficient data operation modules such as efficient and flexible synchronization algorithms and system architecture business separation, a strong link between the enterprise and the upstream can be established, so as to further help enterprises improve the operational efficiency of the Internet of Things card through diversified management and operation solutions, and strengthen Operational capacity, and expand the profitability of the department.
+Based on the open capabilities of multiple Internet of Things APIs (such as: China Mobile oneLink, etc.), IoTOS integrates upstream API data synchronization algorithms to provide international solutions.
+Through multi-terminal system platform, extreme synchronization algorithm, system architecture business separation, flexible and efficient data operation module, enterprises can establish a strong link with the upstream;
+Further diversify management and operations, improve the efficiency of IoT card operations, strengthen operational capabilities, and expand profitable space.
 
-At present, it is mainly used in the field of IoT card service industry.
+At present, it is mainly used in the Internet of Things communication service industry.
 
 ## 1.2 Capabilities
-
-IoTOS-IoTCard is based on the comprehensive business management of multiple upstream API interfaces of the Internet of Things, follows the process of efficient data synchronization and maintenance operation, then establishes system package distribution for tariff marketing, and finally creates value again in the process of marketing, operation and other service provision.
-
 
 The whole system is temporarily divided into five modules:
 
@@ -51,14 +49,13 @@ The whole system is temporarily divided into five modules:
 * **Automation**: automation management rules, templates, push configuration, trigger conditions, etc.;
 * **System Management**: menu, parameters, dictionary, system monitoring, system tools, scheduled tasks, etc.;
 
-Interested developers, business cooperation, business discussions, etc. are welcome to contact through the contact information below
 
 ## 1.3 Advantages
 
 IoTOS is based on the open capability platform of the capability interface of multiple upstream operators, comprehensive business management and operation of IoT cards, but not limited to IoT cards, it can provide API docking management infrastructure for vertical scenarios such as IoT card operations, multiple third-party interface docking requirements, etc. The main advantages are:
 
 * Multilingual international operation (UI interface, background reply, single user's favorite language), robot push (domestic mainstream robot, international mainstream social software)
-* Efficient API synchronization capability uses queue multi-thread instances to enable interface multi-threading (add java multi-threading to queue multi-threading) and has independent specific synchronization algorithm system for different operator interfaces
+* High-efficiency API synchronization capabilities use queue multi-thread instances to enable interface multi-threading (add java multi-threading to queue multi-threading) independent specific synchronization algorithm system based on different operator interfaces
 * Automation rule definition, rule trigger template, notification configuration, trigger condition, etc.
 * The open source protocol adopts Apache-2.0 (users can modify it freely for commercial use, there is no open source requirement)
 * Adopt mainstream Java architecture, with high scalability and flexibility
@@ -77,15 +74,33 @@ IoTOS is not an IoT expert, but allows every enterprise and developer to be its 
 
 ## 2.1 Online experience
 
+### PC side
+
 Open source demo address: [http://demo.iotos.top/](http://demo.iotos.top/)
 
 Default account password: iotos, iotos.top
 
 _(Note: The demo environment has blocked administrative rights and related operations)_
 
+### Mobile-Android apk
+
+[iotos-app_v0.6.0.apk in the 'apk' directory [Android version]](https://gitee.com/chinaiot/iotos-app/blob/master/apk/iotos-app_v0.6.0.apk)
+[iotos-app_v0.1.0.apk in the 'apk' directory [Android version]](https://gitee.com/chinaiot/iotos-app/blob/master/apk/iotos-app_v0.1.0.apk)
+
+### H5 web version
+
+Open source demo address: [http://h5.iotos.top/](http://h5.iotos.top/)
+
+Default account password: iotos, iotos.top
+
+
+
+
 ## 2.2 System Architecture
 
-The overall system architecture of IoTOS V1.2.1 is as follows:
+The overall system architecture of the IoTOS open source series is as follows IoTOSSystem23-08 design concept version:
+
+![IoTOSSystem2308](readme-pic/cn/IoTOSSystem.png)
 
 ## 2.3 Technology stack
 
@@ -96,7 +111,7 @@ This project is based on the background development framework of [RuoYi-Vue](htt
 
 ## 2.4 Project structure
 
-**Backend Structure**
+**Backend structure**
 
 ```
 ├── iotos-admin // background service main program
@@ -106,14 +121,14 @@ This project is based on the background development framework of [RuoYi-Vue](htt
 ├── iotos-consumer-task // Timing task-consumer
 ├── iotos-framework // framework core
 ├── iotos-generator // code generation
-├── iotos-quartz // Timing task
+├── iotos-quartz // Timing tasks
 ├── iotos-system // system code
 
 ```
 **Front-end structure**
 
 ```
-├── iotos-ui // background project
+├── iotos-ui // front-end project
 ```
 
 ## 2.5 Project deployment
@@ -144,7 +159,7 @@ Click the link below to enter the help manual to view the description of common 
 
 - [ ] Perfect tutorials, in-depth explanations in the form of documents, videos and other data files Quick use, understanding of operations, secondary development and expansion, possible development directions, etc.
 - [ ] The mobile terminal adapts to enterprise query, user binding, and also adapts to internationalization;
-- [ ] OneLink EcV5 interface business continues to expand: `Smart Diagnosis` is defined as platform data diagnosis API interface diagnosis and more different upstreams will display more diagnosable item interfaces, etc.;
+- [ ] OneLink EcV5 interface business continues to expand: `Smart Diagnosis` is defined as platform data diagnosis API interface diagnosis and more diagnosable item interfaces will be displayed according to different upstreams;
 - [ ] `Automation` business module is well defined, including robot docking, etc.;
 - [ ] `Payment configuration` Payment collection Domestic mainstream payment access, international payment access, etc.;
 - [ ] `Package Definition` The package includes multiple types, multiple configurations, and multiple combinations;
@@ -160,23 +175,23 @@ Click the link below to enter the help manual to view the description of common 
 - [x] channels, card lists, usage records, basic services;
 - [x] Card number automatic synchronization loading strategy;
 - [x] API currently only supports OneLink EcV5 interface (will eventually rely on this interface as a comprehensive docking demonstration business, so stay tuned!);
-- [x] OneLink EcV5 synchronization algorithm strategy Using java multi-thread nesting dolls in queue multi-threading significantly improves algorithm synchronization efficiency;
+- [x] OneLink EcV5 synchronization algorithm strategy queue multithreadingUse java multi-threaded matryoshka to significantly improve algorithm synchronization efficiency;
 - [x] The usage and life cycle compensation algorithm is perfect;
 - [x] Home page stats improved;
 
 ## V1.2.1 update log
 
 - [x] Added a modifiable data carousel to the login page;
-- [x] The login page adds the domestic commonly used operator platform website, the international platform operator website, and about-IoTOS links;
+- [x] The login page adds the domestic commonly used operator platform website, the international platform operator website, and about-IoTOS link;
 - [x] The login page adds platform capability descriptions, open protocol descriptions, and product series descriptions;
-- [x] Add the system notification of adapting to the mobile terminal and pass [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) issued an announcement notice;
+- [x] Added notifications for adapting the mobile terminal system to issue announcements through [IoTOS-IM](https://gitee.com/chinaiot/iotos-im) after logging in;
 - [x] Optimize the default language of the login interface to 'Chinese';
 
 ## V1.5.3 update log
 
 - [x] channel data statistics increase card number, total flow, used flow, remaining flow statistics;
 - [x] Add session information query session records (paging query) and export history records for card details;
-- [x] Newly added smart diagnosis card status, freezing status, downtime reason, regional restriction status, regional restriction area, device status, business change history, APN query already opened, diagnosis suggestion prompt; (perfect restoration of OneLink smart diagnosis);
+- [x] Newly added intelligent diagnosis card status, freezing status, downtime reason, regional restriction status, regional restriction area, device status, business change history, APN query already opened, diagnosis suggestion prompt; (perfect restoration of OneLink smart diagnosis);
 - [x] Optimize the card number synchronization algorithm bug;
 - [x] Optimize card number comparison, add card number algorithm timing task trigger interval, etc.;
 - [x] Optimize the regular cleaning of the upstream synchronization card number cache (to ensure that the new card number is updated when the upstream card number changes or the canceled card number is no longer synchronized);
@@ -190,7 +205,7 @@ Click the link below to enter the help manual to view the description of common 
 
 # 5. Contact us
 
-If you want to join our open source exchange group, have any ideas, opinions or suggestions on IoTOS products, or business cooperation needs, please scan the QR code to add IoTOS project authors and join the group chat:
+If you want to join our open source communication group, have any ideas, opinions or suggestions on IoTOS products, or business cooperation needs, please scan the QR code to add IoTOS project authors and join the group chat:
 
 - WeChat
 
@@ -213,43 +228,123 @@ If you are interested in sponsoring the `IoTOS` team for a long time, or have ot
 
 # Seven, project display
 
-![index login 1](readme-pic/en/cr1.png)
+## Log in
 
-![index login 2](readme-pic/en/cr2.png)
+![index login 1](readme-pic/cn/cr1.png)
 
-![index login 3](readme-pic/en/cr3.png)
+![index login 2](readme-pic/cn/cr2.png)
 
-![index login 4](readme-pic/en/cr4.png)
+![index login 3](readme-pic/cn/cr3.png)
 
-![index home page](readme-pic/en/index.png)
+![index login 4](readme-pic/cn/cr4.png)
 
-![channel channel](readme-pic/en/channel.png)
+## front page
 
-![card list](readme-pic/en/card.png)
+![index home page](readme-pic/cn/index.png)
+
+## aisle
+
+![channel channel](readme-pic/cn/channel.png)
+
+## card list
+
+![card list](readme-pic/cn/card.png)
+
+## Intelligent diagnosis gif
 
 ![diagnosis intelligent diagnosis gif](readme-pic/cn/diagnosis.gif)
 
 ![diagnosis intelligent diagnosis png](readme-pic/cn/diagnosis.png)
 
+## Session log export
+
 ![sessionOut session record export](readme-pic/cn/sessionOut.png)
 
+## Card number details
 
-![cardInfoUsed card number details](readme-pic/en/cardInfoUsed.png)
+![cardInfoUsed card number details](readme-pic/cn/cardInfoUsed.png)
 
-![businessHandling Business Handling](readme-pic/en/businessHandling.png)
+## Business handling
 
-![task execute task](readme-pic/en/task.png)
+![businessHandling Business Handling](readme-pic/cn/businessHandling.png)
 
-![taskFile execute task-file](readme-pic/en/taskFile.png)
+## Execute the task
 
-![taskFileDownload execute task-file-download record](readme-pic/en/taskFileDownload.png)
+![task execute task](readme-pic/cn/task.png)
+
+## execute task-file
+
+![taskFile execute task-file](readme-pic/cn/taskFile.png)
+
+## Execute task-file-download record
+
+![taskFileDownload execute task-file-download record](readme-pic/cn/taskFileDownload.png)
+
+## Divide the recall
 
 ![divisionWithdrawn Division Withdrawn](readme-pic/cn/divisionWithdrawn.png)
 
+## Internationalization languages
+
 ![language internationalization language](readme-pic/cn/language.png)
 
-![IoTOS About IoTOS](readme-pic/en/IoTOS.png)
+## About IoTOS
 
+![IoTOS About IoTOS](readme-pic/cn/IoTOS.png)
+
+# mobile terminal
+
+## login page
+
+![loginLgChange](readme-pic/cn/loginLgChange.jpg)
+
+## Workbench
+
+![workIndex](readme-pic/cn/work_index_app.png)
+
+## mine
+
+![my](readme-pic/cn/my.png)
+
+## Language switching
+
+![lgChange](readme-pic/cn/lgChange.jpg)
+
+## Login announcements and notifications
+
+![notify](readme-pic/cn/notify.jpg)
+
+## Card information query
+
+![cardInfo_app](readme-pic/cn/cardInfo_app.png)
+
+## session record
+
+![cardSession_app](readme-pic/cn/cardSession_app.png)
+
+## Intelligent diagnosis
+
+![diagnosis_app](readme-pic/cn/diagnosis_app.png)
+
+## usage record
+
+![usedRecord_app](readme-pic/cn/usedRecord_app.png)
+
+## Business handling
+
+![cardApiBuinessHandIing_app](readme-pic/cn/cardApiBuinessHandIing_app.png)
+
+## Notification message
+
+> View Changelog page
+
+![iotos_app](readme-pic/cn/iotos_app.png)
+
+## Notification message
+
+> Not implemented yet, only improved single-interface ui
+
+![notify_app](readme-pic/cn/notify_app.png)
 
 
 
