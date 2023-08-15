@@ -3,7 +3,7 @@
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
 # IoTOS v1.5.3
-
+thanks for you attend!
 ## An efficient and practical IoTCard management & operation system.
 
 > Integrated platform for IoT card system operation; based on multi-interface capability integration, extreme data synchronization algorithm, and multi-language internationalization solution. 🔝🔝Multi-terminal system, direct charging and internal charging, built-in mall, package packaging, automatic management, pre-deposit deduction
