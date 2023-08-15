@@ -335,7 +335,7 @@ IoTOS 开源系列 整体系统架构如下 IoTOSSystem23-08 设计概念版：
 
 ![cardApiBuinessHandIing_app](readme-pic/cn/cardApiBuinessHandIing_app.png)
 
-## 通知消息
+## 关于IoTOS
 
 > 查看更新日志页面
 
