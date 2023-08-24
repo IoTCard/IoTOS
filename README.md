@@ -32,7 +32,7 @@
 
 ## 1.1 介绍
 
-IoTOS 是基于 SpringBoot、Vue、Mybatis、RabbitMq、Mysql、Redis 的开源 IoTCard（物联卡管理） 系统，是企业私域管理与运营的综合解决方案。
+IoTOS 是基于 SpringBoot、Vue、Mybatis、RabbitMq、Mysql、Redis 开源 IoTCard（物联卡管理）系统，企业私域管理与运营综合解决方案。
 
 IoTOS 基于多物联网API开放能力（如:中国移动 oneLink 等） ，集成上游API 数据同步算法，提供国际化解决方案。
 通过 多端系统平台、极致同步算法、系统构架业务分离 灵活高效的数据运营模块， 让企业与上游建立强链接；
@@ -351,4 +351,4 @@ IoTOS 开源系列 整体系统架构如下 IoTOSSystem23-08 设计概念版：
 
 
 
-**<p align="center">如果您觉得我们的开源项目很有帮助，请点击 :star: Star 支持 IoTOS :heart:</p>**
+**<p align="center">如果您觉得我们的开源项目很有帮助，请点击 :star: Stargazers 支持 IoTOS :heart:</p>**
