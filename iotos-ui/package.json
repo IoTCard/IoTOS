@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "IoTOS",
   "author": "IoTOS",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
