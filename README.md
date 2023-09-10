@@ -1,4 +1,3 @@
-
 <p></p>
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
