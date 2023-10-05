@@ -1,4 +1,8 @@
+## 已推出IoTOS-Plus 全新‘遥遥邻先’ 版本欢迎体验
 
+> http://vip.iotos.top/register 
+
+![输入图片说明](readme-pic/cn/image.png)
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
