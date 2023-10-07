@@ -68,6 +68,9 @@
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">{{ $t('login.r_password') }}</el-checkbox>
+
+      <a href="http://vip.iotos.top/register" ><el-link style="float: right;margin-right: 10px;" type="danger" >{{ this.$t('IoTOS.iotosplus') }}</el-link></a>
+
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"

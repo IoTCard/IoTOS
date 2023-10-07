@@ -739,6 +739,7 @@ export default {
     introduce:'Comprehensive platform for IoT card operation; multi-interface capability integration, extreme synchronization algorithm, tens of millions of data carrying capacity, and international solutions. Multi-terminal system, direct charging and internal charging, built-in mall, package packaging, automatic management, pre-deposit and deduction. Diversify management and operation, improve the efficiency of IoT card operations, strengthen operational capabilities, and expand profitable space. ',
     currentVersion: 'Current version:',
     videoIntroduction:'Video Introduction',
+    iotosplus:'Business version experience',
     gitEE:'Gitee address',
     gitHub:'GitHub address',
     free:'￥free open source',

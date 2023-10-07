@@ -25,7 +25,12 @@
             plain
             @click="goTarget('https://www.aliyun.com/minisite/goods?userCode=3mwvbeng')"
           > {{ $t("IoTOS.receiveAlibabaCloudCoupons") }}</el-button>
-
+          <el-button
+            size="mini"
+            icon="el-icon-star-off"
+            type="danger"
+            @click="goTarget('http://vip.iotos.top/register')"
+          >{{ $t("IoTOS.iotosplus") }}</el-button>
         </p>
         <p>
           <el-button
@@ -34,12 +39,6 @@
             plain
             @click="goTarget('https://gitee.com/chinaiot/iotos')"
           >{{ $t("IoTOS.gitEE") }}</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            plain
-            @click="goTarget('https://github.com/IoTCard/IoTOS')"
-          >{{ $t("IoTOS.gitHub") }}</el-button>
           <el-button
             type="primary"
             size="mini"
@@ -66,20 +65,21 @@
       <el-col :sm="24" :lg="16" style="padding-left: 50px">
         <el-row>
           <el-col :span="12">
-            <a href="https://gitee.com/chinaiot/iotos" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
+            <iframe width="500px;" height="250px;" src="//player.bilibili.com/player.html?aid=449017038&bvid=BV1fj41187m8&cid=1283030009&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
           </el-col>
           <el-col :span="12">
-            <a href="https://gitee.com/chinaiot/iotos-app" target="_blank"><img class="giteeImg"  src="https://gitee.com/chinaiot/iotos-app/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
+            <iframe width="500px;" height="250px;" src="//player.bilibili.com/player.html?aid=274399660&bvid=BV1SF411f7Uk&cid=1225972216&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <a href="https://gitee.com/chinaiot/iotos-im" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos-im/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
+            <iframe width="500px;" height="250px;" src="//player.bilibili.com/player.html?aid=959355734&bvid=BV1cp4y1F7eU&cid=1290793831&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
           </el-col>
           <el-col :span="12">
-            <a href="https://gitee.com/chinaiot/iotos-docs" target="_blank"><img class="giteeImg" src="https://gitee.com/chinaiot/iotos-docs/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
+            <a href="https://gitee.com/chinaiot/iotos" target="_blank"><img  width="500px;" height="250px;" class="giteeImg" src="https://gitee.com/chinaiot/iotos/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,3ba4ff,666666,3ba4ff"></a>
           </el-col>
         </el-row>
+
       </el-col>
     </el-row>
     <el-divider />

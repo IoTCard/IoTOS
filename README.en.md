@@ -1,4 +1,58 @@
-<p></p>
+## IoTOS-Plus has been launched. The new "Far-neighbor" version is now available. Welcome to experience it.
+
+> http://vip.iotos.top/register
+
+![输入图片说明](readme-pic/cn/image.png)
+
+# Introduction to PPT Appreciation
+
+![输入图片说明](readme-pic/cn/vip/01.png)
+
+![输入图片说明](readme-pic/cn/vip/02.png)
+
+## Product background and positioning
+![输入图片说明](readme-pic/cn/vip/03.png)
+## R&D background
+![输入图片说明](readme-pic/cn/vip/04.png)
+## User & customer positioning
+![输入图片说明](readme-pic/cn/vip/05.png)
+
+![输入图片说明](readme-pic/cn/vip/06.png)
+## Application scenarios
+![输入图片说明](readme-pic/cn/vip/07.png)
+
+![输入图片说明](readme-pic/cn/vip/08.png)
+## Merchant and user application scenarios
+![输入图片说明](readme-pic/cn/vip/09.png)
+
+![输入图片说明](readme-pic/cn/vip/10.png)
+## Economic benefits
+![输入图片说明](readme-pic/cn/vip/11.png)
+
+## Trends in Economic Benefits of IoT Cards
+![输入图片说明](readme-pic/cn/vip/11.png)
+
+
+![输入图片说明](readme-pic/cn/vip/12.png)
+
+## IoT card trend
+![输入图片说明](readme-pic/cn/vip/13.png)
+
+## Physical Card System SWOT Analysis
+![输入图片说明](readme-pic/cn/vip/14.png)
+
+## future business planning
+![输入图片说明](readme-pic/cn/vip/15.png)
+
+
+![输入图片说明](readme-pic/cn/vip/16.png)
+
+## Future R&D investment
+![输入图片说明](readme-pic/cn/vip/17.png)
+
+## Future product function planning
+![输入图片说明](readme-pic/cn/vip/18.png)
+
 
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 

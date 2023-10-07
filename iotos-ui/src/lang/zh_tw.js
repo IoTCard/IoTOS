@@ -739,6 +739,7 @@ export default {
     introduce:'物聯網卡運營綜合平台；多接口能力集成，極致同步算法、千萬數據承載量、國際化方案。多端系統、直充內充、內置商城、套餐打包、自動化管理、預存扣費。多元化管理運營，提高物聯網卡運營效率、強化運營能力，拓展可營利空間。 ',
     currentVersion:'當前版本：',
     videoIntroduction:'視頻介紹',
+    iotosplus:'商業版體驗',
     gitEE:'Gitee 地址',
     gitHub:'GitHub 地址',
     free:'￥免費開源',

@@ -4,6 +4,56 @@
 
 ![输入图片说明](readme-pic/cn/image.png)
 
+# 介绍PPT鉴赏
+
+![输入图片说明](readme-pic/cn/vip/01.png)
+
+![输入图片说明](readme-pic/cn/vip/02.png)
+
+## 产品背景与定位
+![输入图片说明](readme-pic/cn/vip/03.png)
+## 研发背景
+![输入图片说明](readme-pic/cn/vip/04.png)
+## 用户&客户定位
+![输入图片说明](readme-pic/cn/vip/05.png)
+
+![输入图片说明](readme-pic/cn/vip/06.png)
+## 应用场景
+![输入图片说明](readme-pic/cn/vip/07.png)
+
+![输入图片说明](readme-pic/cn/vip/08.png)
+## 商户与用户应用场景
+![输入图片说明](readme-pic/cn/vip/09.png)
+
+![输入图片说明](readme-pic/cn/vip/10.png)
+## 经济效益
+![输入图片说明](readme-pic/cn/vip/11.png)
+
+## 物联卡经济效益趋势
+![输入图片说明](readme-pic/cn/vip/11.png)
+
+
+![输入图片说明](readme-pic/cn/vip/12.png)
+
+## 物联卡趋势
+![输入图片说明](readme-pic/cn/vip/13.png)
+
+## 物理卡系统SWOT分析
+![输入图片说明](readme-pic/cn/vip/14.png)
+
+## 未来业务规划
+![输入图片说明](readme-pic/cn/vip/15.png)
+
+
+![输入图片说明](readme-pic/cn/vip/16.png)
+
+## 未来研发投入
+![输入图片说明](readme-pic/cn/vip/17.png)
+
+## 未来产品功能规划
+![输入图片说明](readme-pic/cn/vip/18.png)
+
+
 ![IoTOS logo.png](readme-pic/cn/logo.png)
 
 # IoTOS v1.6.3

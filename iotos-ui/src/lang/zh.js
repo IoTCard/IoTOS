@@ -742,6 +742,7 @@ export default {
     introduce:'物联网卡运营综合平台；多接口能力集成，极致同步算法、千万数据承载量、国际化方案。多端系统、直充内充、内置商城、套餐打包、自动化管理、预存扣费。多元化管理运营，提高物联网卡运营效率、强化运营能力，拓展可营利空间。',
     currentVersion:'当前版本：',
     videoIntroduction:'视频介绍',
+    iotosplus:'商业版体验',
     gitEE:'Gitee 地址',
     gitHub:'GitHub 地址',
     free:'￥免费开源',
