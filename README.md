@@ -30,8 +30,6 @@
 ![输入图片说明](readme-pic/cn/vip/11.png)
 
 ## 物联卡经济效益趋势
-![输入图片说明](readme-pic/cn/vip/11.png)
-
 
 ![输入图片说明](readme-pic/cn/vip/12.png)
 
