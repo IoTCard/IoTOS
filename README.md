@@ -1,4 +1,4 @@
-## 已推出IoTOS-Plus 全新‘遥遥邻先’ 版本欢迎体验
+## 已推出IoTOS-Plus 全新‘遥遥领先’ 版本欢迎体验
 
 > http://vip.iotos.top/register 
 
