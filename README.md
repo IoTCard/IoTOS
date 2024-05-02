@@ -4,8 +4,7 @@
 
 ![输入图片说明](readme-pic/cn/908b8925fdc898b9358c1c2d518cf63.png)
 
-![输入图片说明](readme-pic/cn/bbfb22645567bd46062fd6b80ebfe38.jpg)
-
+![输入图片说明](d7c281c2766f9348bd933d557480a31.jpg)
 
 
 > http://vip.iotos.top/register 
