@@ -1,5 +1,13 @@
 ## 已推出IoTOS-Plus 全新‘遥遥领先’ 版本欢迎体验
 
+![自定义绑定](readme-pic/cn/ec29c8d2247deae3b4a15b2933bc9fc.png)
+
+![输入图片说明](readme-pic/cn/908b8925fdc898b9358c1c2d518cf63.png)
+
+![输入图片说明](readme-pic/cn/bbfb22645567bd46062fd6b80ebfe38.jpg)
+
+
+
 > http://vip.iotos.top/register 
 
 ![输入图片说明](readme-pic/cn/image.png)
