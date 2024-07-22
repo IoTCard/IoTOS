@@ -1,6 +1,6 @@
 ## 已推出IoTOS-Plus 全新‘遥遥领先’ 版本欢迎体验
 
-![体验二维码](readme-pic/cn/%E5%85%A5%E7%BE%A4%E9%A2%86%E7%A6%8F%E5%88%A9%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%B5%B7%E6%8A%A5__2024-06-19+23_52_29.png)
+![输入图片说明](readme-pic/cn/2024-07-20+23_50_59.png)
 
 
 ![自定义绑定](readme-pic/cn/ec29c8d2247deae3b4a15b2933bc9fc.png)
