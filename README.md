@@ -1,6 +1,19 @@
+## 在线体验
 
+### PC端
 
-![IoTOS logo.png](readme-pic/cn/logo.png)
+演示地址：[http://vip.iotos.top/register](http://vip.iotos.top/register)
+
+[卡号充值](http://web.iotos.top/pages/info/?card=13280014705)
+
+[设备管理](http://web.iotos.top/pages/info/?card=17375829235)
+
+开源演示地址：[http://demo.iotos.top/](http://demo.iotos.top/)
+
+默认账号密码：iotos，iotos.top
+
+_（注意：演示环境已屏蔽管理权限和相关操作）_
+
 
 # IoTOS v1.6.3
 
@@ -72,20 +85,6 @@ IoTOS 不做物联网专家，而是通过开源让每个企业、每个开发�
 * 与企业、开发者 共同助力 物联网行业共建发展未来
 
 # 二、关于项目
-
-## 2.1 在线体验
-
-### PC端
-
-演示地址：[http://vip.iotos.top/register](http://vip.iotos.top/register)
-
-自行注册
-
-开源演示地址：[http://demo.iotos.top/](http://demo.iotos.top/)
-
-默认账号密码：iotos，iotos.top
-
-_（注意：演示环境已屏蔽管理权限和相关操作）_
 
 
 
