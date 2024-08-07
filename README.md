@@ -1,15 +1,11 @@
-## 在线体验
+## 演示地址：[http://vip.iotos.top/register](http://vip.iotos.top/register)
 
-### PC端
+## [卡号充值](http://web.iotos.top/pages/info/?card=13280014705)
 
-演示地址：[http://vip.iotos.top/register](http://vip.iotos.top/register)
+## [设备管理](http://web.iotos.top/pages/info/?card=17375829235)
 
-[卡号充值](http://web.iotos.top/pages/info/?card=13280014705)
-
-[设备管理](http://web.iotos.top/pages/info/?card=17375829235)
-
-开源演示地址：[http://demo.iotos.top/](http://demo.iotos.top/)
-
+### 开源演示地址：[http://demo.iotos.top/](http://demo.iotos.top/)
+ 
 默认账号密码：iotos，iotos.top
 
 # IoTOS v1.6.3
