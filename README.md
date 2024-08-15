@@ -1,3 +1,13 @@
+#流量组池
+
+![输入图片说明](readme-pic/cn/4fd9b9f4623029d64454ee41d57b8a5.png)
+
+![输入图片说明](readme-pic/cn/f7e67ac8878e3ec8b7c07256cd06f03.png)
+## 自动化管理
+![输入图片说明](readme-pic/cn/03fbe6871f6ab2cabc5d536dfee753a.png)
+
+
+
 ## 演示地址：[http://vip.iotos.top/register](http://vip.iotos.top/register)
 
 ## [卡号充值](http://web.iotos.top/pages/info/?card=13280014705)
