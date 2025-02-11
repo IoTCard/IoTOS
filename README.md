@@ -1,3 +1,22 @@
+> 商城 http://shop.iotos.top/
+
+>【商业板】
+
+演示网址  http://cyb.iotos.online
+演示账号  admin
+账号密码  13280014705
+
+移动端网址 http://h5.cyb.iotos.online
+登录账号    admin
+账号密码    13280014705
+
+用户充值演示【卡号充值】 http://wx.cyb.iotos.online/?card=18600000006  
+
+【旗舰版】（此处主要展示设备充值功能及设备指令发送等）可直接发起支付测试查看
+用户充值演示【设备充值】 http://web.iotos.top/?card=17375829235  
+
+用户充值演示【卡号充值】 http://web.iotos.top/?card=18600000006  
+
 ![输入图片说明](readme-pic/cn/b3e00b55f1a55a3d055fc4697258ece.png)
 
 
